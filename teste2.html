@@ -9,6 +9,16 @@ function inicio(){
     cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
     coresCont = 0;
     Teclados("N");
+
+    // Definindo proporção e tamanho de fonte inicial
+    font_inicial = 30;
+    font_side = font_inicial/1.4142;
+    ratio_width = canvas.width/font_side;
+    ratio_heigth = canvas.height/font_side;
+    ratio = sqrt((ratio_width*ratio_width) + (ratio_height*ratio_height))/351.5;
+    var size_font_big = font_inicial*ratio;
+    screen_ratio = ((canvas.width/canvas.height)*0.5)/1.778;
+    var size_font_small = size_font_big*screen_ratio;
 }
 var combination = ["",""];
 var indice = 0;
@@ -148,7 +158,7 @@ function Letra(pos){
     if(pos == "CCD")
        editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
     if(pos == "B")
-       editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});   
+       editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BBE")
     {
        var lastChar = editor.getText(length-2,length-1);
@@ -156,8 +166,8 @@ function Letra(pos){
        	   if(coresCont == 0)
                coresCont = 3;
            else
-               coresCont--; 
-       editor.deleteText(length-2,length); 
+               coresCont--;
+       editor.deleteText(length-2,length);
     }
     if(pos == "BBD")
     {
@@ -220,12 +230,8 @@ function Teclados(controle)
 		var IDHTML = controle+"P";
 		var conteudo = document.getElementById(IDHTML).innerHTML;
 		document.getElementById(IDHTML).innerHTML = "<mark>"+conteudo+"</mark>"
-	}	
+	}
 }
-
-
-
-
 
 </script>
 </head>
@@ -306,7 +312,7 @@ m1 {
     position: absolute;
     left: 39%;
     top: 38%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -314,7 +320,7 @@ m2 {
     position: absolute;
     left: 39%;
     top: 47%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -322,7 +328,7 @@ m3 {
     position: absolute;
     left: 39%;
     top: 58%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -330,7 +336,7 @@ m4 {
     position: absolute;
     left: 59%;
     top: 38%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -338,7 +344,7 @@ m5 {
     position: absolute;
     left: 60%;
     top: 47%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -346,7 +352,7 @@ m6 {
     position: absolute;
     left: 59.5%;
     top: 58%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -355,7 +361,7 @@ m7 {
     position: absolute;
     left: 44%;
     top: 60%;
-    font-size:20px;
+    font-size:15px;
     white-space:pre;
     z-index:-1;
 }
@@ -364,7 +370,7 @@ m8 {
   position: absolute;
   left: 48%;
   top: 38%;
-  font-size:20px;
+  font-size:15px;
   white-space:pre;
   z-index:-1;
 }

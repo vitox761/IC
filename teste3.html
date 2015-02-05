@@ -5,18 +5,50 @@
 <script>
 
 function inicio(){
-    editor = new Quill('#editor');
-    cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
-    coresCont = 0;
-    //Teclados(0);
+  // Criando editor rich text e vetor de cores
+  editor = new Quill('#editor');
+  cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
+  coresCont = 0;
+  //Teclados(0);
 
-var canvas = document.getElementById('myCanvas'),
-context = canvas.getContext('2d');
-canvas.width = window.screen.width;
-canvas.height= window.screen.height;
 
+  // Definindo tamanho do canvas
+  var canvas = document.getElementById('myCanvas');
+  canvas.width = window.screen.width;
+  canvas.height= window.screen.height;
+
+  // Definindo proporção e tamanho de fonte inicial
+  font_inicial = 30;
+  font_side = font_inicial/1.4142;
+  ratio_width = canvas.width/font_side;
+  ratio_height = canvas.height/font_side;
+  ratio = Math.sqrt((ratio_width*ratio_width) + (ratio_height*ratio_height));
+  ratio = ratio/69.23;
+  size_font_big = font_inicial*ratio;
+  screen_ratio = ((canvas.width/canvas.height)*0.5)/1.778;
+  size_font_small = size_font_big*screen_ratio;
+
+  // Desenhando teclado inicial
+  canvasDraw();
 }
 
+function canvasDraw()
+{
+  c = document.getElementById("myCanvas");
+  ctx = c.getContext("2d");
+  ctx.font = size_font_big+"px Arial";
+  // CE
+  ctx.fillText("A B",c.width*0.01,size_font_big);
+  ctx.fillText("C",c.width*0.01,size_font_big*2);
+  // E
+  ctx.fillText("D",c.width*0.01,c.height*0.45);
+  ctx.fillText("E",c.width*0.01,c.height*0.45+size_font_big);
+  ctx.fillText("F",c.width*0.01,c.height*0.45+size_font_big*2);
+  // BE
+  ctx.fillText("G",c.width*0.01,c.height*0.85);
+  ctx.fillText("H J",c.width*0.01,c.height*0.85+size_font_big);
+
+}
 
 function Coordenadas(objeto) {
     x = objeto.clientX;
@@ -155,7 +187,7 @@ function Letra(pos){
     if(pos == "CCD")
        editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
     if(pos == "B")
-       editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});   
+       editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BBE")
     {
        var lastChar = editor.getText(length-2,length-1);
@@ -163,8 +195,8 @@ function Letra(pos){
        	   if(coresCont == 0)
                coresCont = 3;
            else
-               coresCont--; 
-       editor.deleteText(length-2,length); 
+               coresCont--;
+       editor.deleteText(length-2,length);
     }
     if(pos == "BBD")
     {
