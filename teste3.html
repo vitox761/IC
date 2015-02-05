@@ -10,7 +10,10 @@ function inicio(){
   editor = new Quill('#editor');
   cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
   coresCont = 0;
-  //Teclados(0);
+
+  // Vetor para salvar combinacao
+  combination = ["",""];
+  indice = 0;
 
   // Definindo tamanho do canvas
   var canvas = document.getElementById('myCanvas');
@@ -18,14 +21,14 @@ function inicio(){
   canvas.height= window.screen.height;
 
   // Definindo proporção e tamanho de fonte inicial
-  font_inicial = 30;
-  font_side = font_inicial/1.4142;
-  ratio_width = canvas.width/font_side;
-  ratio_height = canvas.height/font_side;
-  ratio = Math.sqrt((ratio_width*ratio_width) + (ratio_height*ratio_height));
+  var font_inicial = 30;
+  var font_side = font_inicial/1.4142;
+  var ratio_width = canvas.width/font_side;
+  var ratio_height = canvas.height/font_side;
+  var ratio = Math.sqrt((ratio_width*ratio_width) + (ratio_height*ratio_height));
   ratio = ratio/69.23;
   size_font_big = font_inicial*ratio;
-  screen_ratio = ((canvas.width/canvas.height)*0.5)/1.778;
+  var screen_ratio = ((canvas.width/canvas.height)*0.5)/1.778;
   size_font_small = size_font_big*screen_ratio;
 
   // Desenhando teclado inicial
@@ -42,45 +45,45 @@ function canvasDraw()
   ctx.lineTo(size_font_big*2,size_font_big*2);
   ctx.stroke();
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.4,c.height*0.4);
-    ctx.lineTo(size_font_big*2,size_font_big*2);
-    ctx.stroke();//< /\
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.4,c.height*0.4);
+  ctx.lineTo(size_font_big*2,size_font_big*2);
+  ctx.stroke();//< /\
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.4,c.height*0.5);
-    ctx.lineTo(size_font_big*2,c.height*0.5);
-    ctx.stroke();//<
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.4,c.height*0.5);
+  ctx.lineTo(size_font_big*2,c.height*0.5);
+  ctx.stroke();//<
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.4,c.height*0.6);
-    ctx.lineTo(size_font_big*2,c.height-size_font_big*2);
-    ctx.stroke();//< \/
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.4,c.height*0.6);
+  ctx.lineTo(size_font_big*2,c.height-size_font_big*2);
+  ctx.stroke();//< \/
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.5,c.height*0.6);
-    ctx.lineTo(c.width*0.5,c.height-size_font_big*2);
-    ctx.stroke();//\/
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.5,c.height*0.6);
+  ctx.lineTo(c.width*0.5,c.height-size_font_big*2);
+  ctx.stroke();//\/
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.6,c.height*0.6);
-    ctx.lineTo(c.width-size_font_big*2,c.height-size_font_big*2);
-    ctx.stroke();//> \/
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.6,c.height*0.6);
+  ctx.lineTo(c.width-size_font_big*2,c.height-size_font_big*2);
+  ctx.stroke();//> \/
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.6,c.height*0.5);
-    ctx.lineTo(c.width-size_font_big*2,c.height*0.5);
-    ctx.stroke();//>
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.6,c.height*0.5);
+  ctx.lineTo(c.width-size_font_big*2,c.height*0.5);
+  ctx.stroke();//>
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.6,c.height*0.4);
-    ctx.lineTo(c.width-size_font_big*2,size_font_big*2);
-    ctx.stroke();//> /\
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.6,c.height*0.4);
+  ctx.lineTo(c.width-size_font_big*2,size_font_big*2);
+  ctx.stroke();//> /\
 
-    ctx.beginPath();
-    ctx.moveTo(c.width*0.5,c.height*0.4);
-    ctx.lineTo(c.width*0.5,size_font_big*2);
-    ctx.stroke();// /\
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.5,c.height*0.4);
+  ctx.lineTo(c.width*0.5,size_font_big*2);
+  ctx.stroke();// /\
 
 
   ctx.font = size_font_big+"px Arial";
@@ -88,9 +91,9 @@ function canvasDraw()
   ctx.fillText("A B",c.width*0.01,size_font_big);
   ctx.fillText("C",c.width*0.01,size_font_big*2);
   // E
-  ctx.fillText("D",c.width*0.01,c.height*0.45);
-  ctx.fillText("E",c.width*0.01,c.height*0.45+size_font_big);
-  ctx.fillText("F",c.width*0.01,c.height*0.45+size_font_big*2);
+  ctx.fillText("D",c.width*0.01,c.height*0.475);
+  ctx.fillText("E",c.width*0.01,c.height*0.475+size_font_big);
+  ctx.fillText("F",c.width*0.01,c.height*0.475+size_font_big*2);
   // BE
   ctx.fillText("G",c.width*0.01,c.height*0.95);
   ctx.fillText("H J",c.width*0.01,c.height*0.95+size_font_big);
@@ -98,23 +101,23 @@ function canvasDraw()
   ctx.fillText("L M",c.width*0.95,size_font_big);
   ctx.fillText("N",c.width*0.95+size_font_big,size_font_big*2);
   // D
-  ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.45);
-  ctx.fillText("P",c.width*0.95+size_font_big,c.height*0.45+size_font_big);
-  ctx.fillText("Q",c.width*0.95+size_font_big,c.height*0.45+size_font_big*2);
+  ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.475);
+  ctx.fillText("P",c.width*0.95+size_font_big,c.height*0.475+size_font_big);
+  ctx.fillText("Q",c.width*0.95+size_font_big,c.height*0.475+size_font_big*2);
   // BD
   ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
   ctx.fillText(" S T",c.width*0.95,c.height*0.95+size_font_big);
   // C
-  ctx.fillText("U V X",c.width*0.50-size_font_big,size_font_big);
+  ctx.fillText("U V X",c.width*0.50-size_font_big*1.3,size_font_big);
   // B
-  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6,c.height*0.95+size_font_big);
+  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6.3,c.height*0.95+size_font_big);
 
 }
 
 function Coordenadas(objeto) {
     x = objeto.clientX;
     y = objeto.clientY;
-    coor = "Coordenadas: (" + x + "," + y + ")";
+
 
     var width = window.screen.width;
     var height = window.screen.height;
@@ -124,7 +127,6 @@ function Coordenadas(objeto) {
     var comb = "";
     var aux = 0;
 
-    document.getElementById("coord").innerHTML = coor
 
     if(x == 0) {
         if(y <= height_part ) {
@@ -180,7 +182,8 @@ function Coordenadas(objeto) {
           indice++;
        }
     }
-
+    coor = "Coordenadas: (" + x + "," + y + ")" + pos;
+    document.getElementById("coord").innerHTML = coor
     if(x >= (width*0.4)) {
        if(x <= (width*0.6)) {
            if(y <= height*0.6){
@@ -199,6 +202,7 @@ function Coordenadas(objeto) {
            }
        }
     }
+
 }
 
 function Letra(pos){
@@ -291,8 +295,8 @@ m1 {
 }
 </style>
 
-<div>
-<canvas id="myCanvas" style="border:1px" onmousemove="Coordenadas(event)"></canvas>
+<div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
+<canvas id="myCanvas" style="border:1px"></canvas>
 <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid"></div>
 </div>
 <m1 id="coord"></m1>
