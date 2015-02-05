@@ -8,7 +8,7 @@ function inicio(){
     editor = new Quill('#editor');
     cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
     coresCont = 0;
-    Teclados(0);
+    Teclados("N");
 }
 var combination = ["",""];
 var indice = 0;
@@ -68,10 +68,12 @@ function Coordenadas(objeto) {
       }
     }
 
+
     if(pos != "N"){
        if(indice == 0){
           combination[indice] = pos;
           indice++;
+		  Teclados(pos);
        }
        else if(combination[(indice - 1)] != pos){
           combination[indice] = pos;
@@ -82,14 +84,17 @@ function Coordenadas(objeto) {
     if(x >= (width*0.4)) {
 	     if(x <= (width*0.6)) {
 		       if(y <= height*0.6){
-			          if(y >= height*0.4){
-				            while(indice > aux){
-                      comb = comb + combination[aux];
-                      aux++
-                    }
-                    Letra(comb);
-			              indice = 0;
-                    pos = "N";
+			          if(y >= height*0.4)
+					  {
+				            while(indice > aux)
+							{
+							comb = comb + combination[aux];
+							aux++
+							}
+						Letra(comb);
+			            indice = 0;
+						pos = "N";
+						Teclados(pos);
 			          }
 		       }
 	     }
@@ -190,14 +195,32 @@ function destroyClickedElement(event)
 
 function Teclados(controle)
 {
-  document.getElementById("CEP").innerHTML = "A B\nC"
-  document.getElementById("EP").innerHTML = "D\nE\nF"
-  document.getElementById("BEP").innerHTML = "G\nH J"
-  document.getElementById("CDP").innerHTML = "L M\n    N"
-  document.getElementById("DP").innerHTML = "O\nP\nQ"
-  document.getElementById("BDP").innerHTML = "   R\nS T"
-  document.getElementById("CP").innerHTML = "U V X"
-  document.getElementById("BP").innerHTML = "APAGAR ESPACO PONTO"
+	if(controle == "N")
+	{
+		document.getElementById("CEP").innerHTML = "A B\nC"
+		document.getElementById("CEP2").innerHTML = "A B\nC"
+		document.getElementById("EP").innerHTML = "D\nE\nF"
+		document.getElementById("EP2").innerHTML = "D\nE\nF"
+		document.getElementById("BEP").innerHTML = "G\nH J"
+		document.getElementById("BEP2").innerHTML = "G\nH J"
+		document.getElementById("CDP").innerHTML = "L M\n    N"
+		document.getElementById("CDP2").innerHTML = "L M\n    N"
+		document.getElementById("DP").innerHTML = "O\nP\nQ"
+		document.getElementById("DP2").innerHTML = "O\nP\nQ"
+		document.getElementById("BDP").innerHTML = "   R\nS T"
+		document.getElementById("BDP2").innerHTML = "   R\nS T"
+		document.getElementById("CP").innerHTML = "U V X"
+		document.getElementById("CP2").innerHTML = "U V X"
+		document.getElementById("BP").innerHTML = "APAGAR ESPACO PONTO"
+		document.getElementById("BP2").innerHTML = "APAGAR ESPACO PONTO"
+
+	}
+	else
+	{
+		var IDHTML = controle+"P";
+		var conteudo = document.getElementById(IDHTML).innerHTML;
+		document.getElementById(IDHTML).innerHTML = "<mark>"+conteudo+"</mark>"
+	}	
 }
 
 
@@ -279,16 +302,92 @@ a8 {
   z-index:-1;
 }
 
+m1 {
+    position: absolute;
+    left: 39%;
+    top: 38%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+m2 {
+    position: absolute;
+    left: 39%;
+    top: 47%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+m3 {
+    position: absolute;
+    left: 39%;
+    top: 58%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+m4 {
+    position: absolute;
+    left: 59%;
+    top: 38%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+m5 {
+    position: absolute;
+    left: 60%;
+    top: 47%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+m6 {
+    position: absolute;
+    left: 59.5%;
+    top: 58%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+
+m7 {
+    position: absolute;
+    left: 44%;
+    top: 60%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+
+m8 {
+  position: absolute;
+  left: 48%;
+  top: 38%;
+  font-size:20px;
+  white-space:pre;
+  z-index:-1;
+}
+
+
 </style>
 
 <a1 id="CEP"></a1>
+<m1 id="CEP2"></m1>
 <a2 id="EP"></a2>
+<m2 id="EP2"></m2>
 <a3 id="BEP"></a3>
+<m3 id="BEP2"></m3>
 <a4 id="CDP"></a4>
+<m4 id="CDP2"></m4>
 <a5 id="DP"></a5>
+<m5 id="DP2"></m5>
 <a6 id="BDP"></a6>
+<m6 id="BDP2"></m6>
 <a7 id="BP"></a7>
+<m7 id="BP2"></m7>
 <a8 id="CP"></a8>
+<m8 id="CP2"></m8>
 
 <div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
 <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid"></div>

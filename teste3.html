@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html>
-<body onLoad="inicio()">
-
-<div id="coordiv" >
-<p id="coor"></p>
-<canvas id="myCanvas" width="200" height="100"style="border:1px solid #d3d3d3;z-index:1" onmousemove="Coordenadas(event)"></canvas>
-<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid"></div>
-</div>
-
+<head>
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
@@ -15,31 +8,30 @@ function inicio(){
     editor = new Quill('#editor');
     cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
     coresCont = 0;
-    Teclados(0);
+    //Teclados(0);
+
+var canvas = document.getElementById('myCanvas'),
+context = canvas.getContext('2d');
+canvas.width = window.screen.width;
+canvas.height= window.screen.height;
+
 }
 
-var c = document.getElementById("myCanvas");
-
-c.width  = window.innerWidth;
-c.height = window.innerHeight;
-
-var ctx = c.getContext("2d");
-ctx.font = "20px Arial";
-ctx.strokeText("A B",10,20);
-ctx.strokeText("C",10, 40);
 
 function Coordenadas(objeto) {
     x = objeto.clientX;
     y = objeto.clientY;
     coor = "Coordenadas: (" + x + "," + y + ")";
-	document.getElementById("coord").innerHTML = coor;
-    var width = c.width;
-    var height = c.height;
+
+    var width = window.screen.width;
+    var height = window.screen.height;
     var width_part = (width / 4);
     var height_part = (height / 3);
     var pos = "N";
     var comb = "";
     var aux = 0;
+
+    document.getElementById("coord").innerHTML = coor
 
     if(x == 0) {
         if(y <= height_part ) {
@@ -63,12 +55,12 @@ function Coordenadas(objeto) {
 
 
     if(y == 0) {
-	     if(x <= width_part) {
-	        pos = "CE"
+       if(x <= width_part) {
+          pos = "CE"
        } else if(x >= (width_part * 3)) {
           pos = "CD"
        } else {
-	        pos = "C"
+          pos = "C"
        }
     }
 
@@ -83,10 +75,12 @@ function Coordenadas(objeto) {
       }
     }
 
+
     if(pos != "N"){
        if(indice == 0){
           combination[indice] = pos;
           indice++;
+      //Teclados(pos);
        }
        else if(combination[(indice - 1)] != pos){
           combination[indice] = pos;
@@ -95,19 +89,22 @@ function Coordenadas(objeto) {
     }
 
     if(x >= (width*0.4)) {
-	     if(x <= (width*0.6)) {
-		       if(y <= height*0.6){
-			          if(y >= height*0.4){
-				            while(indice > aux){
-                      comb = comb + combination[aux];
-                      aux++
-                    }
-                    Letra(comb);
-			              indice = 0;
-                    pos = "N";
-			          }
-		       }
-	     }
+       if(x <= (width*0.6)) {
+           if(y <= height*0.6){
+                if(y >= height*0.4)
+            {
+                    while(indice > aux)
+              {
+              comb = comb + combination[aux];
+              aux++
+              }
+            Letra(comb);
+                  indice = 0;
+            pos = "N";
+           // Teclados(pos);
+                }
+           }
+       }
     }
 }
 
@@ -180,10 +177,32 @@ function Letra(pos){
 }
 
 </script>
-
+</head>
+<body  style="margin:0px" onLoad="inicio()">
 <style>
 body {width:100%; height:100%; overflow:hidden, margin:0}
-html {width:100%; height:100%; overflow:hidden}</style>
+html {width:100%; height:100%; overflow:hidden}
+
+#canvas {
+    background-color: blue;
+    display: block;
+}
+
+m1 {
+    position: absolute;
+    left: 39%;
+    top: 38%;
+    font-size:20px;
+    white-space:pre;
+    z-index:-1;
+}
+</style>
+
+<div>
+<canvas id="myCanvas" style="border:1px" onmousemove="Coordenadas(event)"></canvas>
+<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid"></div>
+</div>
+<m1 id="coord"></m1>
 
 </body>
 
