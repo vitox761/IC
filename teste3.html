@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
@@ -10,7 +11,6 @@ function inicio(){
   cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
   coresCont = 0;
   //Teclados(0);
-
 
   // Definindo tamanho do canvas
   var canvas = document.getElementById('myCanvas');
@@ -36,6 +36,53 @@ function canvasDraw()
 {
   c = document.getElementById("myCanvas");
   ctx = c.getContext("2d");
+
+  ctx.beginPath();
+  ctx.moveTo(c.width*0.4,c.height*0.4);
+  ctx.lineTo(size_font_big*2,size_font_big*2);
+  ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.4,c.height*0.4);
+    ctx.lineTo(size_font_big*2,size_font_big*2);
+    ctx.stroke();//< /\
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.4,c.height*0.5);
+    ctx.lineTo(size_font_big*2,c.height*0.5);
+    ctx.stroke();//<
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.4,c.height*0.6);
+    ctx.lineTo(size_font_big*2,c.height-size_font_big*2);
+    ctx.stroke();//< \/
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.5,c.height*0.6);
+    ctx.lineTo(c.width*0.5,c.height-size_font_big*2);
+    ctx.stroke();//\/
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.6,c.height*0.6);
+    ctx.lineTo(c.width-size_font_big*2,c.height-size_font_big*2);
+    ctx.stroke();//> \/
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.6,c.height*0.5);
+    ctx.lineTo(c.width-size_font_big*2,c.height*0.5);
+    ctx.stroke();//>
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.6,c.height*0.4);
+    ctx.lineTo(c.width-size_font_big*2,size_font_big*2);
+    ctx.stroke();//> /\
+
+    ctx.beginPath();
+    ctx.moveTo(c.width*0.5,c.height*0.4);
+    ctx.lineTo(c.width*0.5,size_font_big*2);
+    ctx.stroke();// /\
+
+
   ctx.font = size_font_big+"px Arial";
   // CE
   ctx.fillText("A B",c.width*0.01,size_font_big);
@@ -45,8 +92,22 @@ function canvasDraw()
   ctx.fillText("E",c.width*0.01,c.height*0.45+size_font_big);
   ctx.fillText("F",c.width*0.01,c.height*0.45+size_font_big*2);
   // BE
-  ctx.fillText("G",c.width*0.01,c.height*0.85);
-  ctx.fillText("H J",c.width*0.01,c.height*0.85+size_font_big);
+  ctx.fillText("G",c.width*0.01,c.height*0.95);
+  ctx.fillText("H J",c.width*0.01,c.height*0.95+size_font_big);
+  // CD
+  ctx.fillText("L M",c.width*0.95,size_font_big);
+  ctx.fillText("N",c.width*0.95+size_font_big,size_font_big*2);
+  // D
+  ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.45);
+  ctx.fillText("P",c.width*0.95+size_font_big,c.height*0.45+size_font_big);
+  ctx.fillText("Q",c.width*0.95+size_font_big,c.height*0.45+size_font_big*2);
+  // BD
+  ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
+  ctx.fillText(" S T",c.width*0.95,c.height*0.95+size_font_big);
+  // C
+  ctx.fillText("U V X",c.width*0.50-size_font_big,size_font_big);
+  // B
+  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6,c.height*0.95+size_font_big);
 
 }
 
@@ -212,7 +273,7 @@ function Letra(pos){
 </head>
 <body  style="margin:0px" onLoad="inicio()">
 <style>
-body {width:100%; height:100%; overflow:hidden, margin:0}
+body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
 html {width:100%; height:100%; overflow:hidden}
 
 #canvas {
