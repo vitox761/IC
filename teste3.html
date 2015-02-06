@@ -446,7 +446,7 @@ function Coordenadas(objeto) {
           combination[indice] = pos;
 		      Switch(pos,0);
           indice++;
-          timerId = setTimeout
+          timerId = setInterval
           (function(){keyboardTrans(pos);}, 3000);
           document.getElementById('beep01').play();
        }
@@ -454,7 +454,7 @@ function Coordenadas(objeto) {
           combination[indice] = pos;
           indice++;
           document.getElementById('beep02').play();
-          clearTimeout(timerId);
+          clearInterval(timerId);
           aux2 = 0;
        }
     }
@@ -470,7 +470,7 @@ function Coordenadas(objeto) {
               aux++
               }
               if(aux2)
-                clearTimeout(timerId);
+                clearInterval(timerId);
               Letra(comb);
 			        Switch(combination[0],1);
               indice = 0;
@@ -488,30 +488,71 @@ function Letra(pos)
     var length = editor.getLength();
     if(pos != "")
       document.getElementById('beep03').play()
+	  
     if(pos == "CE")
-       editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[0])
+			editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '1',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CEC")
-       editor.insertText(length-1, 'b',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[0])
+			editor.insertText(length-1, 'b',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '2',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CEE")
-       editor.insertText(length-1, 'c',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[0])
+			editor.insertText(length-1, 'c',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '3',{'color': cores[coresCont],'size':'30px'});
+				
     if(pos == "ECE")
-       editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[1])
+			editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '0',{'color': cores[coresCont],'size':'30px'});
     if(pos == "E")
-       editor.insertText(length-1, 'e',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[1])
+			editor.insertText(length-1, 'e',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, 'w',{'color': cores[coresCont],'size':'30px'});
     if(pos == "EBE")
-       editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[1])
+			editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, 'z',{'color': cores[coresCont],'size':'30px'});
+			
     if(pos == "BEE")
-       editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[2])
+			editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, 'k',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BE")
-       editor.insertText(length-1, 'h',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[2])
+			editor.insertText(length-1, 'h',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, 'i',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BEB")
-       editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
+		if(!teclado[2])
+			editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
+		else	
+			editor.insertText(length-1, 'y',{'color': cores[coresCont],'size':'30px'});
+			
     if(pos == "CDC")
-       editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
+		if(!teclado[3])
+			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '7',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CD")
-       editor.insertText(length-1, 'm',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[3])
+			editor.insertText(length-1, 'm',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '8',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CDD")
-       editor.insertText(length-1, 'n',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[3])
+			editor.insertText(length-1, 'n',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
+			
     if(pos == "DCD")
        editor.insertText(length-1, 'o',{'color': cores[coresCont],'size':'30px'});
     if(pos == "D")
@@ -524,13 +565,25 @@ function Letra(pos)
        editor.insertText(length-1, 's',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BD")
        editor.insertText(length-1, 't',{'color': cores[coresCont],'size':'30px'});
+	   
+	   
     if(pos == "CCE")
-       editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[6])
+			editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
     if(pos == "C")
-       editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[6])
+			editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
+	    else 
+			editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CCD")
-       editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
-    if(pos == "B")
+		if (!teclado[6])
+			editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
+
+	if(pos == "B")	
        editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BBE")
     {
