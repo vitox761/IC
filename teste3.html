@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<audio id = "beep01">
+  <source src="sound/beep01.mp3" type="audio/mpeg">
+</audio>
+<audio id = "beep02">
+  <source src="sound/beep02.mp3" type="audio/mpeg">
+</audio>
+<audio id = "beep03">
+  <source src="sound/beep03.mp3" type="audio/mpeg">
+</audio>
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
@@ -14,6 +22,8 @@ function inicio(){
   // Vetor para salvar combinacao
   combination = ["",""];
   indice = 0;
+
+  // Carrengando beeps
 
   // Definindo tamanho do canvas
   var canvas = document.getElementById('myCanvas');
@@ -175,29 +185,30 @@ function Coordenadas(objeto) {
        if(indice == 0){
           combination[indice] = pos;
           indice++;
-      //Teclados(pos);
+          document.getElementById('beep01').play();
        }
        else if(combination[(indice - 1)] != pos){
           combination[indice] = pos;
           indice++;
+          document.getElementById('beep02').play();
        }
     }
-    coor = "Coordenadas: (" + x + "," + y + ")" + pos;
-    document.getElementById("coord").innerHTML = coor
+//    coor = "Coordenadas: (" + x + "," + y + ")" + pos;
+//    document.getElementById("coord").innerHTML = coor
     if(x >= (width*0.4)) {
        if(x <= (width*0.6)) {
            if(y <= height*0.6){
                 if(y >= height*0.4)
-            {
+                {
                     while(indice > aux)
-              {
+                {
               comb = comb + combination[aux];
               aux++
               }
-            Letra(comb);
-                  indice = 0;
-            pos = "N";
-           // Teclados(pos);
+              Letra(comb);
+              indice = 0;
+              pos = "N";
+              // Teclados(pos);
                 }
            }
        }
@@ -205,10 +216,11 @@ function Coordenadas(objeto) {
 
 }
 
-function Letra(pos){
-    textarea = document.getElementById('text_area');
+function Letra(pos)
+{
     var length = editor.getLength();
-
+    if(pos != "")
+      document.getElementById('beep03').play()
     if(pos == "CE")
        editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CEC")
@@ -271,6 +283,8 @@ function Letra(pos){
        else
 	  coresCont++;
     }
+    objeto = document.getElementById('editor');
+    objeto.scrollTop = objeto.scrollHeight;
 }
 
 </script>
