@@ -23,8 +23,6 @@ function inicio(){
   combination = ["",""];
   indice = 0;
 
-  // Carrengando beeps
-
   // Definindo tamanho do canvas
   var canvas = document.getElementById('myCanvas');
   canvas.width = window.screen.width;
@@ -51,78 +49,155 @@ function canvasDraw()
   ctx = c.getContext("2d");
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.4,c.height*0.4);
+  ctx.moveTo(c.width*0.38,c.height*0.38);
   ctx.lineTo(size_font_big*2,size_font_big*2);
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.4,c.height*0.4);
+  ctx.moveTo(c.width*0.38,c.height*0.38);
   ctx.lineTo(size_font_big*2,size_font_big*2);
   ctx.stroke();//< /\
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.4,c.height*0.5);
+  ctx.moveTo(c.width*0.38,c.height*0.5);
   ctx.lineTo(size_font_big*2,c.height*0.5);
   ctx.stroke();//<
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.4,c.height*0.6);
+  ctx.moveTo(c.width*0.38,c.height*0.62);
   ctx.lineTo(size_font_big*2,c.height-size_font_big*2);
   ctx.stroke();//< \/
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.5,c.height*0.6);
+  ctx.moveTo(c.width*0.5,c.height*0.63);
   ctx.lineTo(c.width*0.5,c.height-size_font_big*2);
   ctx.stroke();//\/
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.6,c.height*0.6);
+  ctx.moveTo(c.width*0.62,c.height*0.62);
   ctx.lineTo(c.width-size_font_big*2,c.height-size_font_big*2);
   ctx.stroke();//> \/
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.6,c.height*0.5);
+  ctx.moveTo(c.width*0.62,c.height*0.5);
   ctx.lineTo(c.width-size_font_big*2,c.height*0.5);
   ctx.stroke();//>
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.6,c.height*0.4);
+  ctx.moveTo(c.width*0.62,c.height*0.38);
   ctx.lineTo(c.width-size_font_big*2,size_font_big*2);
   ctx.stroke();//> /\
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.5,c.height*0.4);
+  ctx.moveTo(c.width*0.5,c.height*0.36);
   ctx.lineTo(c.width*0.5,size_font_big*2);
   ctx.stroke();// /\
 
+  // Desenhando letras em cada ponto da tela
+  canvasDrawCE(0);
+  canvasDrawE(0);
+  canvasDrawBE(0);
+  canvasDrawCD(0);
+  canvasDrawD(0);
+  canvasDrawBD(0);
+  canvasDrawC(0);
+  canvasDrawB(0);
+}
+function canvasDrawCE(controle)
+{
+  if(controle == 0)
+  {
+    //Teclado
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText("A B",c.width*0.01,size_font_big);
+    ctx.fillText("C",c.width*0.01,size_font_big*2);
+    // MINIATURA
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText("A B",c.width*0.387,c.height*0.37+size_font_small);
+    ctx.fillText("C",c.width*0.387,c.height*0.37+size_font_small*2);
+  }
 
+}
+function canvasDrawE(controle)
+{
+  //Teclado
   ctx.font = size_font_big+"px Arial";
-  // CE
-  ctx.fillText("A B",c.width*0.01,size_font_big);
-  ctx.fillText("C",c.width*0.01,size_font_big*2);
-  // E
   ctx.fillText("D",c.width*0.01,c.height*0.475);
   ctx.fillText("E",c.width*0.01,c.height*0.475+size_font_big);
   ctx.fillText("F",c.width*0.01,c.height*0.475+size_font_big*2);
-  // BE
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("D",c.width*0.387,c.height*0.485);
+  ctx.fillText("E",c.width*0.387,c.height*0.485+size_font_small);
+  ctx.fillText("F",c.width*0.387,c.height*0.485+size_font_small*2);
+}
+function canvasDrawBE(controle)
+{
+  //Teclado
+  ctx.font = size_font_big+"px Arial";
   ctx.fillText("G",c.width*0.01,c.height*0.95);
   ctx.fillText("H J",c.width*0.01,c.height*0.95+size_font_big);
-  // CD
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("G",c.width*0.387,c.height*0.60);
+  ctx.fillText("H J",c.width*0.387,c.height*0.60+size_font_small);
+}
+function canvasDrawCD(controle)
+{
+  // Teclado
+  ctx.font = size_font_big+"px Arial";
   ctx.fillText("L M",c.width*0.95,size_font_big);
   ctx.fillText("N",c.width*0.95+size_font_big,size_font_big*2);
-  // D
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("L M",c.width*0.59,c.height*0.37+size_font_small);
+  ctx.fillText("N",c.width*0.59+size_font_small,c.height*0.37+size_font_small*2);
+}
+function canvasDrawBD(controle)
+{
+  // Teclado
+  ctx.font = size_font_big+"px Arial";
+  ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
+  ctx.fillText(" S T",c.width*0.95,c.height*0.95+size_font_big);
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("R",c.width*0.59+size_font_small,c.height*0.60);
+  ctx.fillText(" S T",c.width*0.59,c.height*0.60+size_font_small);
+}
+
+
+function canvasDrawD(controle)
+{
+  // Teclado
+  ctx.font = size_font_big+"px Arial";
   ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.475);
   ctx.fillText("P",c.width*0.95+size_font_big,c.height*0.475+size_font_big);
   ctx.fillText("Q",c.width*0.95+size_font_big,c.height*0.475+size_font_big*2);
-  // BD
-  ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
-  ctx.fillText(" S T",c.width*0.95,c.height*0.95+size_font_big);
-  // C
-  ctx.fillText("U V X",c.width*0.50-size_font_big*1.3,size_font_big);
-  // B
-  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6.3,c.height*0.95+size_font_big);
-
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("O",c.width*0.59+size_font_small,c.height*0.485);
+  ctx.fillText("P",c.width*0.59+size_font_small,c.height*0.485+size_font_small);
+  ctx.fillText("Q",c.width*0.59+size_font_small,c.height*0.485+size_font_small*2);
 }
+function canvasDrawC(controle)
+{
+    // Teclado
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText("U V X",c.width*0.50-size_font_big*1.3,size_font_big);
+    // MINIATURA
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText("U V X",c.width*0.50-size_font_small*1.3,c.height*0.37+size_font_small);
+}
+function canvasDrawB(controle)
+{
+  // Teclado
+  ctx.font = size_font_big+"px Arial";
+  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6.3,c.height*0.95+size_font_big);
+  // MINIATURA
+  ctx.font = size_font_small+"px Arial";
+  ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_small*6.3,c.height*0.60+size_font_small);
+}
+
 
 function Coordenadas(objeto) {
     x = objeto.clientX;
