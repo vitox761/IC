@@ -16,7 +16,7 @@
 function inicio(){
   // Criando editor rich text e vetor de cores
   editor = new Quill('#editor');
-  cores = ['rgb(0,0,0)','rgb(0,0,255)','rgb(0,150,0)','rgb(255,0,0)'];
+  cores = ['rgb(255,255,255)','rgb(0,255,255)','rgb(0,150,0)','rgb(255,0,0)'];
   coresCont = 0;
 
   // Vetor para salvar combinacao
@@ -38,16 +38,21 @@ function inicio(){
   size_font_big = font_inicial*ratio;
   var screen_ratio = ((canvas.width/canvas.height)*0.5)/1.778;
   size_font_small = size_font_big*screen_ratio;
+  
+  c = document.getElementById("myCanvas");
+  ctx = c.getContext("2d"); 
 
+  canvasDrawLine();
   // Desenhando teclado inicial
   canvasDraw();
 }
 
-function canvasDraw()
+function canvasDrawLine()
 {
-  c = document.getElementById("myCanvas");
-  ctx = c.getContext("2d");
-
+  ctx.fillStyle = "white";
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 5;
+  
   ctx.beginPath();
   ctx.moveTo(c.width*0.38,c.height*0.38);
   ctx.lineTo(size_font_big*2,size_font_big*2);
@@ -92,6 +97,10 @@ function canvasDraw()
   ctx.moveTo(c.width*0.5,c.height*0.36);
   ctx.lineTo(c.width*0.5,size_font_big*2);
   ctx.stroke();// /\
+}
+
+function canvasDraw()
+{ 
 
   // Desenhando letras em cada ponto da tela
   canvasDrawCE(0);
@@ -103,10 +112,73 @@ function canvasDraw()
   canvasDrawC(0);
   canvasDrawB(0);
 }
+
+function Switch(pos, flag) //funcao que retira ou insere o highlight num conjunto de letras
+{
+   switch(pos)
+		  {
+			case "C":
+				highlight(width/2,0,flag);
+				canvasDrawC(0);
+				break;
+			case "CD":
+				highlight(width,0,flag);
+				canvasDrawCD(0);
+				break;
+			case "D":
+				highlight(width,height/2,flag);
+				canvasDrawD(0);
+				break;
+			case "BD":
+				highlight(width,height,flag);
+				canvasDrawBD(0);
+				break;
+			case "B":
+				highlight(width/2,height,flag);
+				canvasDrawB(0);
+				break;
+			case "BE":
+				highlight(0,height,flag);
+				canvasDrawBE(0);
+				break;
+			case "E":
+				highlight(0,height/2,flag);
+				canvasDrawE(0);
+				break;
+			case "CE":
+				highlight(0,0,flag);
+				canvasDrawCE(0);
+				break;
+		  }
+}
+
+function highlight(x,y,limpar)
+{
+  if (limpar)
+  {
+    ctx.beginPath()
+	ctx.arc(x,y,width*0.1,0,2*Math.PI);
+	ctx.fillStyle = "black";
+	ctx.fill();
+  }
+  else
+  {
+    var grd = ctx.createRadialGradient(x,y,c.width*0.001,x,y,c.width*0.5);
+    grd.addColorStop(0,"black");
+    grd.addColorStop(1,"white");
+    ctx.beginPath();
+    ctx.arc(x,y,c.width*0.1,0,2*Math.PI);
+    ctx.fillStyle = grd;
+    ctx.fill(); 
+  }  
+  canvasDrawLine();
+}
+
 function canvasDrawCE(controle)
 {
   if(controle == 0)
   {
+	ctx.fillStyle = "white";
     //Teclado
     ctx.font = size_font_big+"px Arial";
     ctx.fillText("A B",c.width*0.01,size_font_big);
@@ -120,6 +192,7 @@ function canvasDrawCE(controle)
 }
 function canvasDrawE(controle)
 {
+  ctx.fillStyle = "white";
   //Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("D",c.width*0.01,c.height*0.475);
@@ -133,6 +206,7 @@ function canvasDrawE(controle)
 }
 function canvasDrawBE(controle)
 {
+  ctx.fillStyle = "white";
   //Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("G",c.width*0.01,c.height*0.95);
@@ -144,6 +218,7 @@ function canvasDrawBE(controle)
 }
 function canvasDrawCD(controle)
 {
+  ctx.fillStyle = "white";
   // Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("L M",c.width*0.95,size_font_big);
@@ -155,6 +230,7 @@ function canvasDrawCD(controle)
 }
 function canvasDrawBD(controle)
 {
+  ctx.fillStyle = "white";
   // Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
@@ -168,6 +244,7 @@ function canvasDrawBD(controle)
 
 function canvasDrawD(controle)
 {
+  ctx.fillStyle = "white";
   // Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.475);
@@ -181,6 +258,7 @@ function canvasDrawD(controle)
 }
 function canvasDrawC(controle)
 {
+    ctx.fillStyle = "white";
     // Teclado
     ctx.font = size_font_big+"px Arial";
     ctx.fillText("U V X",c.width*0.50-size_font_big*1.3,size_font_big);
@@ -190,6 +268,7 @@ function canvasDrawC(controle)
 }
 function canvasDrawB(controle)
 {
+  ctx.fillStyle = "white";
   // Teclado
   ctx.font = size_font_big+"px Arial";
   ctx.fillText("APAGAR ESPACO PONTO",c.width*0.50-size_font_big*6.3,c.height*0.95+size_font_big);
@@ -204,8 +283,8 @@ function Coordenadas(objeto) {
     y = objeto.clientY;
 
 
-    var width = window.screen.width;
-    var height = window.screen.height;
+    width = window.screen.width;
+    height = window.screen.height;
     var width_part = (width / 4);
     var height_part = (height / 3);
     var pos = "N";
@@ -259,6 +338,7 @@ function Coordenadas(objeto) {
     if(pos != "N"){
        if(indice == 0){
           combination[indice] = pos;
+		  Switch(pos,0);
           indice++;
           document.getElementById('beep01').play();
        }
@@ -281,6 +361,7 @@ function Coordenadas(objeto) {
               aux++
               }
               Letra(comb);
+			  Switch(combination[0],1);
               indice = 0;
               pos = "N";
               // Teclados(pos);
@@ -385,8 +466,8 @@ m1 {
 </style>
 
 <div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
-<canvas id="myCanvas" style="border:1px"></canvas>
-<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid"></div>
+<canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
+<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid white"></div>
 </div>
 <m1 id="coord"></m1>
 
