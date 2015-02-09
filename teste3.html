@@ -10,6 +10,9 @@
 <audio id = "beep03">
   <source src="sound/beep03.mp3" type="audio/mpeg">
 </audio>
+<audio id = "flip">
+  <source src="sound/flip.mp3" type="audio/mpeg">
+</audio>
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
@@ -151,6 +154,7 @@ function keyboardTrans(pos) //funcao que retira ou insere o highlight num conjun
 		  }
       // Limpa tela
       Switch(pos,0);
+      document.getElementById('flip').play();
 }
 
 function Switch(pos,flag) //funcao que retira ou insere o highlight num conjunto de letras
@@ -628,8 +632,8 @@ function Letra(pos)
 			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
 		else
 			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
-	   
-	   
+
+
     if(pos == "BDD")
        editor.insertText(length-1, 'r',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BDB")
