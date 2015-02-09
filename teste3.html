@@ -67,7 +67,7 @@ function canvasDrawLine()
 
   ctx.beginPath();
   ctx.moveTo(c.width*0.38,c.height*0.5);
-  ctx.lineTo(size_font_big*2,c.height*0.5);
+  ctx.lineTo(size_font_big*2.23,c.height*0.5);
   ctx.stroke();//<
 
   ctx.beginPath();
@@ -206,104 +206,142 @@ function highlight(x,y,limpar)
 
 function canvasDrawCE(controle)
 {
-    if(controle == 0)
+    if(!controle)
     {
-      //Teclado Primario
-      if(teclado[0] == 0)
-        ctx.font = size_font_big+"px Arial";
+      if(!teclado[0])
+      {
+        var prim1 = "A B";
+        var prim2 = "C";
+        var sec1 = "1 2";
+        var sec2 = "3";
+      }
       else
-        ctx.font = size_font_small+"px Arial";
-      ctx.fillText("A B",c.width*0.01,size_font_big);
-      ctx.fillText("C",c.width*0.01,size_font_big*2);
-      // MINIATURA
-      ctx.font = size_font_small+"px Arial";
-      ctx.fillText("A B",c.width*0.387,c.height*0.37+size_font_small);
-      ctx.fillText("C",c.width*0.387,c.height*0.37+size_font_small*2);
+      {
+        var prim1 = "1 2";
+        var prim2 = "3";
+        var sec1 = "A B";
+        var sec2 = "C";
+      }
+      //Teclado Primario
+      ctx.font = size_font_big+"px Arial";
+      ctx.fillText(prim1,c.width*0.01,size_font_big);
+      ctx.fillText(prim2,c.width*0.01,size_font_big*2);
       //Teclado Secundario
-      if(teclado[0] == 1)
-        ctx.font = size_font_big+"px Arial";
-      ctx.fillText("1 2",c.width*0.01+size_font_big,size_font_big*1.7);
-      ctx.fillText("3",c.width*0.01+size_font_big,size_font_big*1.7+size_font_small);
+      ctx.font = size_font_small+"px Arial";
+      ctx.fillText(sec1,c.width*0.01+size_font_big,size_font_big*1.7);
+      ctx.fillText(sec2,c.width*0.01+size_font_big,size_font_big*1.7+size_font_small);
+      // MINIATURA
+      ctx.fillText(prim1,c.width*0.387,c.height*0.37+size_font_small);
+      ctx.fillText(prim2,c.width*0.387,c.height*0.37+size_font_small*2);
     }
-
 }
 function canvasDrawE(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
-    //Teclado Primario
-    if(teclado[1] == 0)
-      ctx.font = size_font_big+"px Arial";
+    if(!teclado[1])
+    {
+      var prim1 = "D";
+      var prim2 = "E";
+      var prim3 = "F";
+      var sec1 = "0";
+      var sec2 = "W";
+      var sec3 = "Z";
+    }
     else
-      ctx.font = size_font_small+"px Arial";
-    ctx.fillText("D",c.width*0.01,c.height*0.475);
-    ctx.fillText("E",c.width*0.01,c.height*0.475+size_font_big);
-    ctx.fillText("F",c.width*0.01,c.height*0.475+size_font_big*2);
-    // MINIATURA
-    ctx.font = size_font_small+"px Arial";
-    ctx.fillText("D",c.width*0.387,c.height*0.485);
-    ctx.fillText("E",c.width*0.387,c.height*0.485+size_font_small);
-    ctx.fillText("F",c.width*0.387,c.height*0.485+size_font_small*2);
+    {
+      var prim1 = "0";
+      var prim2 = "W";
+      var prim3 = "Z";
+      var sec1 = "D";
+      var sec2 = "E";
+      var sec3 = "F";
+    }
+    //Teclado Primario
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText(prim1,c.width*0.01,c.height*0.475);
+    ctx.fillText(prim2,c.width*0.01,c.height*0.475+size_font_big);
+    ctx.fillText(prim3,c.width*0.01,c.height*0.475+size_font_big*2);
     //Teclado Secundario
-    if(teclado[1] == 1)
-      ctx.font = size_font_big+"px Arial";
-    ctx.fillText("0",c.width*0.01+size_font_big,c.height*0.475);
-    ctx.fillText("W",c.width*0.01+size_font_big,c.height*0.475+size_font_big);
-    ctx.fillText("Z",c.width*0.01+size_font_big,c.height*0.475+size_font_big*2);
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText(sec1,c.width*0.013+size_font_big,c.height*0.475);
+    ctx.fillText(sec2,c.width*0.013+size_font_big,c.height*0.475+size_font_big);
+    ctx.fillText(sec3,c.width*0.013+size_font_big,c.height*0.475+size_font_big*2);
+    // MINIATURA
+    ctx.fillText(prim1,c.width*0.387,c.height*0.485);
+    ctx.fillText(prim2,c.width*0.387,c.height*0.485+size_font_small);
+    ctx.fillText(prim3,c.width*0.387,c.height*0.485+size_font_small*2);
+
   }
 }
 function canvasDrawBE(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
-    //Teclado Primario
-    if(teclado[2] == 0)
-      ctx.font = size_font_big+"px Arial";
+    if(!teclado[2])
+    {
+      var prim1 = "G";
+      var prim2 = "H J";
+      var sec1 = "K";
+      var sec2 = "I Y";
+    }
     else
-      ctx.font = size_font_small+"px Arial";
-
-    ctx.fillText("G",c.width*0.01,c.height*0.95);
-    ctx.fillText("H J",c.width*0.01,c.height*0.95+size_font_big);
-    // MINIATURA
-    ctx.font = size_font_small+"px Arial";
-    ctx.fillText("G",c.width*0.387,c.height*0.60);
-    ctx.fillText("H J",c.width*0.387,c.height*0.60+size_font_small);
+    {
+      var prim1 = "K";
+      var prim2 = "I Y";
+      var sec1 = "G";
+      var sec2 = "H J";
+    }
+    //Teclado Primario
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText(prim1,c.width*0.01,c.height*0.95);
+    ctx.fillText(prim2,c.width*0.01,c.height*0.95+size_font_big);
     //Teclado Secundario
-    if(teclado[2] == 1)
-      ctx.font = size_font_big+"px Arial";
-    ctx.fillText("K",c.width*0.01+size_font_big,c.height*0.95-size_font_small);
-    ctx.fillText("I Y",c.width*0.01+size_font_big,c.height*0.95);
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText(sec1,c.width*0.01+size_font_big,c.height*0.95-size_font_small);
+    ctx.fillText(sec2,c.width*0.01+size_font_big,c.height*0.95);
+    // MINIATURA
+    ctx.fillText(prim1,c.width*0.387,c.height*0.60);
+    ctx.fillText(prim2,c.width*0.387,c.height*0.60+size_font_small);
   }
 }
 function canvasDrawCD(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
-    //Teclado Primario
-    if(teclado[3] == 0)
-      ctx.font = size_font_big+"px Arial";
+    if(!teclado[3])
+    {
+      var prim1 = "L M";
+      var prim2 = "N";
+      var sec1 = "7 8";
+      var sec2 = "9";
+    }
     else
-      ctx.font = size_font_small+"px Arial";
-
-    ctx.fillText("L M",c.width*0.95,size_font_big);
-    ctx.fillText("N",c.width*0.95+size_font_big,size_font_big*2);
-    // MINIATURA
-    ctx.font = size_font_small+"px Arial";
-    ctx.fillText("L M",c.width*0.59,c.height*0.37+size_font_small);
-    ctx.fillText("N",c.width*0.59+size_font_small,c.height*0.37+size_font_small*2);
+    {
+      var prim1 = "7 8";
+      var prim2 = "9";
+      var sec1 = "L M";
+      var sec2 = "N";
+    }
+    //Teclado Primario
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText(prim1,c.width*0.95,size_font_big);
+    ctx.fillText(prim2,c.width*0.95+size_font_big,size_font_big*2);
     //Teclado Secundario
-    if(teclado[3] == 1)
-      ctx.font = size_font_big+"px Arial";
-    ctx.fillText("7 8",c.width*0.95,size_font_big*1.7);
-    ctx.fillText("9",c.width*0.95+size_font_small,size_font_big*2.2);
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText(sec1,c.width*0.95,size_font_big*1.7);
+    ctx.fillText(sec2,c.width*0.95+size_font_small,size_font_big*2.2);
+    // MINIATURA
+    ctx.fillText(prim1,c.width*0.59,c.height*0.37+size_font_small);
+    ctx.fillText(prim2,c.width*0.59+size_font_small,c.height*0.37+size_font_small*2);
   }
 }
 function canvasDrawBD(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
     // Teclado Primario
-    if(teclado[4] == 0)
+    if(teclado[5] == 0)
       ctx.font = size_font_big+"px Arial";
     else
       ctx.font = size_font_small+"px Arial";
@@ -315,17 +353,15 @@ function canvasDrawBD(controle)
     ctx.fillText("R",c.width*0.59+size_font_small,c.height*0.60);
     ctx.fillText(" S T",c.width*0.59,c.height*0.60+size_font_small);
     //Teclado Secundario
-    if(teclado[4] == 1)
-      ctx.font = size_font_big+"px Arial";
   }
 }
 
 function canvasDrawD(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
     // Teclado Primario
-    if(teclado[5] == 0)
+    if(teclado[4] == 0)
       ctx.font = size_font_big+"px Arial";
     else
       ctx.font = size_font_small+"px Arial";
@@ -345,27 +381,32 @@ function canvasDrawD(controle)
 }
 function canvasDrawC(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
-    //Teclado Primario
-    if(teclado[6] == 0)
-      ctx.font = size_font_big+"px Arial";
+    if(!teclado[6])
+    {
+      var prim1 = "U V X";
+      var sec1 = "4 5 6";
+    }
     else
-      ctx.font = size_font_small+"px Arial";
-
-    ctx.fillText("U V X",c.width*0.50-size_font_big*1.3,size_font_big);
-    // MINIATURA
-    ctx.font = size_font_small+"px Arial";
-    ctx.fillText("U V X",c.width*0.50-size_font_small*1.3,c.height*0.37+size_font_small);
+    {
+      var prim1 = "4 5 6";
+      var sec1 = "U V X";
+    }
+    //Teclado Primario
+    ctx.font = size_font_big+"px Arial";
+    ctx.fillText(prim1,c.width*0.50-size_font_big*1.3,size_font_big);
     //Teclado Secundario
-    if(teclado[6] == 1)
-      ctx.font = size_font_big+"px Arial";
-    ctx.fillText("4 5 6",c.width*0.50-size_font_small*1.3,size_font_big*1.5);
+    ctx.font = size_font_small+"px Arial";
+    ctx.fillText(sec1,c.width*0.50-size_font_small*1.3,size_font_big*1.5);
+    // MINIATURA
+    ctx.fillText(prim1,c.width*0.50-size_font_small*1.3,c.height*0.37+size_font_small);
+
   }
 }
 function canvasDrawB(controle)
 {
-  if(controle == 0)
+  if(!controle)
   {
     //Teclado Primario
     if(teclado[7] == 0)
@@ -488,7 +529,7 @@ function Letra(pos)
     var length = editor.getLength();
     if(pos != "")
       document.getElementById('beep03').play()
-	  
+
     if(pos == "CE")
 		if (!teclado[0])
 			editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
@@ -504,7 +545,7 @@ function Letra(pos)
 			editor.insertText(length-1, 'c',{'color': cores[coresCont],'size':'30px'});
 		else
 			editor.insertText(length-1, '3',{'color': cores[coresCont],'size':'30px'});
-				
+
     if(pos == "ECE")
 		if (!teclado[1])
 			editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
@@ -520,7 +561,7 @@ function Letra(pos)
 			editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
 		else
 			editor.insertText(length-1, 'z',{'color': cores[coresCont],'size':'30px'});
-			
+
     if(pos == "BEE")
 		if (!teclado[2])
 			editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
@@ -534,9 +575,9 @@ function Letra(pos)
     if(pos == "BEB")
 		if(!teclado[2])
 			editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
-		else	
+		else
 			editor.insertText(length-1, 'y',{'color': cores[coresCont],'size':'30px'});
-			
+
     if(pos == "CDC")
 		if(!teclado[3])
 			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
@@ -552,7 +593,7 @@ function Letra(pos)
 			editor.insertText(length-1, 'n',{'color': cores[coresCont],'size':'30px'});
 		else
 			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
-			
+
     if(pos == "DCD")
        editor.insertText(length-1, 'o',{'color': cores[coresCont],'size':'30px'});
     if(pos == "D")
@@ -565,8 +606,8 @@ function Letra(pos)
        editor.insertText(length-1, 's',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BD")
        editor.insertText(length-1, 't',{'color': cores[coresCont],'size':'30px'});
-	   
-	   
+
+
     if(pos == "CCE")
 		if (!teclado[6])
 			editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
@@ -575,7 +616,7 @@ function Letra(pos)
     if(pos == "C")
 		if (!teclado[6])
 			editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
-	    else 
+	    else
 			editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CCD")
 		if (!teclado[6])
@@ -583,7 +624,7 @@ function Letra(pos)
 		else
 			editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
 
-	if(pos == "B")	
+	if(pos == "B")
        editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BBE")
     {
