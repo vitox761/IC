@@ -245,8 +245,7 @@ function Coordenadas(objeto)
           combination[indice] = pos;
           highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
           indice++;
-          timerId = setInterval;
-          (function(){keyboardTrans(pos);}, 3000);
+          timerId = setInterval(function(){keyboardTrans(pos);}, 3000);
           aux2 = 1;
           document.getElementById('beep01').play();
        }
