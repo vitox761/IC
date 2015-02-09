@@ -13,6 +13,10 @@
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
+posicao = [];
+posicao[0] = { widthA:0, widthB:0, widthC:0, heightA:0, heightB:0, heightC:0, textA:'', textB:'', textC:'', highlightW:0, highlightH:0};
+
+
 function inicio(){
   // Criando editor rich text e vetor de cores
   editor = new Quill('#editor');
@@ -212,13 +216,13 @@ function canvasDrawCE(controle)
       {
         var prim1 = "A B";
         var prim2 = "C";
-        var sec1 = "1 2";
-        var sec2 = "3";
+        var sec1 = "Y Z";
+        var sec2 = "0";
       }
       else
       {
-        var prim1 = "1 2";
-        var prim2 = "3";
+        var prim1 = "Y Z";
+        var prim2 = "0";
         var sec1 = "A B";
         var sec2 = "C";
       }
@@ -241,21 +245,21 @@ function canvasDrawE(controle)
   {
     if(!teclado[1])
     {
-      var prim1 = "D";
-      var prim2 = "E";
-      var prim3 = "F";
-      var sec1 = "0";
+      var prim1 = "S";
+      var prim2 = "T";
+      var prim3 = "U";
+      var sec1 = "V";
       var sec2 = "W";
-      var sec3 = "Z";
+      var sec3 = "X";
     }
     else
     {
-      var prim1 = "0";
+      var prim1 = "V";
       var prim2 = "W";
-      var prim3 = "Z";
-      var sec1 = "D";
-      var sec2 = "E";
-      var sec3 = "F";
+      var prim3 = "X";
+      var sec1 = "S";
+      var sec2 = "T";
+      var sec3 = "U";
     }
     //Teclado Primario
     ctx.font = size_font_big+"px Arial";
@@ -278,29 +282,29 @@ function canvasDrawBE(controle)
 {
   if(!controle)
   {
-    if(!teclado[2])
-    {
-      var prim1 = "G";
-      var prim2 = "H J";
-      var sec1 = "K";
+    //if(!teclado[2])
+    //{
+      var prim1 = "P";
+      var prim2 = "Q R";
+      /*var sec1 = "K";
       var sec2 = "I Y";
     }
     else
     {
       var prim1 = "K";
       var prim2 = "I Y";
-      var sec1 = "G";
-      var sec2 = "H J";
-    }
+      var sec1 = "P";
+      var sec2 = "Q R";
+    }*/
     //Teclado Primario
     ctx.font = size_font_big+"px Arial";
     ctx.fillText(prim1,c.width*0.01,c.height*0.95);
     ctx.fillText(prim2,c.width*0.01,c.height*0.95+size_font_big);
-    //Teclado Secundario
-    ctx.font = size_font_small+"px Arial";
+    /*Teclado Secundario
     ctx.fillText(sec1,c.width*0.01+size_font_big,c.height*0.95-size_font_small);
-    ctx.fillText(sec2,c.width*0.01+size_font_big,c.height*0.95);
+    ctx.fillText(sec2,c.width*0.01+size_font_big,c.height*0.95);*/
     // MINIATURA
+	ctx.font = size_font_small+"px Arial";
     ctx.fillText(prim1,c.width*0.387,c.height*0.60);
     ctx.fillText(prim2,c.width*0.387,c.height*0.60+size_font_small);
   }
@@ -311,17 +315,17 @@ function canvasDrawCD(controle)
   {
     if(!teclado[3])
     {
-      var prim1 = "L M";
-      var prim2 = "N";
-      var sec1 = "7 8";
-      var sec2 = "9";
+      var prim1 = "G H";
+      var prim2 = "  I";
+      var sec1 = " 4 5";
+      var sec2 = "6";
     }
     else
     {
-      var prim1 = "7 8";
-      var prim2 = "9";
-      var sec1 = "L M";
-      var sec2 = "N";
+      var prim1 = " 4 5";
+      var prim2 = " 6";
+      var sec1 = "G H";
+      var sec2 = "  I";
     }
     //Teclado Primario
     ctx.font = size_font_big+"px Arial";
@@ -346,12 +350,12 @@ function canvasDrawBD(controle)
     else
       ctx.font = size_font_small+"px Arial";
 
-    ctx.fillText("R",c.width*0.95+size_font_big,c.height*0.95);
-    ctx.fillText(" S T",c.width*0.95,c.height*0.95+size_font_big);
+    ctx.fillText(" M",c.width*0.95+size_font_big,c.height*0.95);
+    ctx.fillText(" O N",c.width*0.95,c.height*0.95+size_font_big);
     // MINIATURA
     ctx.font = size_font_small+"px Arial";
-    ctx.fillText("R",c.width*0.59+size_font_small,c.height*0.60);
-    ctx.fillText(" S T",c.width*0.59,c.height*0.60+size_font_small);
+    ctx.fillText(" M",c.width*0.59+size_font_small,c.height*0.60);
+    ctx.fillText(" O N",c.width*0.59,c.height*0.60+size_font_small);
     //Teclado Secundario
   }
 }
@@ -361,22 +365,37 @@ function canvasDrawD(controle)
   if(!controle)
   {
     // Teclado Primario
-    if(teclado[4] == 0)
-      ctx.font = size_font_big+"px Arial";
+    if(!teclado[4])
+    {
+      var prim1 = " J";
+      var prim2 = " K";
+      var prim3 = " L";
+      var sec1 = "7";
+      var sec2 = "8";
+      var sec3 = "9";
+    }
     else
-      ctx.font = size_font_small+"px Arial";
-
-    ctx.fillText("O",c.width*0.95+size_font_big,c.height*0.475);
-    ctx.fillText("P",c.width*0.95+size_font_big,c.height*0.475+size_font_big);
-    ctx.fillText("Q",c.width*0.95+size_font_big,c.height*0.475+size_font_big*2);
+    {
+      var prim1 = " 7";
+      var prim2 = " 8";
+      var prim3 = " 9";
+      var sec1 = "J";
+      var sec2 = "K";
+      var sec3 = "L";
+    }
+	ctx.font = size_font_big+"px Arial";
+    ctx.fillText(prim1,c.width*0.95+size_font_big,c.height*0.475);
+    ctx.fillText(prim2,c.width*0.95+size_font_big,c.height*0.475+size_font_big);
+    ctx.fillText(prim3,c.width*0.95+size_font_big,c.height*0.475+size_font_big*2);
     // MINIATURA
     ctx.font = size_font_small+"px Arial";
-    ctx.fillText("O",c.width*0.59+size_font_small,c.height*0.485);
-    ctx.fillText("P",c.width*0.59+size_font_small,c.height*0.485+size_font_small);
-    ctx.fillText("Q",c.width*0.59+size_font_small,c.height*0.485+size_font_small*2);
+    ctx.fillText(prim1,c.width*0.59+size_font_small,c.height*0.485);
+    ctx.fillText(prim2,c.width*0.59+size_font_small,c.height*0.485+size_font_small);
+    ctx.fillText(prim3,c.width*0.59+size_font_small,c.height*0.485+size_font_small*2);
     //Teclado Secundario
-    if(teclado[5] == 1)
-      ctx.font = size_font_big+"px Arial";
+    ctx.fillText(sec1,c.width*0.937+size_font_big,c.height*0.475);
+    ctx.fillText(sec2,c.width*0.937+size_font_big,c.height*0.475+size_font_big);
+    ctx.fillText(sec3,c.width*0.937+size_font_big,c.height*0.475+size_font_big*2);
   }
 }
 function canvasDrawC(controle)
@@ -385,13 +404,13 @@ function canvasDrawC(controle)
   {
     if(!teclado[6])
     {
-      var prim1 = "U V X";
-      var sec1 = "4 5 6";
+      var prim1 = "D E F";
+      var sec1 = "1 2 3";
     }
     else
     {
-      var prim1 = "4 5 6";
-      var sec1 = "U V X";
+      var prim1 = "1 2 3";
+      var sec1 = "D E F";
     }
     //Teclado Primario
     ctx.font = size_font_big+"px Arial";
@@ -534,72 +553,83 @@ function Letra(pos)
 		if (!teclado[0])
 			editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '1',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'y',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CEC")
 		if (!teclado[0])
 			editor.insertText(length-1, 'b',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '2',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'z',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CEE")
 		if (!teclado[0])
 			editor.insertText(length-1, 'c',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '3',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '0',{'color': cores[coresCont],'size':'30px'});
 
     if(pos == "ECE")
 		if (!teclado[1])
-			editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 's',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '0',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
     if(pos == "E")
 		if (!teclado[1])
-			editor.insertText(length-1, 'e',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 't',{'color': cores[coresCont],'size':'30px'});
 		else
 			editor.insertText(length-1, 'w',{'color': cores[coresCont],'size':'30px'});
     if(pos == "EBE")
 		if (!teclado[1])
-			editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, 'z',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
 
     if(pos == "BEE")
-		if (!teclado[2])
-			editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
-		else
-			editor.insertText(length-1, 'k',{'color': cores[coresCont],'size':'30px'});
+		//if (!teclado[2])
+			editor.insertText(length-1, 'p',{'color': cores[coresCont],'size':'30px'});
+		//else
+			//editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BE")
-		if (!teclado[2])
-			editor.insertText(length-1, 'h',{'color': cores[coresCont],'size':'30px'});
-		else
-			editor.insertText(length-1, 'i',{'color': cores[coresCont],'size':'30px'});
+		//if (!teclado[2])
+			editor.insertText(length-1, 'q',{'color': cores[coresCont],'size':'30px'});
+		//else
+			//editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BEB")
-		if(!teclado[2])
-			editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
-		else
-			editor.insertText(length-1, 'y',{'color': cores[coresCont],'size':'30px'});
+		//if(!teclado[2])
+			editor.insertText(length-1, 'r',{'color': cores[coresCont],'size':'30px'});
+		//else
+			//editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
 
     if(pos == "CDC")
 		if(!teclado[3])
-			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '7',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CD")
 		if (!teclado[3])
-			editor.insertText(length-1, 'm',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'h',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '8',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CDD")
 		if (!teclado[3])
-			editor.insertText(length-1, 'n',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'i',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
 
     if(pos == "DCD")
-       editor.insertText(length-1, 'o',{'color': cores[coresCont],'size':'30px'});
+		if (!teclado[4])
+			editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '7',{'color': cores[coresCont],'size':'30px'});
     if(pos == "D")
-       editor.insertText(length-1, 'p',{'color': cores[coresCont],'size':'30px'});
+       if (!teclado[4])
+			editor.insertText(length-1, 'k',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '8',{'color': cores[coresCont],'size':'30px'});
     if(pos == "DBD")
-       editor.insertText(length-1, 'q',{'color': cores[coresCont],'size':'30px'});
+       if (!teclado[4])
+			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
+		else
+			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
+	   
+	   
     if(pos == "BDD")
        editor.insertText(length-1, 'r',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BDB")
@@ -610,19 +640,19 @@ function Letra(pos)
 
     if(pos == "CCE")
 		if (!teclado[6])
-			editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '1',{'color': cores[coresCont],'size':'30px'});
     if(pos == "C")
 		if (!teclado[6])
-			editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'e',{'color': cores[coresCont],'size':'30px'});
 	    else
-			editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '2',{'color': cores[coresCont],'size':'30px'});
     if(pos == "CCD")
 		if (!teclado[6])
-			editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
 		else
-			editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
+			editor.insertText(length-1, '3',{'color': cores[coresCont],'size':'30px'});
 
 	if(pos == "B")
        editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
