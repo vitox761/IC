@@ -16,12 +16,19 @@
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
 
+
 function inicio(){
   // Criando editor rich text e vetor de cores
   editor = new Quill('#editor');
   cores = ['rgb(255,255,255)','rgb(0,255,255)','rgb(0,150,0)','rgb(255,0,0)'];
   coresCont = 0;
 
+  texto = "";
+
+  d = new Date();
+  d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias
+  timerAutoSave = setInterval(function(){document.cookie = "textoDigitado="+texto+"; expires="+d.toUTCString();}, 5000);
+  timerTesteAutoSave = setInterval(function(){alert(getCookie("textoDigitado"));}, 10000)
   // Vetor para salvar combinacao
   combination = ["",""];
   indice = 0;
@@ -58,6 +65,17 @@ function inicio(){
 
   // Desenhando teclado inicial
   canvasDraw();
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
 }
 
 function canvasDrawLine()
@@ -279,113 +297,122 @@ function Coordenadas(objeto)
                 }
 }
 
+
 function Letra(pos)
 {
+
+    var caractere = ';';
     var length = editor.getLength();
     if(pos != "")
       document.getElementById('beep03').play()
 
     if(pos == "CE")
 		if (!posicao[pos].teclado)
-			editor.insertText(length-1, 'a',{'color': cores[coresCont],'size':'30px'});
+      caractere = 'a';
 		else
-			editor.insertText(length-1, 'y',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'y';
     if(pos == "CEC")
 		if (!posicao["CE"].teclado)
-			editor.insertText(length-1, 'b',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'b';
 		else
-			editor.insertText(length-1, 'z',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'z';
     if(pos == "CEE")
 		if (!posicao["CE"].teclado)
-			editor.insertText(length-1, 'c',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'c';
 		else
-			editor.insertText(length-1, '0',{'color': cores[coresCont],'size':'30px'});
+			caractere = '0';
 
     if(pos == "ECE")
 		if (!posicao["E"].teclado)
-			editor.insertText(length-1, 's',{'color': cores[coresCont],'size':'30px'});
+			caractere = 's';
 		else
-			editor.insertText(length-1, 'v',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'v';
     if(pos == "E")
 		if (!posicao[pos].teclado)
-			editor.insertText(length-1, 't',{'color': cores[coresCont],'size':'30px'});
+			caractere = 't';
 		else
-			editor.insertText(length-1, 'w',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'w';
     if(pos == "EBE")
 		if (!posicao["E"].teclado)
-			editor.insertText(length-1, 'u',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'u';
 		else
-			editor.insertText(length-1, 'x',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'x';
 
     if(pos == "BEE")
 		//if (!posicao["BE"].teclado)
-			editor.insertText(length-1, 'p',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'p';
 		//else
 			//editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BE")
 		//if (!posicao[pos].teclado)
-			editor.insertText(length-1, 'q',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'q';
 		//else
 			//editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BEB")
 		//if(!posicao["BE"].teclado)
-			editor.insertText(length-1, 'r',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'r';
 		//else
 			//editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
 
     if(pos == "CDC")
 		if(!posicao["CD"].teclado)
-			editor.insertText(length-1, 'g',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'g';
 		else
-			editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
+			caractere = '4';
     if(pos == "CD")
 		if (!posicao[pos].teclado)
-			editor.insertText(length-1, 'h',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'h';
 		else
-			editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
+			caractere = '5';
     if(pos == "CDD")
 		if (!posicao["CD"].teclado)
-			editor.insertText(length-1, 'i',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'i';
 		else
-			editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
+			caractere = '6';
     if(pos == "DCD")
 		if (!posicao["D"].teclado)
-			editor.insertText(length-1, 'j',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'j';
 		else
-			editor.insertText(length-1, '7',{'color': cores[coresCont],'size':'30px'});
+			caractere = '7';
     if(pos == "D")
        if (!posicao[pos].teclado)
-			editor.insertText(length-1, 'k',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'k';
 		else
-			editor.insertText(length-1, '8',{'color': cores[coresCont],'size':'30px'});
+			caractere = '8';
     if(pos == "DBD")
        if (!posicao["D"].teclado)
-			editor.insertText(length-1, 'l',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'l';
 		else
-			editor.insertText(length-1, '9',{'color': cores[coresCont],'size':'30px'});
+			caractere = '9';
     if(pos == "BDD")
-       editor.insertText(length-1, 'm',{'color': cores[coresCont],'size':'30px'});
+       caractere = 'm';
     if(pos == "BDB")
-       editor.insertText(length-1, 'o',{'color': cores[coresCont],'size':'30px'});
+       caractere = 'o';
     if(pos == "BD")
-       editor.insertText(length-1, 'n',{'color': cores[coresCont],'size':'30px'});
+       caractere = 'n';
     if(pos == "CCE")
 		if (!posicao["C"].teclado)
-			editor.insertText(length-1, 'd',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'd';
 		else
-			editor.insertText(length-1, '1',{'color': cores[coresCont],'size':'30px'});
+			caractere = '1';
     if(pos == "C")
 		if (!posicao[pos].teclado)
-			editor.insertText(length-1, 'e',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'e';
 	    else
-			editor.insertText(length-1, '2',{'color': cores[coresCont],'size':'30px'});
+			caractere = '2';
     if(pos == "CCD")
 		if (!posicao["C"].teclado)
-			editor.insertText(length-1, 'f',{'color': cores[coresCont],'size':'30px'});
+			caractere = 'f';
 		else
-			editor.insertText(length-1, '3',{'color': cores[coresCont],'size':'30px'});
+			caractere = '3';
 	if(pos == "B")
-       editor.insertText(length-1,' ',{'color': cores[coresCont],'size':'30px'});
+       caractere = ' ';
+
+   if(caractere!=';')
+    {
+      editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
+      texto = texto.concat(caractere);
+    }
     if(pos == "BBE")
     {
        var lastChar = editor.getText(length-2,length-1);
@@ -396,10 +423,12 @@ function Letra(pos)
            else
                coresCont--;
        editor.deleteText(length-2,length);
+       texto = texto.substring(0,texto.length-1);
     }
     if(pos == "BBD")
     {
        editor.insertText(length-1,'.',{'color': cores[coresCont],'size':'30px'});
+       texto = texto.concat('.');
        // Mudando cor do texto
        if(coresCont == 3)
 	         coresCont = 0;
@@ -410,6 +439,7 @@ function Letra(pos)
     // Manter sempre a caixa de texto atualizada ( auto scroll )
     objeto = document.getElementById('editor');
     objeto.scrollTop = objeto.scrollHeight;
+
 }
 
 </script>
