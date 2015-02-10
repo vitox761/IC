@@ -20,15 +20,18 @@
 function inicio(){
   // Criando editor rich text e vetor de cores
   editor = new Quill('#editor');
-  cores = ['rgb(255,255,255)','rgb(0,255,255)','rgb(0,150,0)','rgb(255,0,0)'];
+  cores = ['rgb(255,255,255)','rgb(255,255,0)'];
   coresCont = 0;
 
+
+  // Cookies
   texto = "";
 
   d = new Date();
   d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias
   timerAutoSave = setInterval(function(){document.cookie = "textoDigitado="+texto+"; expires="+d.toUTCString();}, 5000);
-  timerTesteAutoSave = setInterval(function(){alert(getCookie("textoDigitado"));}, 10000)
+  //timerTesteAutoSave = setInterval(function(){alert(getCookie("textoDigitado"));}, 10000)
+  
   // Vetor para salvar combinacao
   combination = ["",""];
   indice = 0;
@@ -82,7 +85,7 @@ function canvasDrawLine()
 {
   ctx.fillStyle = "white";
   ctx.strokeStyle = "white";
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 1;
 
   ctx.beginPath();
   ctx.moveTo(c.width*0.38,c.height*0.38);
@@ -221,7 +224,7 @@ function Coordenadas(objeto)
     var pos = "N";  // posicao padrão
     var comb = ""; // combinação gerada pelo usuario , inicialmente ''
     var aux = 0;  // Indice aux para gerar combinaçao
-    var aux2 = 1; // Time event
+    var timerAux = 1; // Time event
 
     // Detectando posicao atual do usuario
     if(x == 0)
@@ -256,7 +259,7 @@ function Coordenadas(objeto)
        else
           pos = "B"
 
-    // Criando combinação inserida pelo usuario
+    // Armazenando combinação inserida pelo usuario
     if(pos != "N"){
        if(indice == 0)
        {
@@ -264,7 +267,7 @@ function Coordenadas(objeto)
           highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
           indice++;
           timerId = setInterval(function(){keyboardTrans(pos);}, 3000);
-          aux2 = 1;
+          timerAux = 1;
           document.getElementById('beep01').play();
        }
        else if(combination[(indice - 1)] != pos)
@@ -273,7 +276,7 @@ function Coordenadas(objeto)
           indice++;
           document.getElementById('beep02').play();
           clearInterval(timerId);
-          aux2 = 0;
+          timerAux = 0;
        }
     }
 
@@ -288,10 +291,12 @@ function Coordenadas(objeto)
                       comb = comb + combination[aux];
                       aux++
                     }
-                    if(aux2)
-                      clearInterval(timerId);
                     Letra(comb);
                     highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
+    				if(timerAux)
+        				clearInterval(timerId);
+                    if(posicao[combination[0]].teclado == true)
+                    	keyboardTrans(combination[0]);
                     indice = 0;
                     pos = "N";
                 }
@@ -408,10 +413,24 @@ function Letra(pos)
 	if(pos == "B")
        caractere = ' ';
 
+    if(pos == "BBD")
+    {
+       caractere = '.';
+       texto = texto.concat('.');
+    }
    if(caractere!=';')
     {
-      editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
-      texto = texto.concat(caractere);
+    	// Mudando cor do texto
+       editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
+       texto = texto.concat(caractere);
+   	   // Manter sempre a caixa de texto atualizada ( auto scroll )
+   	   objeto = document.getElementById('editor');
+       objeto.scrollTop = objeto.scrollHeight;
+    	if(caractere == '.')
+	       	if(coresCont == 0)
+    	   		coresCont = 1;
+       		else
+       			coresCont = 0;
     }
     if(pos == "BBE")
     {
@@ -419,27 +438,12 @@ function Letra(pos)
        // Verifica se um ponto foi removido e muda a cor no caso positivo
        if(lastChar == '.')
        	   if(coresCont == 0)
-               coresCont = 3;
-           else
-               coresCont--;
+       	   		coresCont = 1;
+       	   	else
+       	   		coresCont = 0;
        editor.deleteText(length-2,length);
        texto = texto.substring(0,texto.length-1);
     }
-    if(pos == "BBD")
-    {
-       editor.insertText(length-1,'.',{'color': cores[coresCont],'size':'30px'});
-       texto = texto.concat('.');
-       // Mudando cor do texto
-       if(coresCont == 3)
-	         coresCont = 0;
-       else
-	         coresCont++;
-    }
-
-    // Manter sempre a caixa de texto atualizada ( auto scroll )
-    objeto = document.getElementById('editor');
-    objeto.scrollTop = objeto.scrollHeight;
-
 }
 
 </script>
