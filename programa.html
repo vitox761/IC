@@ -15,8 +15,6 @@
 </audio>
 <script type="text/javascript" src="quill/quill.js"></script>
 <script>
-
-
 function inicio(){
   // Criando editor rich text e vetor de cores
   editor = new Quill('#editor');
@@ -31,7 +29,7 @@ function inicio(){
   d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias
   timerAutoSave = setInterval(function(){document.cookie = "textoDigitado="+texto+"; expires="+d.toUTCString();}, 5000);
   //timerTesteAutoSave = setInterval(function(){alert(getCookie("textoDigitado"));}, 10000)
-  
+
   // Vetor para salvar combinacao
   combination = ["",""];
   indice = 0;
@@ -63,11 +61,14 @@ function inicio(){
   /* BD */ vetorDados[4] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
   /*  D */ vetorDados[5] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95+size_font_big, width3A:c.width*0.95+size_font_big,width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59+size_font_small,width3C:c.width*0.59+size_font_small,height1A:c.height*0.475, height2A:c.height*0.475+size_font_big, height3A:c.height*0.475+size_font_big*2,height1C:c.height*0.485,height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2,height1B:c.height*0.475,height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2, text1A:" J", text1B:" L", text1C:" M",text2A:"7", text2B:"8", text2C:"9", highlightW:c.width, highlightH:c.height/2};
   /*  C */ vetorDados[6] = { teclado:false,width1A:c.width*0.50-size_font_big*1.3,width2A:c.width*0.50-size_font_big*1.3, width3A:c.width*0.50-size_font_big*1.3,width1B:c.width*0.50-size_font_small*1.3,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*1.3,width2C:0,width3C:0, height1A:size_font_big, height2A:0, height3A:0,height1B:size_font_big*1.5,height2B:0,height3B:0,height1C:c.height*0.37+size_font_small,height2C:0,height3C:0, text1A:"D E F", text1B:'', text1C:'',text2A:" 1 2 3", text2B:'', text2C:'', highlightW:c.width/2, highlightH:0};
-  /*  B */ vetorDados[7] = { teclado:false,width1A:c.width*0.50-size_font_big*6.3,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*6.3,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60+size_font_small,height2C:0,height3C:0, text1A:"APAGAR ESPACO PONTO", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
+  /*  B */ vetorDados[7] = { teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Desenhando teclado inicial
+  setTimeout(function(){canvasDraw();},100);
   canvasDraw();
+  // Limpa tela
+  ctx.clearRect ( 0 , 0 , c.width, c.height );
 }
 
 function getCookie(cname) {
@@ -108,7 +109,7 @@ function canvasDrawLine()
   ctx.stroke();//< \/
 
   ctx.beginPath();
-  ctx.moveTo(c.width*0.5,c.height*0.63);
+  ctx.moveTo(c.width*0.5,c.height*0.67);
   ctx.lineTo(c.width*0.5,c.height-size_font_big*2);
   ctx.stroke();//\/
 
@@ -198,12 +199,18 @@ function canvasDrawTeclado(controle,pos)
   if(!controle)
   {
     //Teclado Primario
-    ctx.font = size_font_big+"px Arial";
+    if(pos == "B")
+      ctx.font = size_font_big*2+"px betsy2";
+    else
+      ctx.font = size_font_big+"px Arial";
     ctx.fillText(posicao[pos].text1A,posicao[pos].width1A,posicao[pos].height1A);
     ctx.fillText(posicao[pos].text1B,posicao[pos].width2A,posicao[pos].height2A);
     ctx.fillText(posicao[pos].text1C,posicao[pos].width3A,posicao[pos].height3A);
     //Teclado Secundario
-    ctx.font = size_font_small+"px Arial";
+    if(pos == "B")
+      ctx.font = size_font_small*2+"px betsy2";
+    else
+      ctx.font = size_font_small+"px Arial";
     ctx.fillText(posicao[pos].text2A,posicao[pos].width1B,posicao[pos].height1B);
     ctx.fillText(posicao[pos].text2B,posicao[pos].width2B,posicao[pos].height2B);
     ctx.fillText(posicao[pos].text2C,posicao[pos].width3B,posicao[pos].height3B);
@@ -448,12 +455,24 @@ function Letra(pos)
 }
 
 </script>
-</head>
-<body  style="margin:0px" onLoad="inicio()">
 <style>
 body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
 html {width:100%; height:100%; overflow:hidden}
+
+@font-face {
+   font-family: "betsy2";
+    /* IE */
+    src: url('./fonts/BETSY2.eot');
+    /* IE */
+
+    /* Not IE */
+    src: local("betsy2ttf"), url('./fonts/BETSY2.ttf');
+    format("truetype");
+    /* Not IE */
+}
 </style>
+</head>
+<body  style="margin:0px" onLoad="inicio()">
 
 <div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
 <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
