@@ -56,12 +56,12 @@ function inicio(){
 
   // Criando vetor com todos os dados usados para desenhar o teclado + o highlight
   vetorDados = [];
-  /* CE */ vetorDados[0] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999,width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999,width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999,height1A:size_font_big ,height2A:size_font_big*2 ,height3A:9999,height1B:size_font_big*1.7, height2B:size_font_big*1.7+size_font_small,height3B:9999,height1C:c.height*0.37+size_font_small, height2C:c.height*0.37+size_font_small*2,height3C:9999,text1A:"A B", text1B:"C", text1C:"",text2A:"Y Z", text2B:"0",text2C:"",highlightW:0, highlightH:0};
-  /*  E */ vetorDados[1] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:c.width*0.01, width1B:c.width*0.013+size_font_big,width2B:c.width*0.013+size_font_big,width3B:c.width*0.013+size_font_big, width1C:c.width*0.387,width2C:c.width*0.387,width3C:c.width*0.387, height1A:c.height*0.475 ,height2A:c.height*0.475+size_font_big ,height3A:c.height*0.475+size_font_big*2, height1B:c.height*0.475, height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2, height1C:c.height*0.485, height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2 ,text1A:'S', text1B:'T', text1C:'U',text2A:'V', text2B:'W',text2C:'X',highlightW:0, highlightH:c.height/2};
-  /* BE */ vetorDados[2] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999, width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999, width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999, height1A:c.height*0.95,height2A:c.height*0.95+size_font_big ,height3A:9999, height1B:c.height*0.95-size_font_small, height2B:c.height*0.95,height3B:9999, height1C:c.height*0.60, height2C:c.height*0.60+size_font_small,height3C:9999 ,text1A:'P', text1B:'Q R', text1C:'',text2A:'', text2B:'',text2C:'',highlightW:0, highlightH:c.height};
-  /* CD */ vetorDados[3] = { teclado:false,width1A:c.width*0.95,width2A:c.width*0.95+size_font_big,width3A:9999, width1B:c.width*0.95,width2B:c.width*0.95+size_font_small,width3B:9999, width1C:c.width*0.59,width2C:c.width*0.59+size_font_small,width3C:9999, height1A:size_font_big ,height2A:size_font_big*2 ,height3A:9999, height1B:size_font_big*1.7, height2B:size_font_big*2.2,height3B:9999, height1C:c.height*0.37+size_font_small, height2C:c.height*0.37+size_font_small*2,height3C:9999 ,text1A:'G H', text1B:' I', text1C:'',text2A:' 4 5', text2B:'6',text2C:'',highlightW:c.width, highlightH:0};
-  /* BD */ vetorDados[4] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"M", text1B:"O N", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
-  /*  D */ vetorDados[5] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95+size_font_big, width3A:c.width*0.95+size_font_big,width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59+size_font_small,width3C:c.width*0.59+size_font_small,height1A:c.height*0.475, height2A:c.height*0.475+size_font_big, height3A:c.height*0.475+size_font_big*2,height1C:c.height*0.485,height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2,height1B:c.height*0.475,height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2, text1A:" J", text1B:" K", text1C:" L",text2A:"7", text2B:"8", text2C:"9", highlightW:c.width, highlightH:c.height/2};
+  /* CE */ vetorDados[0] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999,width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999,width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999,height1A:size_font_big ,height2A:size_font_big*2 ,height3A:9999,height1B:size_font_big*1.7, height2B:size_font_big*1.7+size_font_small,height3B:9999,height1C:c.height*0.37+size_font_small, height2C:c.height*0.37+size_font_small*2,height3C:9999,text1A:"A B", text1B:"C", text1C:"",text2A:"0 Z", text2B:"Y",text2C:"",highlightW:0, highlightH:0};
+  /*  E */ vetorDados[1] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:c.width*0.01, width1B:c.width*0.013+size_font_big,width2B:c.width*0.013+size_font_big,width3B:c.width*0.013+size_font_big, width1C:c.width*0.387,width2C:c.width*0.387,width3C:c.width*0.387, height1A:c.height*0.475 ,height2A:c.height*0.475+size_font_big ,height3A:c.height*0.475+size_font_big*2, height1B:c.height*0.475, height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2, height1C:c.height*0.485, height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2 ,text1A:'T', text1B:'U', text1C:'V',text2A:'K', text2B:'W',text2C:'X',highlightW:0, highlightH:c.height/2};
+  /* BE */ vetorDados[2] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999, width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999, width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999, height1A:c.height*0.95,height2A:c.height*0.95+size_font_big ,height3A:9999, height1B:c.height*0.95-size_font_small, height2B:c.height*0.95,height3B:9999, height1C:c.height*0.60, height2C:c.height*0.60+size_font_small,height3C:9999 ,text1A:'Q', text1B:'S R', text1C:'',text2A:'', text2B:'',text2C:'',highlightW:0, highlightH:c.height};
+  /* CD */ vetorDados[3] = { teclado:false,width1A:c.width*0.95,width2A:c.width*0.95+size_font_big,width3A:9999, width1B:c.width*0.95,width2B:c.width*0.95+size_font_small,width3B:9999, width1C:c.width*0.59,width2C:c.width*0.59+size_font_small,width3C:9999, height1A:size_font_big ,height2A:size_font_big*2 ,height3A:9999, height1B:size_font_big*1.7, height2B:size_font_big*2.2,height3B:9999, height1C:c.height*0.37+size_font_small, height2C:c.height*0.37+size_font_small*2,height3C:9999 ,text1A:' G I', text1B:'H', text1C:'',text2A:' 4 5', text2B:'6',text2C:'',highlightW:c.width, highlightH:0};
+  /* BD */ vetorDados[4] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
+  /*  D */ vetorDados[5] = { teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95+size_font_big, width3A:c.width*0.95+size_font_big,width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59+size_font_small,width3C:c.width*0.59+size_font_small,height1A:c.height*0.475, height2A:c.height*0.475+size_font_big, height3A:c.height*0.475+size_font_big*2,height1C:c.height*0.485,height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2,height1B:c.height*0.475,height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2, text1A:" J", text1B:" L", text1C:" M",text2A:"7", text2B:"8", text2C:"9", highlightW:c.width, highlightH:c.height/2};
   /*  C */ vetorDados[6] = { teclado:false,width1A:c.width*0.50-size_font_big*1.3,width2A:c.width*0.50-size_font_big*1.3, width3A:c.width*0.50-size_font_big*1.3,width1B:c.width*0.50-size_font_small*1.3,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*1.3,width2C:0,width3C:0, height1A:size_font_big, height2A:0, height3A:0,height1B:size_font_big*1.5,height2B:0,height3B:0,height1C:c.height*0.37+size_font_small,height2C:0,height3C:0, text1A:"D E F", text1B:'', text1C:'',text2A:" 1 2 3", text2B:'', text2C:'', highlightW:c.width/2, highlightH:0};
   /*  B */ vetorDados[7] = { teclado:false,width1A:c.width*0.50-size_font_big*6.3,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*6.3,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60+size_font_small,height2C:0,height3C:0, text1A:"APAGAR ESPACO PONTO", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
@@ -315,7 +315,7 @@ function Letra(pos)
 		if (!posicao[pos].teclado)
       caractere = 'a';
 		else
-			caractere = 'y';
+			caractere = '0';
     if(pos == "CEC")
 		if (!posicao["CE"].teclado)
 			caractere = 'b';
@@ -325,32 +325,32 @@ function Letra(pos)
 		if (!posicao["CE"].teclado)
 			caractere = 'c';
 		else
-			caractere = '0';
+			caractere = 'y';
 
     if(pos == "ECE")
 		if (!posicao["E"].teclado)
-			caractere = 's';
+			caractere = 't';
 		else
-			caractere = 'v';
+			caractere = 'k';
     if(pos == "E")
 		if (!posicao[pos].teclado)
-			caractere = 't';
+			caractere = 'u';
 		else
 			caractere = 'w';
     if(pos == "EBE")
 		if (!posicao["E"].teclado)
-			caractere = 'u';
+			caractere = 'v';
 		else
 			caractere = 'x';
 
     if(pos == "BEE")
 		//if (!posicao["BE"].teclado)
-			caractere = 'p';
+			caractere = 'q';
 		//else
 			//editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BE")
 		//if (!posicao[pos].teclado)
-			caractere = 'q';
+			caractere = 's';
 		//else
 			//editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
     if(pos == "BEB")
@@ -366,12 +366,12 @@ function Letra(pos)
 			caractere = '4';
     if(pos == "CD")
 		if (!posicao[pos].teclado)
-			caractere = 'h';
+			caractere = 'i';
 		else
 			caractere = '5';
     if(pos == "CDD")
 		if (!posicao["CD"].teclado)
-			caractere = 'i';
+			caractere = 'h';
 		else
 			caractere = '6';
     if(pos == "DCD")
@@ -381,20 +381,20 @@ function Letra(pos)
 			caractere = '7';
     if(pos == "D")
        if (!posicao[pos].teclado)
-			caractere = 'k';
+			caractere = 'l';
 		else
 			caractere = '8';
     if(pos == "DBD")
        if (!posicao["D"].teclado)
-			caractere = 'l';
+			caractere = 'm';
 		else
 			caractere = '9';
     if(pos == "BDD")
-       caractere = 'm';
-    if(pos == "BDB")
-       caractere = 'o';
-    if(pos == "BD")
        caractere = 'n';
+    if(pos == "BDB")
+       caractere = 'p';
+    if(pos == "BD")
+       caractere = 'o';
     if(pos == "CCE")
 		if (!posicao["C"].teclado)
 			caractere = 'd';
@@ -415,18 +415,19 @@ function Letra(pos)
 
     if(pos == "BBD")
     {
-       caractere = '.';
-       texto = texto.concat('.');
+       caractere = ". ";
     }
    if(caractere!=';')
     {
     	// Mudando cor do texto
+	   if (texto.substring(texto.length-2,texto.length) == ". " || texto[texto.length-1] == '.' || texto == "")
+		   caractere = caractere.toUpperCase();
        editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
        texto = texto.concat(caractere);
    	   // Manter sempre a caixa de texto atualizada ( auto scroll )
    	   objeto = document.getElementById('editor');
        objeto.scrollTop = objeto.scrollHeight;
-    	if(caractere == '.')
+    	if(caractere == ". ")
 	       	if(coresCont == 0)
     	   		coresCont = 1;
        		else
