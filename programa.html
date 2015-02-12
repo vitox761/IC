@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IC v0.15</title>
+  <title>IC v0.15a</title>
   <audio id = "beep01">
-    <source src="sound/beep01.mp3" type="audio/mpeg">
+    <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
   <audio id = "beep02">
-    <source src="sound/beep02.mp3" type="audio/mpeg">
+    <source src="data/sound/beep02.mp3" type="audio/mpeg">
   </audio>
   <audio id = "beep03">
-    <source src="sound/beep03.mp3" type="audio/mpeg">
+    <source src="data/sound/beep03.mp3" type="audio/mpeg">
   </audio>
   <audio id = "flip">
-    <source src="sound/flip.mp3" type="audio/mpeg">
+    <source src="data/sound/flip.mp3" type="audio/mpeg">
   </audio>
-<script type="text/javascript" src="quill/quill.js"></script>
-<script type="text/javascript" src="spin/spin.js"></script>
+<script type="text/javascript" src="src/quill/quill.js"></script>
+<script type="text/javascript" src="src/spin/spin.js"></script>
 <script>
 function inicio(){
   // Criando editor rich text e vetor de cores
@@ -74,8 +74,10 @@ function inicio(){
   /*  B */ vetorDados[7] = { teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
-  // Desenhando teclado inicial
+  // Carregando
   setTimeout(function(){ocioso(2);},3000);
+
+  // Desenhando teclado inicial
   canvasDraw();
 
   // Chama a tela de splash
@@ -96,14 +98,14 @@ function ocioso(controle)
     if(controle == 0)
     {
       // Carregando imagens
-      img.src = "./img/locked.png";
+      img.src = "./data/img/locked.png";
       img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
       // Alinhando e escrevendo texto
       ctx.textAlign="center";
       ctx.font = size_font_big+"px Arial";
       ctx.fillText("Bloqueado",c.width/2,((c.height/2)-64*2));
       //Definindo velocidade do spinner
-      var spinner_speed = 0.2;
+      var spinner_speed = 0.1;
       // Declarando estado da aplicacao como travado
       status = 1;
     }
@@ -111,14 +113,14 @@ function ocioso(controle)
     if(controle == 1)
     {
       // Carregando imagens
-      img.src = "./img/splash.png";
+      img.src = "./data/img/splash.png";
       img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
       // Alinhando e escrevendo texto
       ctx.textAlign="center";
       ctx.font = size_font_big+"px Arial";
       ctx.fillText("Carregando",c.width/2,((c.height/2)-64*2));
       // Definindo velocidade do spinner
-      spinner_speed = 1;
+      spinner_speed = 3;
       // Definindo status como inicializando
       status = 2;
     }
@@ -155,7 +157,7 @@ function ocioso(controle)
     if(controle != 2)
     {
       // Desenhando spinner no div
-      target = document.getElementById("coordiv");
+      target = document.getElementById("spinnerDiv");
       spinner = new Spinner(opts).spin(target);
     }
     else
@@ -266,7 +268,7 @@ function canvasDraw()
 
 }
 
-function keyboardTrans(pos) //funcao que retira ou insere o highlight num conjunto de letras
+function keyboardTrans(pos) //Funcao para inverter teclado principal com secundario
 {
       // Inverte teclado principal
       if(pos != "B" && pos != "BE" && pos != "BD")
@@ -284,13 +286,14 @@ function keyboardTrans(pos) //funcao que retira ou insere o highlight num conjun
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
 }
 
+// Funcao para dar destaque ou remover do conjunto de letras
 function highlight(x,y,limpar)
 {
   if(status == 0)
     // Limpa tela
     ctx.clearRect ( 0 , 0 , c.width, c.height );
 
-  // Desenha a seleçao ou limpa
+  // Limpa selecao
   if (limpar)
   {
     ctx.beginPath()
@@ -298,6 +301,7 @@ function highlight(x,y,limpar)
 	  ctx.fillStyle = "black";
 	  ctx.fill();
   }
+  // Desenha selecao
   else
   {
     var grd = ctx.createRadialGradient(x,y,c.width*0.001,x,y,c.width*0.5);
@@ -410,7 +414,8 @@ function Coordenadas(objeto)
           indice++;
           timerId = setInterval(function(){keyboardTrans(pos);}, 3000);
           timerAux = 1;
-          document.getElementById('beep01').play();
+          if(status == 0)
+            document.getElementById('beep01').play();
        }
        else if(combination[(indice - 1)] != pos)
        {
@@ -418,7 +423,8 @@ function Coordenadas(objeto)
             highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
           combination[indice] = pos;
           indice++;
-          document.getElementById('beep02').play();
+          if(status == 0)
+            document.getElementById('beep02').play();
           clearInterval(timerId);
           timerAux = 0;
        }
@@ -437,6 +443,13 @@ function Coordenadas(objeto)
                     }
                     if(indice > 0)
                       highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
+                    indice = 0;
+                    if(status == 1)
+                      while(indice <= 7)
+                      {
+                        highlight(vetorDados[indice].highlightW,vetorDados[indice].highlightH,1);
+                        indice++;
+                      }
                     Letra(comb);
                     if(timerAux)
         				        clearInterval(timerId);
@@ -577,6 +590,7 @@ function Letra(pos)
               coresCont = 1;
             else
               coresCont = 0;
+         document.getElementById('beep03').play();
        }
     }
     if(pos == "BBE")
@@ -592,11 +606,13 @@ function Letra(pos)
        	   		coresCont = 0;
          editor.deleteText(length-2,length);
          texto = texto.substring(0,texto.length-1);
+         document.getElementById('beep03').play();
       }
     }
     // Combinacao para bloquei de tela
     if(pos == "CCDDBDB")
     {
+      document.getElementById('beep03').play();
       if(status == 0)
         // Bloqueia
         ocioso(0);
@@ -604,9 +620,6 @@ function Letra(pos)
         // Desbloqueia
         ocioso(2)
     }
-    if(pos != "")
-      document.getElementById('beep03').play()
-
 }
 
 </script>
@@ -617,11 +630,11 @@ html {width:100%; height:100%; overflow:hidden}
 @font-face {
    font-family: "betsy2";
     /* IE */
-    src: url('./fonts/BETSY2.eot');
+    src: url('./data/fonts/BETSY2.eot');
     /* IE */
 
     /* Not IE */
-    src: local("betsy2ttf"), url('./fonts/BETSY2.ttf');
+    src: local("betsy2ttf"), url('./data/fonts/BETSY2.ttf');
     format("truetype");
     /* Not IE */
 }
@@ -629,7 +642,7 @@ html {width:100%; height:100%; overflow:hidden}
 </head>
 <body  style="margin:0px" onLoad="inicio()">
 
-<div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
+<div id="spinnerDiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
 <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%"></div>
 </div>
