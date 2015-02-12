@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<audio id = "beep01">
-  <source src="sound/beep01.mp3" type="audio/mpeg">
-</audio>
-<audio id = "beep02">
-  <source src="sound/beep02.mp3" type="audio/mpeg">
-</audio>
-<audio id = "beep03">
-  <source src="sound/beep03.mp3" type="audio/mpeg">
-</audio>
-<audio id = "flip">
-  <source src="sound/flip.mp3" type="audio/mpeg">
-</audio>
+  <title>IC v0.15</title>
+  <audio id = "beep01">
+    <source src="sound/beep01.mp3" type="audio/mpeg">
+  </audio>
+  <audio id = "beep02">
+    <source src="sound/beep02.mp3" type="audio/mpeg">
+  </audio>
+  <audio id = "beep03">
+    <source src="sound/beep03.mp3" type="audio/mpeg">
+  </audio>
+  <audio id = "flip">
+    <source src="sound/flip.mp3" type="audio/mpeg">
+  </audio>
 <script type="text/javascript" src="quill/quill.js"></script>
+<script type="text/javascript" src="spin/spin.js"></script>
 <script>
 function inicio(){
   // Criando editor rich text e vetor de cores
@@ -35,9 +37,9 @@ function inicio(){
 	indiceCookie++;
   }
   timerAutoSave = setInterval(function(){document.cookie = nomeCookie+"_"+indiceCookie+"="+texto+"; expires="+d.toUTCString();}, 5000);
-  timerTesteAutoSave = setInterval(function(){alert(getAllCookies("Feb"));}, 11000);//mostra todas as informações salvas nos 30 dias do mes atual
-  
-  
+//  timerTesteAutoSave = setInterval(function(){alert(getAllCookies("Feb"));}, 11000);//mostra todas as informações salvas nos 30 dias do mes atual
+
+
   // Vetor para salvar combinacao
   combination = ["",""];
   indice = 0;
@@ -73,12 +75,92 @@ function inicio(){
   posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Desenhando teclado inicial
-  setTimeout(function(){canvasDraw();},100);
+  setTimeout(function(){ocioso(2);},3000);
   canvasDraw();
-  // Limpa tela
-  ctx.clearRect ( 0 , 0 , c.width, c.height );
+
+  // Chama a tela de splash
+  ocioso(1);
 }
 
+function ocioso(controle)
+{
+    // Limpa tela
+    ctx.clearRect ( 0 , 0 , c.width, c.height );
+    // Calculando posicao do spinner
+    var topRatio = ((c.width/2)+64*3)*(100/c.width)+'%';
+    // Removendo bordas do editor
+    var object = document.getElementById("editor").style.border="";
+    // Recebendo imagem e mostrando na tela
+    var img = new Image();
+    // Caso a tela tenha sido bloqueada
+    if(controle == 0)
+    {
+      // Carregando imagens
+      img.src = "./img/locked.png";
+      img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
+      // Alinhando e escrevendo texto
+      ctx.textAlign="center";
+      ctx.font = size_font_big+"px Arial";
+      ctx.fillText("Bloqueado",c.width/2,((c.height/2)-64*2));
+      //Definindo velocidade do spinner
+      var spinner_speed = 0.2;
+      // Declarando estado da aplicacao como travado
+      status = 1;
+    }
+    // Caso o programa esteja sendo inicializado
+    if(controle == 1)
+    {
+      // Carregando imagens
+      img.src = "./img/splash.png";
+      img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
+      // Alinhando e escrevendo texto
+      ctx.textAlign="center";
+      ctx.font = size_font_big+"px Arial";
+      ctx.fillText("Carregando",c.width/2,((c.height/2)-64*2));
+      // Definindo velocidade do spinner
+      spinner_speed = 1;
+      // Definindo status como inicializando
+      status = 2;
+    }
+    // Desbloqueando a tela
+    if(controle == 2)
+    {
+      // Definindo status como livre
+      status = 0;
+      // Limpando tela
+      highlight(0,0,1);
+      // Gerando borda do editor
+      var object = document.getElementById("editor").style.border="2px solid white";
+    }
+    //  Definindo suas propriedades
+    var opts =
+    {
+      lines: 7, // The number of lines to draw
+      length: 5, // The length of each line
+      width: 5, // The line thickness
+      radius: 10, // The radius of the inner circle
+      corners: 0, // Corner roundness (0..1)
+      rotate: 0, // The rotation offset
+      direction: 1, // 1: clockwise, -1: counterclockwise
+      color: '#fff', // #rgb or #rrggbb or array of colors
+      speed: spinner_speed, // Rounds per second
+      trail: 30, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: false, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: topRatio, // Top position relative to parent
+      left: '50%' // Left position relative to parent
+    };
+    if(controle != 2)
+    {
+      // Desenhando spinner no div
+      target = document.getElementById("coordiv");
+      spinner = new Spinner(opts).spin(target);
+    }
+    else
+      spinner.stop(target);
+}
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
@@ -116,7 +198,7 @@ function getAllCookies(month)
 			auxiliar++;
 		}
 	}
-    return cookies;		
+    return cookies;
 }
 
 
@@ -172,6 +254,7 @@ function canvasDraw()
   // Desenhando linhas
   canvasDrawLine();
   // Desenhando letras em cada ponto da tela
+  ctx.textAlign="start";
   canvasDrawTeclado(0,"CE");
   canvasDrawTeclado(0,"E");
   canvasDrawTeclado(0,"BE");
@@ -203,8 +286,10 @@ function keyboardTrans(pos) //funcao que retira ou insere o highlight num conjun
 
 function highlight(x,y,limpar)
 {
-  // Limpa tela
-  ctx.clearRect ( 0 , 0 , c.width, c.height );
+  if(status == 0)
+    // Limpa tela
+    ctx.clearRect ( 0 , 0 , c.width, c.height );
+
   // Desenha a seleçao ou limpa
   if (limpar)
   {
@@ -223,8 +308,9 @@ function highlight(x,y,limpar)
     ctx.fillStyle = grd;
     ctx.fill();
   }
-  // Desenha o teclado novamente
-  canvasDraw();
+  if(status == 0)
+    // Desenha o teclado novamente
+    canvasDraw();
 }
 
 function canvasDrawTeclado(controle,pos)
@@ -267,6 +353,10 @@ function canvasDrawTeclado(controle,pos)
 }
 function Coordenadas(objeto)
 {
+    // Caso a aplicacao esteja sendo inicializada
+    if(status == 2)
+      return false;
+
     // Captura as coordenadas do usuario
     x = objeto.clientX;
     y = objeto.clientY;
@@ -324,6 +414,8 @@ function Coordenadas(objeto)
        }
        else if(combination[(indice - 1)] != pos)
        {
+          if(status == 1)
+            highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
           combination[indice] = pos;
           indice++;
           document.getElementById('beep02').play();
@@ -343,10 +435,11 @@ function Coordenadas(objeto)
                       comb = comb + combination[aux];
                       aux++
                     }
+                    if(indice > 0)
+                      highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
                     Letra(comb);
-                    highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
-    				if(timerAux)
-        				clearInterval(timerId);
+                    if(timerAux)
+        				        clearInterval(timerId);
                     if(posicao[combination[0]].teclado == true)
                     	keyboardTrans(combination[0]);
                     indice = 0;
@@ -360,8 +453,6 @@ function Letra(pos)
 
     var caractere = ';';
     var length = editor.getLength();
-    if(pos != "")
-      document.getElementById('beep03').play()
 
     if(pos == "CE")
 		if (!posicao[pos].teclado)
@@ -471,32 +562,51 @@ function Letra(pos)
     }
    if(caractere!=';')
     {
-    	// Mudando cor do texto
-	   if (texto.substring(texto.length-2,texto.length) == ". " || texto[texto.length-1] == '.' || texto == "")
-		   caractere = caractere.toUpperCase();
-       editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
-       texto = texto.concat(caractere);
-   	   // Manter sempre a caixa de texto atualizada ( auto scroll )
-   	   objeto = document.getElementById('editor');
-       objeto.scrollTop = objeto.scrollHeight;
-    	if(caractere == ". ")
-	       	if(coresCont == 0)
-    	   		coresCont = 1;
-       		else
-       			coresCont = 0;
+       if(status == 0)
+       {
+         // Mudando cor do texto
+         if (texto.substring(texto.length-2,texto.length) == ". " || texto[texto.length-1] == '.' || texto == "")
+            caractere = caractere.toUpperCase();
+         editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
+         texto = texto.concat(caractere);
+         // Manter sempre a caixa de texto atualizada ( auto scroll )
+         objeto = document.getElementById('editor');
+         objeto.scrollTop = objeto.scrollHeight;
+         if(caractere == ". ")
+            if(coresCont == 0)
+              coresCont = 1;
+            else
+              coresCont = 0;
+       }
     }
     if(pos == "BBE")
     {
-       var lastChar = editor.getText(length-2,length-1);
-       // Verifica se um ponto foi removido e muda a cor no caso positivo
-       if(lastChar == '.')
-       	   if(coresCont == 0)
-       	   		coresCont = 1;
+       if(status == 0)
+       {
+         var lastChar = editor.getText(length-2,length-1);
+         // Verifica se um ponto foi removido e muda a cor no caso positivo
+         if(lastChar == '.')
+       	    if(coresCont == 0)
+       	   		 coresCont = 1;
        	   	else
        	   		coresCont = 0;
-       editor.deleteText(length-2,length);
-       texto = texto.substring(0,texto.length-1);
+         editor.deleteText(length-2,length);
+         texto = texto.substring(0,texto.length-1);
+      }
     }
+    // Combinacao para bloquei de tela
+    if(pos == "CCDDBDB")
+    {
+      if(status == 0)
+        // Bloqueia
+        ocioso(0);
+      else
+        // Desbloqueia
+        ocioso(2)
+    }
+    if(pos != "")
+      document.getElementById('beep03').play()
+
 }
 
 </script>
@@ -521,7 +631,8 @@ html {width:100%; height:100%; overflow:hidden}
 
 <div id="coordiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
 <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
-<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%;border:2px solid white"></div>
+<div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%"></div>
 </div>
+
 </body>
 </html>
