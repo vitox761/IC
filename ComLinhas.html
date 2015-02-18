@@ -415,135 +415,7 @@ function canvasDrawTeclado(controle,pos)
     ctx.fillText(minC,posicao[pos].width3C,posicao[pos].height3C);
   }
 }
-function Coordenadas(objeto)
-{
-    // Caso a aplicacao esteja sendo inicializada
-    if(status == 2)
-      return false;
 
-    // Captura as coordenadas do usuario
-    x = objeto.clientX;
-    y = objeto.clientY;
-
-    var width_part = (c.width / 4);
-    var height_part = (c.height / 3);
-    var pos = "N";  // posicao padrão
-    var comb = ""; // combinação gerada pelo usuario , inicialmente ''
-    var aux = 0;  // Indice aux para gerar combinaçao
-
-    // Detectando posicao atual do usuario
-    if(x == 0)
-        if(y <= height_part )
-          pos = "CE"
-        else if(y >= (height_part * 2))
-          pos = "BE"
-        else
-          pos = "E"
-
-    if(x == (c.width-1) )
-        if(y <= height_part )
-          pos = "CD"
-        else if(y >= (height_part * 2))
-          pos = "BD"
-        else
-          pos = "D"
-
-    if(y == 0)
-       if(x <= width_part)
-          pos = "CE"
-       else if(x >= (width_part * 3))
-          pos = "CD"
-       else
-          pos = "C"
-
-    if(y >= (c.height-5))
-      if(x <= width_part)
-          pos = "BE"
-       else if(x >= (width_part * 3))
-          pos = "BD"
-       else
-          pos = "B"
-
-    // Armazenando combinação inserida pelo usuario
-    if(pos != "N"){
-       // Primeira posicao
-       if(indice == 0)
-       {
-       	  // Salva posicao no vetor
-          combination[indice] = pos;
-          // Liga destaque no conjunto de letras selecionado
-          highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-          indice++;
-          // Liga o timer para trocar os teclados primario e secundario
-          timerId = setInterval(function(){keyboardTrans(pos);}, 3000);
-          timerAux = 1;
-          // Caso a tela esteja desbloqueada tocar beep
-          if(status == 0)
-            document.getElementById('beep01').play();
-       }
-       // Segunda posicao em diante
-       else if(combination[(indice - 1)] != pos)
-       {
-       	  // Caso a tela esteja bloqueada , é possivel destacar 2 ou mais pontos na tela
-          if(status == 1)
-            highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-          // Salvar posicao no vetor
-          combination[indice] = pos;
-          indice++;
-          // Caso a tela esteja desbloqueada toca o beep
-          if(status == 0)
-            document.getElementById('beep02').play();
-          // Zera o timer de troca de teclado
-          clearInterval(timerId);
-          timerAux = 0;
-       }
-       if(timerAux == 2 && indice == 1 && pos == combination[0])
-       {
-          timerId = setInterval(function(){keyboardTrans(pos);}, 3000);
-          timerAux = 1;
-       }
-    }
-    if(timerAux == 1 && pos == 'N')
-    {
-       clearInterval(timerId);
-       timerAux = 2;
-    }
-    // Checando se usuario retornou ao meio da tela
-    if(x >= (c.width*0.4))
-       if(x <= (c.width*0.6))
-           if(y <= c.height*0.6)
-                if(y >= c.height*0.4)
-                {
-                	// Passa a combinacao entrada pelo usuario para a variavel comb
-                    while(indice > aux)
-                    {
-                      comb = comb + combination[aux];
-                      aux++
-                    }
-                    // Chama a funcao letra que encontra o caracter desejado
-                    Letra(comb);
-                    // Zera o timer de troca de teclado
-                    if(timerAux)
-                        clearInterval(timerId);
-                    // Volta o teclado para a posicao principal
-                    if(posicao[combination[0]].teclado == true)
-                      keyboardTrans(combination[0]);
-                    // Apaga a selecao do conjunto
-                    if(indice > 0)
-                      highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
-           			    // Caso a tela esteja bloqueada , apaga a selecao de todos os conjuntos
-                    indice = 0;
-                    if(status == 1)
-                      while(indice <= 7)
-                      {
-                        highlight(vetorDados[indice].highlightW,vetorDados[indice].highlightH,1);
-                        indice++;
-                      }
-                    indice = 0;
-
-                    pos = "N";
-                }
-}
 
 // Funcao para encontrar o caracter desejado a partir da combinaçao entrada
 function Letra(pos)
@@ -722,20 +594,24 @@ function Letra(pos)
 
 function mOver(pos)
 {
-  if (posicao == "centro") //se entrou no centro
+  if (pos == "centro") //se entrou no centro
   {
-      if (status == 0) //se a tela estiver desbloqueada
+      var aux = 0;
+      var comb = "";
+      while (indice > aux)
       {
-        var aux = 0;
-        while (aux <= indice)
-        {
-          comb =  comb + combination[aux];
-          aux++;
-        }
-        Letra(comb);
+        comb =  comb + combination[aux];
+        aux++;
+      }
+      alert(comb);      
+      Letra(comb);
+      if (status == 0) //se a tela estiver desbloqueada
+      {        
         // Volta o teclado para a posicao principal
         if(posicao[combination[0]].teclado == true)
           keyboardTrans(combination[0]);
+        if(indice > 0)
+          highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
       }
       else //se a tela estiver bloquada
       {
@@ -748,6 +624,7 @@ function mOver(pos)
         indice = 0;
       }
       pos = "N";
+      comb = "";
   }
   else //se entrou em algum canto
   {    
@@ -755,9 +632,23 @@ function mOver(pos)
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
       timerId = setInterval(function(){keyboardTrans(pos);},3000);
+      // Caso a tela esteja desbloqueada tocar beep
+      if(status == 0)
+        document.getElementById('beep01').play();
     }
-    combination[indice] = pos;
-    indice++;
+    else
+    {
+      // Caso a tela esteja bloqueada , é possivel destacar 2 ou mais pontos na tela
+      if(status == 1)
+        highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
+      if(status == 0)
+        document.getElementById('beep02').play();
+    }
+    if (!(indice > 0 && combination[indice-1]==pos))
+    {
+      combination[indice] = pos;
+      indice++;
+    }
   }
 }
 
@@ -769,10 +660,8 @@ function mOut(pos)
   }
   else//ao sair de qualquer canto
   {
-    clearInterval(timerId);
-    if (status == 0)
-      highlight(posicao[pos].highlightW,posicao[pos].highlightH,1);  
-
+    if (indice == 1)
+      clearInterval(timerId);
   }
   
 }
@@ -798,16 +687,16 @@ html {width:100%; height:100%; overflow:hidden}
 <body  style="margin:0px" onLoad="inicio()">
 
 <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
+<div id="CE" style="position: absolute; left:0%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="C" style="position: absolute; left:40%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="CD" style="position: absolute; left:80%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="D" style="position: absolute; left:80%;top:40%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="BD" style="position: absolute; left:80%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="B" style="position: absolute; left:40%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="BE" style="position: absolute; left:0%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="E" style="position: absolute; left:0%;top:40%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
 <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%"></div>
-<div id="CE" style="position: absolute; left:0%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="C" style="position: absolute; left:33%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="CD" style="position: absolute; left:66%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="D" style="position: absolute; left:66%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="BD" style="position: absolute; left:66%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="B" style="position: absolute; left:33%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="BE" style="position: absolute; left:0%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="E" style="position: absolute; left:0%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-<div id="centro" style="position: absolute; left:33%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
 <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 
 </div>
