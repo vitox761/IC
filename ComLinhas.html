@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>IC v0.15b</title>
+  <title>IC v0.16a</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -603,10 +603,10 @@ function mOver(pos)
         comb =  comb + combination[aux];
         aux++;
       }
-      alert(comb);      
+
       Letra(comb);
       if (status == 0) //se a tela estiver desbloqueada
-      {        
+      {
         // Volta o teclado para a posicao principal
         if(posicao[combination[0]].teclado == true)
           keyboardTrans(combination[0]);
@@ -627,7 +627,7 @@ function mOver(pos)
       comb = "";
   }
   else //se entrou em algum canto
-  {    
+  {
     if (indice == 0) //se é a primeira letra após sair do centro
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
@@ -663,7 +663,7 @@ function mOut(pos)
     if (indice == 1)
       clearInterval(timerId);
   }
-  
+
 }
 
 </script>
