@@ -720,6 +720,63 @@ function Letra(pos)
     }
 }
 
+function mOver(pos)
+{
+  if (posicao == "centro") //se entrou no centro
+  {
+      if (status == 0) //se a tela estiver desbloqueada
+      {
+        var aux = 0;
+        while (aux <= indice)
+        {
+          comb =  comb + combination[aux];
+          aux++;
+        }
+        Letra(comb);
+        // Volta o teclado para a posicao principal
+        if(posicao[combination[0]].teclado == true)
+          keyboardTrans(combination[0]);
+      }
+      else //se a tela estiver bloquada
+      {
+        indice = 0;
+        while(indice <= 7)
+        {
+          highlight(vetorDados[indice].highlightW,vetorDados[indice].highlightH,1);
+          indice++;
+        }
+        indice = 0;
+      }
+      pos = "N";
+  }
+  else //se entrou em algum canto
+  {    
+    if (indice == 0) //se é a primeira letra após sair do centro
+    {
+      highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
+      timerId = setInterval(function(){keyboardTrans(pos);},3000);
+    }
+    combination[indice] = pos;
+    indice++;
+  }
+}
+
+function mOut(pos)
+{
+  if (pos == "centro")//ao sair do centro
+  {
+    indice = 0;
+  }
+  else//ao sair de qualquer canto
+  {
+    clearInterval(timerId);
+    if (status == 0)
+      highlight(posicao[pos].highlightW,posicao[pos].highlightH,1);  
+
+  }
+  
+}
+
 </script>
 <style>
 body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
@@ -741,8 +798,18 @@ html {width:100%; height:100%; overflow:hidden}
 <body  style="margin:0px" onLoad="inicio()">
 
 <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
-<canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%"></div>
+<div id="CE" style="position: absolute; left:0%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="C" style="position: absolute; left:33%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="CD" style="position: absolute; left:66%;top:0%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="D" style="position: absolute; left:66%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="BD" style="position: absolute; left:66%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="B" style="position: absolute; left:33%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="BE" style="position: absolute; left:0%;top:66%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="E" style="position: absolute; left:0%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<div id="centro" style="position: absolute; left:33%;top:33%; width:33%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+<canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
+
 </div>
 
 </body>
