@@ -142,7 +142,14 @@ function inicio(){
   // Chama a tela de splash
   ocioso(1);
 }
-
+function logWindow()
+{
+  var janela = document.getElementById("logs");
+  if(janela.style.visibility == 'hidden')
+    janela.style.visibility="visible";
+  else
+    janela.style.visibility="hidden";
+}
 function ocioso(controle)
 {
     ctx.fillStyle = 'white';
@@ -150,8 +157,10 @@ function ocioso(controle)
     ctx.clearRect ( 0 , 0 , c.width, c.height );
     // Calculando posicao do spinner
     var topRatio = ((c.width/2)+64*3)*(100/c.width)+'%';
-    // Removendo bordas do editor
-    var object = document.getElementById("editor").style.visibility="hidden";
+    // Escondendo o editor o log e o botao
+    document.getElementById("editor").style.visibility="hidden";
+    document.getElementById("logsButton").style.visibility="hidden";
+    document.getElementById("logs").style.visibility="hidden";
     // Recebendo imagem e mostrando na tela
     var img = new Image();
     // Caso a tela tenha sido bloqueada
@@ -160,6 +169,7 @@ function ocioso(controle)
       // Carregando imagens
       img.src = "./data/img/locked.png";
       img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
+      document.getElementById("logsButton").style.visibility="visible";
       // Declarando aplicao como travado
       status = 1;
     }
@@ -186,8 +196,8 @@ function ocioso(controle)
       // Limpando tela
       highlight(0,0,1);
       // Gerando borda do editor
-	    var object = document.getElementById("editor").style.visibility="visible";
-      var object = document.getElementById("editor").style.border="2px solid white";
+	    document.getElementById("editor").style.visibility="visible";
+      document.getElementById("editor").style.border="2px solid white";
     }
     //  Definindo suas propriedades
     var opts =
@@ -483,7 +493,7 @@ function mOver(pos)
   }
   else //se entrou em algum canto
   {
-    if (indice == 0) //se é a primeira letra após sair do centro
+    if (indice == 0 && status != 2) //se é a primeira letra após sair do centro
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
       timerId = setInterval(function(){keyboardTrans(pos);},3000);
@@ -723,8 +733,7 @@ html {width:100%; height:100%; overflow:hidden}
 </style>
 </head>
 <body  style="margin:0px" onLoad="inicio()">
-
-  <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid;z-index:1" onmousemove="Coordenadas(event)">
+  <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid;z-index:1" >
   <div id="CE" style="position: absolute; left:0%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="C" style="position: absolute; left:40%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="CD" style="position: absolute; left:80%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
@@ -734,6 +743,8 @@ html {width:100%; height:100%; overflow:hidden}
   <div id="BE" style="position: absolute; left:0%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="E" style="position: absolute; left:0%;top:40%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="editor" style="position: absolute; left:40%;top:40%; width:20%; height: 20%"></div>
+  <div id="logs" style="position: absolute; left:40%;top:20%; width:20%; height: 60% ;border:2px solid white"></div>
+  <button id="logsButton" style="position: absolute; left:35%;top:20%;z-index:50" onclick="logWindow()">LOGS</button>
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 
