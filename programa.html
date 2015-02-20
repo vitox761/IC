@@ -38,7 +38,7 @@ function inicio(){
   var d = new Date();
   var n = new Date();
   d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias
-  var nomeCookie = n.toString().substring(4,11);
+  var nomeCookie = n.toString().substring(4,15);
   nomeCookie = trim(nomeCookie);
   while (getCookie(nomeCookie+"_"+indiceCookie) != "")
 	   indiceCookie++;
@@ -132,6 +132,10 @@ function inicio(){
                            };
   /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:c.width*0.50-size_font_big*4, width3A:0,width1B:c.width*0.50-size_font_small*1.6,width2B:c.width*0.50-size_font_big*1.6,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0,width1D:c.width*0.50-size_font_small*1.6,width2D:0,width3D:0,height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:c.height*0.95-size_font_big,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small*3,height2C:0,height3C:0,height1D:c.height*0.63+size_font_small,height2D:0,height3D:0, text1A:"V D A", text1B:'', text1C:'',text2A:'G', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
+
+  // Vetor de cookies
+  vCookies = [];
+  cookiesIndice = 0;
 
   // Carregando
   setTimeout(function(){ocioso(2);},3000);
@@ -249,26 +253,22 @@ function trim(str){
 }
 
 
-function getAllCookies(month)
+function getAllCookies(month,year)
 {
-	var cookies = "";
-	for (var i = 1; i <= 31; i++)
+  var valor;
+	for (var dia = 1; dia <= 31; dia++)
 	{
+      valor="";
 	    var auxiliar = 1;
-		//alert(month+i+"_"+auxiliar);
-	    //auxiliar = parseInt(getCookie(month+" "+i+"_0"));//numero de indices de tal dia
-		//for (var j = 1; j <= auxiliar+1; j++)
-			//cookies = cookies+getCookie(month+" "+i+"_"+j)+"\n";
-	    while (getCookie(month+i+"_"+auxiliar) != "")
-		{
-			cookies = cookies+getCookie(month+i+"_"+auxiliar)+"\n";
+	    while (getCookie(month+dia+year+"_"+auxiliar) != "")
+		  {
+      valor = valor+" - "+getCookie(month+dia+year+"_"+auxiliar);
 			auxiliar++;
-		}
+		  }
+      vCookies[cookiesIndice] = {name : dia+"/"+month+"/"+year , value:valor};
+      cookiesIndice++;
 	}
-    return cookies;
 }
-
-
 function canvasDrawLine()
 {
   ctx.fillStyle = "white";
