@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.17
+      v0.17a
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
 <html>
 <head>
-  <title>IC v0.17</title>
+  <title>IC v0.17a</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -31,6 +31,8 @@ function inicio(){
   cores = ['rgb(255,255,255)','rgb(255,255,0)'];
   coresCont = 0;
 
+  cursorVisivel = 1;
+  cursor();
 
   // Cookies
   texto = "";
@@ -109,7 +111,7 @@ function inicio(){
                            };
   /* G */ vetorDados[4] = { font1:"Arial",font2:"Arial",teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
   /*  D */ vetorDados[5] = { font1:"Arial",font2:"Arial",teclado:false,
-                             width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95+size_font_big, width3A:c.width*0.95+size_font_big,
+                             width1A:c.width*0.94+size_font_big ,width2A:c.width*0.94+size_font_big, width3A:c.width*0.94+size_font_big,
                              width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,
                              width1C:c.width*0.59+size_font_small*2,width2C:c.width*0.59+size_font_small*2,width3C:c.width*0.59+size_font_small*2,
                              width1D:c.width*0.59+size_font_small,width2D:c.width*0.59+size_font_small,width3D:c.width*0.59+size_font_small,
@@ -130,7 +132,7 @@ function inicio(){
                              height1D:c.height*0.37+size_font_small,height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small,
                              text1A:"D", text1B:'E', text1C:'F',text2A:"1", text2B:'2', text2C:'3', highlightW:c.width/2, highlightH:0
                            };
-  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:c.width*0.50-size_font_big*4, width3A:0,width1B:c.width*0.50-size_font_small*1.6,width2B:c.width*0.50-size_font_big*1.6,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0,width1D:c.width*0.50-size_font_small*1.6,width2D:0,width3D:0,height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:c.height*0.95-size_font_big,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small*3,height2C:0,height3C:0,height1D:c.height*0.63+size_font_small,height2D:0,height3D:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height}; //COLOCAR g NA TEXT2B PARA USAR O SHIFT
+  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { A:vetorDados[0] , E:vetorDados[1] , H:vetorDados[2],F:vetorDados[3],G:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Vetor de cookies
@@ -139,6 +141,8 @@ function inicio(){
 
   // Carregando
   setTimeout(function(){ocioso(2);},3000);
+  
+  canvasDraw();
 
   // Chama a tela de splash
   ocioso(1);
@@ -170,11 +174,13 @@ function ocioso(controle)
       // Carregando imagens
       img.src = "./data/img/locked.png";
       img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
-      document.getElementById("logsButton").style.visibility="visible";
+      //document.getElementById("logsButton").style.visibility="visible";
 	  document.getElementById("editor").style.visibility="visible";
 	  document.getElementById("editor").style.border="0px";
       // Declarando aplicao como travado
       status = 1;
+	  // Timer para apagar texto
+	  apagarEditor = setTimeout(function(){document.getElementById("editor").style.visibility="hidden";},60000);
     }
     // Caso o programa esteja sendo inicializado
     if(controle == 1)
@@ -194,6 +200,8 @@ function ocioso(controle)
     // Desbloqueando a tela
     if(controle == 2)
     {
+	  if(status == 1)
+	     clearTimeout(apagarEditor);
       // Definindo status como livre
       status = 0;
       // Limpando tela
@@ -382,8 +390,8 @@ function canvasDrawLine()
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
-  ctx.moveTo(c.width*0.5,c.height*0.71);
-  ctx.lineTo(c.width*0.5,c.height-size_font_big*3.3);
+  ctx.moveTo(c.width*0.5,c.height*0.67);
+  ctx.lineTo(c.width*0.5,c.height-size_font_big*3);
   ctx.stroke();//\/
 
   ctx.beginPath();
@@ -798,11 +806,25 @@ function Letra(pos)
         ocioso(2)
     }
 }
+function cursor()
+{
+	if (cursorVisivel)
+	{
+		document.body.style.cursor = 'none';
+		document.getElementById('editor').style.cursor = 'none';
+	}
+	else
+	{
+		document.body.style.cursor = 'default';
+		document.getElementById('editor').style.cursor = 'default';
+	}
+	cursorVisivel = !cursorVisivel;
+}
+
 </script>
 <style>
 body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
 html {width:100%; height:100%; overflow:hidden}
-*{cursor: none;}
 @font-face {
    font-family: "betsy2";
     /* IE */
@@ -816,7 +838,7 @@ html {width:100%; height:100%; overflow:hidden}
 }
 </style>
 </head>
-<body  style="margin:0px" onLoad="inicio()">
+<body  style="margin:0px" onLoad="inicio()" onclick="cursor()">
   <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid" >
   <div id="A" style="position: absolute; left:0%;top:0%; width:13%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="C" style="position: absolute; left:40%;top:0%; width:21%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
