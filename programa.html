@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.16c
+      v0.17
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
 <html>
 <head>
-  <title>IC v0.16c</title>
+  <title>IC v0.17</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -73,7 +73,7 @@ function inicio(){
 
   // Criando vetor com todos os dados usados para desenhar o teclado + o highlight
   vetorDados = [];
-  /* CE */ vetorDados[0] = { font1:"Arial",font2:"Arial",teclado:false,
+  /* A */ vetorDados[0] = { font1:"Arial",font2:"Arial",teclado:false,
                              width1A:c.width*0.01,width2A:c.width*0.01+size_font_big,width3A:c.width*0.01,
                              width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big+size_font_small,width3B:c.width*0.01+size_font_big,
                              width1C:c.width*0.385-size_font_small,width2C:c.width*0.385,width3C:c.width*0.385-size_font_small,
@@ -95,8 +95,8 @@ function inicio(){
                              height1D:c.height*0.485, height2D:c.height*0.485+size_font_small,height3D:c.height*0.485+size_font_small*2 ,
                              text1A:'T', text1B:'U', text1C:'V',text2A:'K', text2B:'W',text2C:'X',highlightW:0, highlightH:c.height/2
                            };
-  /* BE */ vetorDados[2] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999, width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999, width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999, height1A:c.height*0.95,height2A:c.height*0.95+size_font_big ,height3A:9999, height1B:c.height*0.95-size_font_small, height2B:c.height*0.95,height3B:9999, height1C:c.height*0.60, height2C:c.height*0.60+size_font_small,height3C:9999 ,text1A:'Q', text1B:'S R', text1C:'',text2A:'', text2B:'',text2C:'',highlightW:0, highlightH:c.height};
-  /* CD */ vetorDados[3] = { font1:"Arial",font2:"Arial",teclado:false,
+  /* H */ vetorDados[2] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999, width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999, width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999, height1A:c.height*0.95,height2A:c.height*0.95+size_font_big ,height3A:9999, height1B:c.height*0.95-size_font_small, height2B:c.height*0.95,height3B:9999, height1C:c.height*0.60, height2C:c.height*0.60+size_font_small,height3C:9999 ,text1A:'Q', text1B:'S R', text1C:'',text2A:'', text2B:'',text2C:'',highlightW:0, highlightH:c.height};
+  /* F */ vetorDados[3] = { font1:"Arial",font2:"Arial",teclado:false,
                              width1A:c.width*0.95,width2A:c.width*0.95+size_font_big,width3A:c.width*0.95+size_font_big,
                              width1B:c.width*0.95,width2B:c.width*0.95+size_font_small,width3B:c.width*0.95+size_font_small,
                              width1C:c.width*0.59+size_font_small,width2C:c.width*0.59+size_font_small*2,width3C:c.width*0.59+size_font_small*2,
@@ -107,7 +107,7 @@ function inicio(){
                              height1D:c.height*0.37+size_font_small, height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small*2 ,
                              text1A:' G', text1B:' I', text1C:'H',text2A:'4', text2B:'5',text2C:'6',highlightW:c.width, highlightH:0
                            };
-  /* BD */ vetorDados[4] = { font1:"Arial",font2:"Arial",teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
+  /* G */ vetorDados[4] = { font1:"Arial",font2:"Arial",teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
   /*  D */ vetorDados[5] = { font1:"Arial",font2:"Arial",teclado:false,
                              width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95+size_font_big, width3A:c.width*0.95+size_font_big,
                              width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,
@@ -130,8 +130,8 @@ function inicio(){
                              height1D:c.height*0.37+size_font_small,height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small,
                              text1A:"D", text1B:'E', text1C:'F',text2A:"1", text2B:'2', text2C:'3', highlightW:c.width/2, highlightH:0
                            };
-  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:c.width*0.50-size_font_big*4, width3A:0,width1B:c.width*0.50-size_font_small*1.6,width2B:c.width*0.50-size_font_big*1.6,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0,width1D:c.width*0.50-size_font_small*1.6,width2D:0,width3D:0,height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:c.height*0.95-size_font_big,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small*3,height2C:0,height3C:0,height1D:c.height*0.63+size_font_small,height2D:0,height3D:0, text1A:"V D A", text1B:'', text1C:'',text2A:'G', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
-  posicao = { CE:vetorDados[0] , E:vetorDados[1] , BE:vetorDados[2],CD:vetorDados[3],BD:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
+  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:c.width*0.50-size_font_big*4, width3A:0,width1B:c.width*0.50-size_font_small*1.6,width2B:c.width*0.50-size_font_big*1.6,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0,width1D:c.width*0.50-size_font_small*1.6,width2D:0,width3D:0,height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:c.height*0.95-size_font_big,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small*3,height2C:0,height3C:0,height1D:c.height*0.63+size_font_small,height2D:0,height3D:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height}; //COLOCAR g NA TEXT2B PARA USAR O SHIFT
+  posicao = { A:vetorDados[0] , E:vetorDados[1] , H:vetorDados[2],F:vetorDados[3],G:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Vetor de cookies
   vCookies = [];
@@ -160,8 +160,8 @@ function ocioso(controle)
     var topRatio = ((c.width/2)+64*3)*(100/c.width)+'%';
     // Escondendo o editor o log e o botao
     document.getElementById("editor").style.visibility="hidden";
-    document.getElementById("logsButton").style.visibility="hidden";
-    document.getElementById("logs").style.visibility="hidden";
+    //document.getElementById("logsButton").style.visibility="hidden";
+    //document.getElementById("logs").style.visibility="hidden";
     // Recebendo imagem e mostrando na tela
     var img = new Image();
     // Caso a tela tenha sido bloqueada
@@ -421,11 +421,11 @@ function canvasDraw()
   canvasDrawLine();
   // Desenhando letras em cada ponto da tela
   ctx.textAlign="start";
-  canvasDrawTeclado(0,"CE");
+  canvasDrawTeclado(0,"A");
   canvasDrawTeclado(0,"E");
-  canvasDrawTeclado(0,"BE");
-  canvasDrawTeclado(0,"CD");
-  canvasDrawTeclado(0,"BD");
+  canvasDrawTeclado(0,"H");
+  canvasDrawTeclado(0,"F");
+  canvasDrawTeclado(0,"G");
   canvasDrawTeclado(0,"D");
   canvasDrawTeclado(0,"C");
   canvasDrawTeclado(0,"B");
@@ -435,7 +435,7 @@ function canvasDraw()
 function keyboardTrans(pos) //Funcao para inverter teclado principal com secundario
 {
       // Inverte teclado principal
-      if(pos != "BE" && pos != "BD")
+      if(pos != "H" && pos != "G" && pos != "B") //tirar ultima condição para habilitar shift
       {
         // Inverte o valor do gatilho
         posicao[pos].teclado = !posicao[pos].teclado;
@@ -445,7 +445,7 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
         posicao[pos].text1C = posicao[pos].text2C + (posicao[pos].text2C = posicao[pos].text1C,'');
         // Toca o som ao inverter teclado
         document.getElementById('flip').play();
-        if(pos == "B")
+        /*if(pos == "B")
         {
           posicao[pos].width1C = posicao[pos].width1D + (posicao[pos].width1D = posicao[pos].width1C,'');
           if(posicao[pos].teclado == true)
@@ -458,16 +458,16 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
             posicao[pos].width1A = posicao[pos].width2A;
             posicao[pos].width1B = posicao[pos].width1D;
           }
-        }
+        } HABILITAR ESSE IF PARA USAR A TECLA SHIFT*/ 
       }
       // Chama a funcao highlight
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
 }
 function shiftAll()
 {
-  keyboardTrans("CE");
+  keyboardTrans("A");
   keyboardTrans("E");
-  keyboardTrans("CD");
+  keyboardTrans("F");
   keyboardTrans("D");
   keyboardTrans("C");
   keyboardTrans("B");
@@ -626,23 +626,23 @@ function Letra(pos)
     var caractere = ';';
     var length = editor.getLength();
 
-    if(pos == "CE")
+    if(pos == "A")
 		if (!posicao[pos].teclado)
       caractere = 'a';
 		else
 			caractere = '0';
-    if(pos == "CEC")
-		if (!posicao["CE"].teclado)
+    if(pos == "AC")
+		if (!posicao["A"].teclado)
 			caractere = 'b';
 		else
 			caractere = 'z';
-    if(pos == "CEE")
-		if (!posicao["CE"].teclado)
+    if(pos == "AE")
+		if (!posicao["A"].teclado)
 			caractere = 'c';
 		else
 			caractere = 'y';
 
-    if(pos == "ECE")
+    if(pos == "EA")
 		if (!posicao["E"].teclado)
 			caractere = 't';
 		else
@@ -652,44 +652,44 @@ function Letra(pos)
 			caractere = 'u';
 		else
 			caractere = 'w';
-    if(pos == "EBE")
+    if(pos == "EH")
 		if (!posicao["E"].teclado)
 			caractere = 'v';
 		else
 			caractere = 'x';
 
-    if(pos == "BEE")
-		//if (!posicao["BE"].teclado)
+    if(pos == "HE")
+		//if (!posicao["H"].teclado)
 			caractere = 'q';
 		//else
 			//editor.insertText(length-1, '4',{'color': cores[coresCont],'size':'30px'});
-    if(pos == "BE")
+    if(pos == "H")
 		//if (!posicao[pos].teclado)
 			caractere = 's';
 		//else
 			//editor.insertText(length-1, '5',{'color': cores[coresCont],'size':'30px'});
-    if(pos == "BEB")
-		//if(!posicao["BE"].teclado)
+    if(pos == "HB")
+		//if(!posicao["H"].teclado)
 			caractere = 'r';
 		//else
 			//editor.insertText(length-1, '6',{'color': cores[coresCont],'size':'30px'});
 
-    if(pos == "CDC")
-		if(!posicao["CD"].teclado)
+    if(pos == "FC")
+		if(!posicao["F"].teclado)
 			caractere = 'g';
 		else
 			caractere = '4';
-    if(pos == "CD")
+    if(pos == "F")
 		if (!posicao[pos].teclado)
 			caractere = 'i';
 		else
 			caractere = '5';
-    if(pos == "CDD")
-		if (!posicao["CD"].teclado)
+    if(pos == "FD")
+		if (!posicao["F"].teclado)
 			caractere = 'h';
 		else
 			caractere = '6';
-    if(pos == "DCD")
+    if(pos == "DF")
 		if (!posicao["D"].teclado)
 			caractere = 'j';
 		else
@@ -699,18 +699,18 @@ function Letra(pos)
 			caractere = 'l';
 		else
 			caractere = '8';
-    if(pos == "DBD")
+    if(pos == "DG")
        if (!posicao["D"].teclado)
 			caractere = 'm';
 		else
 			caractere = '9';
-    if(pos == "BDD")
+    if(pos == "GD")
        caractere = 'n';
-    if(pos == "BDB")
+    if(pos == "GB")
        caractere = 'p';
-    if(pos == "BD")
+    if(pos == "G")
        caractere = 'o';
-    if(pos == "CCE")
+    if(pos == "CA")
 		if (!posicao["C"].teclado)
 			caractere = 'd';
 		else
@@ -720,7 +720,7 @@ function Letra(pos)
 			caractere = 'e';
 	    else
 			caractere = '2';
-    if(pos == "CCD")
+    if(pos == "CF")
 		if (!posicao["C"].teclado)
 			caractere = 'f';
 		else
@@ -728,10 +728,10 @@ function Letra(pos)
 	  if(pos == "B")
        if(!posicao["B"].teclado)
           caractere = ' ';
-       else
-          shiftAll();
+       //else
+          //shiftAll(); VOLTAR ISSO PARA USAR O SHIFT
 
-    if(pos == "BBD")
+    if(pos == "BG")
       if(!posicao["B"].teclado)
         caractere = ". ";
 
@@ -765,7 +765,7 @@ function Letra(pos)
        }
        editor.setSelection(length,length);
     }
-    if(pos == "BBE")
+    if(pos == "BH")
     {
        if(!posicao["B"].teclado)
           if(status == 0)
@@ -787,7 +787,7 @@ function Letra(pos)
           }
     }
     // Combinacao para bloquei de tela
-    if(pos == "CCDDBDB")
+    if(pos == "CFDGB")
     {
       document.getElementById('lock').play();
       if(status == 0)
@@ -802,7 +802,7 @@ function Letra(pos)
 <style>
 body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
 html {width:100%; height:100%; overflow:hidden}
-
+*{cursor: none;}
 @font-face {
    font-family: "betsy2";
     /* IE */
@@ -818,17 +818,17 @@ html {width:100%; height:100%; overflow:hidden}
 </head>
 <body  style="margin:0px" onLoad="inicio()">
   <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid" >
-  <div id="CE" style="position: absolute; left:0%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="C" style="position: absolute; left:40%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="CD" style="position: absolute; left:80%;top:0%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="D" style="position: absolute; left:80%;top:40%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="BD" style="position: absolute; left:80%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="A" style="position: absolute; left:0%;top:0%; width:13%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="C" style="position: absolute; left:40%;top:0%; width:21%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="F" style="position: absolute; left:87%;top:0%; width:13%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="D" style="position: absolute; left:85%;top:34%; width:15%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="G" style="position: absolute; left:88%;top:82%; width:12%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="B" style="position: absolute; left:40%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="BE" style="position: absolute; left:0%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="E" style="position: absolute; left:0%;top:40%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="H" style="position: absolute; left:0%;top:80%; width:12%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="E" style="position: absolute; left:0%;top:34%; width:13%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))">
 	<div id="editor" style="position: absolute;width:100%; height: 100%"></div></div>
-  <div id="logs" style="position: absolute; left:40%;top:20%; width:50%; height: 15% ;border:2px solid white">
+  <!--<div id="logs" style="position: absolute; left:40%;top:20%; width:50%; height: 15% ;border:2px solid white">
     <select id="dia" style="position: absolute; left:10%;top:5%;width:20%;">
       <option >Todos</option>
       <option>1</option>
@@ -886,7 +886,7 @@ html {width:100%; height:100%; overflow:hidden}
     </select>
     <button id="download" style="position: absolute; left:40%;top:40%;width:20%; z-index:50" onclick="downloadCookie()">Download!</button>
   </div>
-  <button id="logsButton" style="position: absolute; left:35%;top:20%;z-index:50" onclick="logWindow()">LOGS</button>
+  <button id="logsButton" style="position: absolute; left:35%;top:20%;z-index:50" onclick="logWindow()">LOGS</button>-->
   <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 
 </body>
