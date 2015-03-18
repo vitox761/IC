@@ -1,0 +1,357 @@
+<html>
+<body>
+
+  <div id="board" style="position:absolute;left:50%;top:30%;font-size:40px" ></div>
+	<input id="keyboard" style="position:absolute;left:15%;top:50%;font-size:40px" ></input>
+
+<script type='text/javascript'>
+
+// main
+function VirtualKeyboardTest()
+{
+	this.main = function()
+	{
+		var virtualKeyboard0 = VirtualKeyboard.buildDefault();
+
+		var inputToAddKeyboardTo = document.getElementById("keyboard");
+		inputToAddKeyboardTo.virtualKeyboard = virtualKeyboard0;
+		inputToAddKeyboardTo.onfocus = VirtualKeyboard.bindToTextBoxAndShow;
+
+	}
+}
+
+// classes
+
+function Coords(x, y)
+{
+	this.x = x;
+	this.y = y;
+}
+{
+	Coords.prototype.clone = function()
+	{
+		return new Coords(this.x, this.y);
+	}
+
+	Coords.prototype.multiply = function(other)
+	{
+		this.x *= other.x;
+		this.y *= other.y;
+
+		return this;
+	}
+}
+
+function Key
+(
+	name,
+	stringToType,
+	stringToTypeShifted,
+	pos,
+	size,
+	click
+)
+{
+	this.name = name;
+	this.stringToType = stringToType;
+	this.stringToTypeShifted = stringToTypeShifted
+	this.pos = pos;
+	this.size = size;
+	this.click = click;
+}
+{
+	Key.buildManyFromString = function(keysAsString, keysShiftedAsString)
+	{
+		var returnValues = [];
+
+		for (var i = 0; i < keysAsString.length; i++)
+		{
+			var keyAsString = keysAsString.charAt(i);
+			var key = new Key
+			(
+				keyAsString, // name
+				keyAsString, // stringToType
+				keysShiftedAsString.charAt(i), // stringToTypeShifted
+				null, // click
+				null, // pos
+				null // size
+			);
+			returnValues.push(key);
+		}
+
+		return returnValues;
+	}
+
+	// instance methods
+
+	Key.prototype.htmlElementBuild = function(parentKeyboard, i)
+	{
+		var divForKey = document.createElement("div");
+		divForKey.style.border="1px solid";
+		divForKey.innerHTML = "&nbsp;" + this.name;
+
+		var sizeDefault = parentKeyboard.keySizeInPixelsDefault;
+		var size = (this.size == null ? sizeDefault : this.size.clone().multiply(sizeDefault));
+		divForKey.style.width = (size.x - 1) + "px";
+		divForKey.style.height = (size.y - 1) + "px";
+
+		divForKey.style.position = "absolute";
+
+		var pos = (this.pos == null ? new Coords(i * sizeDefault.x, 0) : this.pos.clone().multiply(sizeDefault));
+		divForKey.style.left = pos.x + "px";
+		divForKey.style.top = pos.y + "px";
+
+		if (this.click == null)
+		{
+			divForKey.onclick = parentKeyboard.processKeyClick.bind(parentKeyboard);
+      divForKey.onmouseover = parentKeyboard.processMouseOver.bind(parentKeyboard);
+    }
+		else
+		{
+			divForKey.onclick = this.click.bind(this);
+		}
+
+		divForKey.key = this;
+		divForKey.key.parentKeyboard = parentKeyboard;
+
+		return divForKey;
+	}
+}
+
+function KeySet(name, posInKeys, sizeInKeys, keys)
+{
+	this.name = name;
+	this.posInKeys = posInKeys;
+	this.sizeInKeys = sizeInKeys;
+	this.keys = keys;
+}
+{
+	KeySet.buildFromStrings = function(name, posInKeys, keysAsString, keysShiftedAsString)
+	{
+		var numberOfKeys = keysAsString.length;
+		var sizeInKeys = new Coords(numberOfKeys, 1);
+
+		var returnValue = new KeySet
+		(
+			name,
+			posInKeys,
+			sizeInKeys,
+			Key.buildManyFromString(keysAsString, keysShiftedAsString)
+		);
+
+		return returnValue;
+	}
+}
+
+function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
+{
+	this.name = name;
+	this.sizeInPixels = sizeInPixels;
+	this.keySizeInPixelsDefault = keySizeInPixelsDefault;
+	this.keySets = keySets;
+
+	this.isShiftOn = false;
+}
+{
+	// static methods
+
+	VirtualKeyboard.bindToTextBoxAndShow = function(event)
+	{
+		window.timeoutVariable = null;
+
+		var textBoxToAttachTo = event.target;
+		var virtualKeyboard = textBoxToAttachTo.virtualKeyboard;
+
+		textBoxToAttachTo.onblur = VirtualKeyboard.unbindFromTextBoxAndHide;
+
+		var htmlElement = virtualKeyboard.htmlElement_Get();
+		virtualKeyboard.textBoxToTarget = textBoxToAttachTo;
+
+		htmlElement.style.top = textBoxToAttachTo.style.top;
+		htmlElement.style.left = textBoxToAttachTo.style.left;
+
+		textBoxToAttachTo.parentElement.appendChild
+		(
+			virtualKeyboard.htmlElement
+		);
+	}
+/*
+	VirtualKeyboard.unbindFromTextBoxAndHide = function(event)
+	{
+		window.timeoutVariable = setTimeout
+		(
+			VirtualKeyboard.unbindFromTextBoxAndHide2,
+			300 // millisecondsToDelay
+		);
+		window.textBoxToAttachTo = event.target;
+	}
+
+	VirtualKeyboard.unbindFromTextBoxAndHide2 = function()
+	{
+		if (window.timeoutVariable == null)
+		{
+			return;
+		}
+
+		clearTimeout(window.timeoutVariable);
+
+		var textBoxToAttachTo = window.textBoxToAttachTo;
+		var virtualKeyboard = textBoxToAttachTo.virtualKeyboard;
+
+		textBoxToAttachTo.onblur = null;
+
+		virtualKeyboard.textBoxToTarget = null;
+		virtualKeyboard.htmlElement.parentElement.removeChild
+		(
+			virtualKeyboard.htmlElement
+		);
+	}
+*/
+	VirtualKeyboard.buildDefault = function()
+	{
+		var returnValue = new VirtualKeyboard
+		(
+			"Default Virtual Keyboard",
+			new Coords(window.screen.width/1.45, window.screen.width/3.6), // sizeInPixels
+			new Coords(window.screen.width/20, window.screen.width/20), // keySizeInPixelsDefault
+			[
+				KeySet.buildFromStrings("1234567890", 	new Coords(0, 0), 	"1234567890-=",		"!@#$%^&*()_+" ),
+				KeySet.buildFromStrings("QWERTYUIOP",	new Coords(0.5, 1), 	"qwertyuiop[]\\", 	"QWERTYUIOP[]\\" ),
+				KeySet.buildFromStrings("ASDFGHJKL", 	new Coords(1, 2), 	"asdfghjkl;'", 		"ASDFGHJKL:\"" ),
+				KeySet.buildFromStrings("ZXCVBNM", 	new Coords(1.5, 3), 	"zxcvbnm,./", 		"ZXCVBNM<>?"),
+				new KeySet
+				(
+					"Specials",
+					new Coords(0, 4),
+					new Coords(7, 1),
+					[
+						//new Key(name, stringToType, stringToTypeShifted, pos, size, click)
+
+						new Key
+						(
+							"Shift",
+							"",
+							"",
+							new Coords(.5, 0),
+							new Coords(2, 1),
+							function(event)
+							{
+								var keyboard = this.parentKeyboard;
+								keyboard.processKeyClick(event);
+                keyboard.processMouseOver(event);
+								keyboard.isShiftOn = (keyboard.isShiftOn == false);
+							}
+						),
+
+						new Key
+						(
+							"Space",
+							" ",
+							" ",
+							new Coords(3.5, 0), // pos
+							new Coords(5, 1),  // size
+							null // click
+						),
+					]
+				),
+			]
+		);
+
+		return returnValue;
+	}
+
+	// instance methods
+
+	// events
+
+	VirtualKeyboard.prototype.processKeyClick = function(event)
+	{
+		var keyClicked = event.target.key;
+		var textBoxToTarget = this.textBoxToTarget;
+		var stringToType = keyClicked.stringToType;
+		if (this.isShiftOn == true)
+		{
+			stringToType = keyClicked.stringToTypeShifted;
+			this.isShiftOn = false;
+		}
+		textBoxToTarget.value += stringToType;
+		textBoxToTarget.focus();
+		window.timeoutVariable = null;
+	}
+  VirtualKeyboard.prototype.processMouseOver = function(event)
+	{
+		var keyOver = event.target.key;
+		var stringToType = keyOver.stringToType;
+		document.getElementById("board").innerHTML = stringToType;
+	}
+
+
+	// html
+
+	VirtualKeyboard.prototype.htmlElement_Get = function()
+	{
+		if (this.htmlElement == null)
+		{
+			this.htmlElement = this.htmlElementBuild();
+		}
+
+		return this.htmlElement;
+	}
+
+	VirtualKeyboard.prototype.htmlElementBuild = function()
+	{
+		var divForKeyboard = document.createElement("div");
+		divForKeyboard.id = this.name;
+		divForKeyboard.style.position = "absolute";
+		divForKeyboard.style.top = "16px";
+		divForKeyboard.style.left = "0px";
+		divForKeyboard.style.width = this.sizeInPixels.x + "px";
+		divForKeyboard.style.height = this.sizeInPixels.y + "px";
+		divForKeyboard.style.backgroundColor = "#ffffff";
+		divForKeyboard.style.border = "1px solid";
+
+		var numberOfKeySets = this.keySets.length;
+
+		for (var j = 0; j < numberOfKeySets; j++)
+		{
+			var keySet = this.keySets[j];
+
+			var divForKeySet = document.createElement("div");
+			divForKeySet.id = keySet.name;
+			divForKeySet.style.position = "absolute";
+			divForKeySet.style.left = (keySet.posInKeys.x * this.keySizeInPixelsDefault.x) + "px";
+			divForKeySet.style.top = (keySet.posInKeys.y * this.keySizeInPixelsDefault.y) + "px";
+
+			var numberOfKeysInSet = keySet.keys.length;
+
+			for (var i = 0; i < numberOfKeysInSet; i++)
+			{
+				var key = keySet.keys[i];
+
+				var divForKey = key.htmlElementBuild(this, i);
+
+				divForKeySet.appendChild(divForKey);
+			}
+
+			divForKeyboard.appendChild(divForKeySet);
+		}
+
+		var returnValue = document.createElement("div");
+		returnValue.style.position = "relative";
+		returnValue.appendChild(divForKeyboard);
+
+		return returnValue;
+	}
+}
+
+// run
+
+new VirtualKeyboardTest().main();
+
+</script>
+<style>
+body {position:fixed;width:100%; height:100%; overflow:hidden, margin:0}
+html {width:100%; height:100%; overflow:hidden}
+</style>
+</body>
+</html>
