@@ -4,7 +4,7 @@
   <div id="board" style="position:absolute;left:45%;top:10%;font-size:40px" ></div>
   <input id="keyboard" value="Passe o mouse" style="position:absolute;left:3%;top:20%;width:90%;font-size:40px" ></input>
 
-  
+
 <script type='text/javascript'>
 
 // Definindo proporção e tamanho de fonte inicial
@@ -226,8 +226,8 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		var returnValue = new VirtualKeyboard
 		(
 			"Default Virtual Keyboard",
-			new Coords(window.screen.width/1.124, window.screen.width/1.75), // sizeInPixels
-			new Coords(window.screen.width/9, window.screen.width/7), // keySizeInPixelsDefault
+			new Coords(window.screen.width/1.124, window.screen.height/1.75), // sizeInPixels
+			new Coords(window.screen.width/9, window.screen.height/7), // keySizeInPixelsDefault
 			[
 				//KeySet.buildFromStrings("1234567890", 	new Coords(0, 0), 	"1234567890",		"!@#$%^&*()" ),
 				KeySet.buildFromStrings("QWERTYUIOP",	new Coords(0, 0), 	"qertuiop", 	"QWERTYUIOP" ),
@@ -265,7 +265,7 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 							"Espaco",
 							new Coords(4, -1), // pos
 							new Coords(4, 1),  // size
-							null							
+							null
 						),
 					]
 				),
@@ -342,7 +342,7 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 			divForKeySet.style.position = "absolute";
 			divForKeySet.style.left = (keySet.posInKeys.x * this.keySizeInPixelsDefault.x) + "px";
 			divForKeySet.style.top = (keySet.posInKeys.y * this.keySizeInPixelsDefault.y) + "px";
-			
+
 			var numberOfKeysInSet = keySet.keys.length;
 
 			for (var i = 0; i < numberOfKeysInSet; i++)
