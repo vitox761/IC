@@ -370,56 +370,56 @@ function canvasDrawLine()
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.37,c.height*0.37);
-  ctx.lineTo(size_font_big*2,size_font_big*2);
+  ctx.lineTo(size_font_big*3,size_font_big*3);
   ctx.stroke();//< /\
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.36,c.height*0.5);
-  ctx.lineTo(size_font_big*2.23,c.height*0.5);
+  ctx.lineTo(size_font_big*5,c.height*0.5);
   ctx.stroke();//<
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.38,c.height*0.62);
-  ctx.lineTo(size_font_big*2,c.height-size_font_big*2);
+  ctx.lineTo(size_font_big*3,c.height-size_font_big*3);
   ctx.stroke();//< \/
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.5,c.height*0.67);
-  ctx.lineTo(c.width*0.5,c.height-size_font_big*3);
+  ctx.lineTo(c.width*0.5,c.height-size_font_big*5);
   ctx.stroke();//\/
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.62,c.height*0.62);
-  ctx.lineTo(c.width-size_font_big*2,c.height-size_font_big*2);
+  ctx.lineTo(c.width-size_font_big*3,c.height-size_font_big*3);
   ctx.stroke();//> \/
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.63,c.height*0.5);
-  ctx.lineTo(c.width-size_font_big*2,c.height*0.5);
+  ctx.lineTo(c.width-size_font_big*5,c.height*0.5);
   ctx.stroke();//>
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.63,c.height*0.37);
-  ctx.lineTo(c.width-size_font_big*2,size_font_big*2);
+  ctx.lineTo(c.width-size_font_big*3,size_font_big*3);
   ctx.stroke();//> /\
 
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
   ctx.moveTo(c.width*0.5,c.height*0.34);
-  ctx.lineTo(c.width*0.5,size_font_big*2);
+  ctx.lineTo(c.width*0.5,size_font_big*5);
   ctx.stroke();// /\
 }
 
@@ -449,7 +449,7 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
         posicao[pos].teclado = !posicao[pos].teclado;
         //Trocando os valores de text da posicao desejada
         posicao[pos].text1A = posicao[pos].text2A + (posicao[pos].text2A = posicao[pos].text1A,'');
-        posicao[pos].text1B = posicao[pos].text2B + (posicao[pos].text2B = posicao[pos].text1B,'');
+       posicao[pos].text1B = posicao[pos].text2B + (posicao[pos].text2B = posicao[pos].text1B,'');
         posicao[pos].text1C = posicao[pos].text2C + (posicao[pos].text2C = posicao[pos].text1C,'');
         // Toca o som ao inverter teclado
         document.getElementById('flip').play();
@@ -523,17 +523,17 @@ function canvasDrawTeclado(controle,pos)
       ctx.font = size_font_big*2+"px "+posicao[pos].font1;
     else
       ctx.font = size_font_big+"px "+posicao[pos].font1;
-    ctx.fillText(posicao[pos].text1A,posicao[pos].width1A,posicao[pos].height1A);
-    ctx.fillText(posicao[pos].text1B,posicao[pos].width2A,posicao[pos].height2A);
-    ctx.fillText(posicao[pos].text1C,posicao[pos].width3A,posicao[pos].height3A);
+   // ctx.fillText(posicao[pos].text1A,posicao[pos].width1A,posicao[pos].height1A);
+   // ctx.fillText(posicao[pos].text1B,posicao[pos].width2A,posicao[pos].height2A);
+   // ctx.fillText(posicao[pos].text1C,posicao[pos].width3A,posicao[pos].height3A);
     //Teclado Secundario
     if(pos == "B")
       ctx.font = size_font_small*2+"px "+posicao[pos].font2;
     else
       ctx.font = size_font_small+"px "+posicao[pos].font2;
-    ctx.fillText(posicao[pos].text2A,posicao[pos].width1B,posicao[pos].height1B);
-    ctx.fillText(posicao[pos].text2B,posicao[pos].width2B,posicao[pos].height2B);
-    ctx.fillText(posicao[pos].text2C,posicao[pos].width3B,posicao[pos].height3B);
+   // ctx.fillText(posicao[pos].text2A,posicao[pos].width1B,posicao[pos].height1B);
+   // ctx.fillText(posicao[pos].text2B,posicao[pos].width2B,posicao[pos].height2B);
+   // ctx.fillText(posicao[pos].text2C,posicao[pos].width3B,posicao[pos].height3B);
     // MINIATURA Secundario
     ctx.fillStyle = "rgba(100, 100, 100, 100)";
     ctx.fillText(posicao[pos].text2A,posicao[pos].width1D,posicao[pos].height1D);
