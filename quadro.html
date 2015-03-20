@@ -7,7 +7,7 @@
 
 <script type='text/javascript'>
 
-// Definindo proporção e tamanho de fonte inicial
+// Definindo proporÃ§Ã£o e tamanho de fonte inicial
 var font_inicial = 30;
 var font_side = font_inicial/1.4142;
 var ratio_width = window.screen.width/font_side;
@@ -16,6 +16,7 @@ var ratio = Math.sqrt((ratio_width*ratio_width) + (ratio_height*ratio_height));
 var ratio = ratio/69.23;
 size_font_big = font_inicial*ratio;
 var timerId;
+lastKey = "e";
 
 document.getElementById("keyboard").style.fontSize = size_font_big*2;
 document.getElementById("board").style.fontSize = size_font_big*2;
@@ -299,7 +300,12 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		timerId = setTimeout(function(){
 		var keyOver = event.target.key;
 		var stringToType = keyOver.stringToType;
-		document.getElementById("board").innerHTML = stringToType;
+	// Apagar tecla anterior
+	document.getElementById(lastKey).style.backgroundColor = 'white';
+	// Acender tecla selecionada
+	document.getElementById(keyOver.name).style.backgroundColor = 'yellow';
+	lastKey = keyOver.name;
+		document.getElementById("board").innerHTML = keyOver.name;
 		if(stringToType == ";")
 			document.getElementById("board").innerHTML = 'Espaco';
 		;},1000);
@@ -329,7 +335,7 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		divForKeyboard.style.height = this.sizeInPixels.y + "px";
 		divForKeyboard.style.backgroundColor = "#ffffff";
 		divForKeyboard.style.border = "1px solid";
-		divForKeyboard.style.fontSize = size_font_big;
+		divForKeyboard.style.fontSize = size_font_big*2;
 
 		var numberOfKeySets = this.keySets.length;
 
@@ -350,6 +356,7 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 				var key = keySet.keys[i];
 
 				var divForKey = key.htmlElementBuild(this, i);
+				divForKey.id = keySet.keys[i].name;
 
 				divForKeySet.appendChild(divForKey);
 			}
