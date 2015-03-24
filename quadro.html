@@ -1,7 +1,7 @@
 <html>
-<body>
+<body   style="margin:0px;background-color:black">
 
-  <div id="board" style="position:absolute;left:45%;top:10%;font-size:40px" ></div>
+  <div id="board" style="position:absolute;left:45%;top:10%;font-size:40px;color:white" ></div>
   <input id="keyboard" value="Passe o mouse" style="position:absolute;left:3%;top:20%;width:90%;font-size:40px" ></input>
 
 
@@ -18,7 +18,7 @@ size_font_big = font_inicial*ratio;
 var timerId;
 lastKey = "e";
 
-document.getElementById("keyboard").style.fontSize = size_font_big*2;
+document.getElementById("keyboard").fontSize = size_font_big*2;
 document.getElementById("board").style.fontSize = size_font_big*2;
 
 // main
@@ -227,8 +227,8 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		var returnValue = new VirtualKeyboard
 		(
 			"Default Virtual Keyboard",
-			new Coords(window.screen.width/1.124, window.screen.height/1.75), // sizeInPixels
-			new Coords(window.screen.width/9, window.screen.height/7), // keySizeInPixelsDefault
+			new Coords(window.screen.width/1.124, window.screen.height/1.5), // sizeInPixels
+			new Coords(window.screen.width/9, window.screen.height/6), // keySizeInPixelsDefault
 			[
 				//KeySet.buildFromStrings("1234567890", 	new Coords(0, 0), 	"1234567890",		"!@#$%^&*()" ),
 				KeySet.buildFromStrings("QWERTYUIOP",	new Coords(0, 0), 	"qertuiop", 	"QWERTYUIOP" ),
@@ -301,9 +301,9 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		var keyOver = event.target.key;
 		var stringToType = keyOver.stringToType;
 	// Apagar tecla anterior
-	document.getElementById(lastKey).style.backgroundColor = 'white';
+	document.getElementById(lastKey).style.backgroundColor = 'black';
 	// Acender tecla selecionada
-	document.getElementById(keyOver.name).style.backgroundColor = 'yellow';
+	document.getElementById(keyOver.name).style.backgroundColor = 'gray';
 	lastKey = keyOver.name;
 		document.getElementById("board").innerHTML = keyOver.name;
 		if(stringToType == ";")
@@ -333,7 +333,8 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 		divForKeyboard.style.left = "0px";
 		divForKeyboard.style.width = this.sizeInPixels.x + "px";
 		divForKeyboard.style.height = this.sizeInPixels.y + "px";
-		divForKeyboard.style.backgroundColor = "#ffffff";
+		divForKeyboard.style.backgroundColor = "black";
+		divForKeyboard.style.color = "white";
 		divForKeyboard.style.border = "1px solid";
 		divForKeyboard.style.fontSize = size_font_big*2;
 
@@ -348,7 +349,11 @@ function VirtualKeyboard(name, sizeInPixels, keySizeInPixelsDefault, keySets)
 			divForKeySet.style.position = "absolute";
 			divForKeySet.style.left = (keySet.posInKeys.x * this.keySizeInPixelsDefault.x) + "px";
 			divForKeySet.style.top = (keySet.posInKeys.y * this.keySizeInPixelsDefault.y) + "px";
+			divForKeySet.style.backgroundColor = 'black';
+			divForKeySet.align = "center";
+			divForKeySet.verticalAlign = "middle";
 
+			
 			var numberOfKeysInSet = keySet.keys.length;
 
 			for (var i = 0; i < numberOfKeysInSet; i++)
