@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.17a
+      v0.17b
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
 <html>
 <head>
-  <title>IC v0.17a</title>
+  <title>IC v0.17b</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -552,35 +552,39 @@ function mOver(pos)
 {
   if (pos == "centro") //se entrou no centro
   {
-      var aux = 0;
+        var aux = 0;
       var comb = "";
       while (indice > aux)
       {
+		if ((combination[0] == combination[aux]) && aux != 0)
+		{
+			comb = ';'
+			break;
+		}
         comb =  comb + combination[aux];
         aux++;
       }
 
-      Letra(comb);
-      if (status == 0) //se a tela estiver desbloqueada
+	  document.getElementById("editor").style.backgroundColor = '#333333';
+	  if (comb != "CFDGB")
+		Letra(comb.substring(0,2),1);
+	  else
+		Letra(comb,1);
+      if (status != 2) //se a tela estiver desbloqueada
       {
         // Volta o teclado para a posicao principal
         if(posicao[combination[0]].teclado != shiftaux && combination[0] != "B")
           keyboardTrans(combination[0]);
         if(shiftaux && posicao["B"].teclado == shiftaux)
           keyboardTrans("B");
-        if(indice > 0)
-          highlight(posicao[combination[0]].highlightW,posicao[combination[0]].highlightH,1);
       }
-      else //se a tela estiver bloquada
+	  indice = 0;
+      while(indice <= 7)
       {
-        indice = 0;
-        while(indice <= 7)
-        {
-          highlight(vetorDados[indice].highlightW,vetorDados[indice].highlightH,1);
-          indice++;
-        }
-        indice = 0;
+        highlight(vetorDados[indice].highlightW,vetorDados[indice].highlightH,1);
+        indice++;
       }
+      indice = 0;
       pos = "N";
       comb = "";
   }
@@ -589,7 +593,7 @@ function mOver(pos)
     if (indice == 0 && status != 2) //se é a primeira letra após sair do centro
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-      timerId = setInterval(function(){keyboardTrans(pos);},3000);
+      timerId = setInterval(function(){keyboardTrans(pos);document.getElementById(pos).innerHTML = Letra(comb,0);},3000);
       // Caso a tela esteja desbloqueada tocar beep
       if(status == 0)
         document.getElementById('beep01').play();
@@ -600,10 +604,10 @@ function mOver(pos)
     else
     {
       // Caso a tela esteja bloqueada , é possivel destacar 2 ou mais pontos na tela
-      if(status == 1)
-        highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
+	  if(status!=2)
+      highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
       if(indice == 1 && combination[indice-1] == pos)
-        timerId = setInterval(function(){keyboardTrans(pos);},3000);
+        timerId = setInterval(function(){keyboardTrans(pos);document.getElementById(pos).innerHTML = Letra(comb,0);},3000);
     }
     if (indice > 0 && combination[indice-1]!=pos)
     {
@@ -612,6 +616,27 @@ function mOver(pos)
       if(status == 0)
         document.getElementById('beep02').play();
     }
+	if(status == 0)
+	{
+	  var aux = 0;
+      var comb = "";
+      while (indice > aux)
+      {
+		if ((combination[0] == combination[aux]) && aux != 0)
+		{
+			comb = ';'
+			break;
+		}
+        comb =  comb + combination[aux];
+        aux++;
+      }
+	 // document.getElementById(pos).style.
+	  document.getElementById(pos).style.font = size_font_big+"px Arial"
+	  if (Letra(comb,0) == ' ')
+		document.getElementById(pos).innerHTML = "'_'";
+	  else
+		document.getElementById(pos).innerHTML = Letra(comb.substring(0,2),0);
+	}
   }
 }
 
@@ -620,23 +645,25 @@ function mOut(pos)
   if (pos == "centro")//ao sair do centro
   {
     indice = 0;
+	document.getElementById("editor").style.backgroundColor = 'transparent';
   }
   else//ao sair de qualquer canto
   {
     if (indice == 1)
       clearInterval(timerId);
+	  document.getElementById(pos).innerHTML = '';
   }
 
 }
 // Funcao para encontrar o caracter desejado a partir da combinaçao entrada
-function Letra(pos)
+function Letra(pos,flag)
 {
     var caractere = ';';
     var length = editor.getLength();
 
     if(pos == "A")
 		if (!posicao[pos].teclado)
-      caractere = 'a';
+			caractere = 'a';
 		else
 			caractere = '0';
     if(pos == "AC")
@@ -742,8 +769,8 @@ function Letra(pos)
     if(pos == "BG")
       if(!posicao["B"].teclado)
         caractere = ". ";
-
-   if(caractere!=';')
+		
+   if(caractere!=';' && flag)
     {
        if(status == 0)
        {
@@ -772,10 +799,11 @@ function Letra(pos)
          document.getElementById('beep03').play();
        }
        editor.setSelection(length,length);
-    }
+    }   
     if(pos == "BH")
     {
-       if(!posicao["B"].teclado)
+	   caractere = 'del';
+       if(!posicao["B"].teclado && flag)
           if(status == 0)
           {
             document.getElementById('beep03').play();
@@ -794,8 +822,12 @@ function Letra(pos)
             }
           }
     }
+		
+	if(!flag)	
+		return caractere.toUpperCase();
+
     // Combinacao para bloquei de tela
-    if(pos == "CFDGB")
+    if(pos == "CFDGB" && flag)
     {
       document.getElementById('lock').play();
       if(status == 0)
@@ -840,75 +872,16 @@ html {width:100%; height:100%; overflow:hidden}
 </head>
 <body  style="margin:0px" onLoad="inicio()" onclick="cursor()">
   <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid" >
-  <div id="A" style="position: absolute; left:0%;top:0%; width:13%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="C" style="position: absolute; left:40%;top:0%; width:21%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="F" style="position: absolute; left:87%;top:0%; width:13%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="D" style="position: absolute; left:85%;top:34%; width:15%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="G" style="position: absolute; left:88%;top:82%; width:12%; height:18%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="B" style="position: absolute; left:40%;top:80%; width:20%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="H" style="position: absolute; left:0%;top:80%; width:12%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="E" style="position: absolute; left:0%;top:34%; width:13%; height:33%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="A" style="color:white;position: absolute; left:0%;top:0%; padding:3% 18% 23% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="C" style="color:white;position: absolute; left:40%;top:0%; padding:3% 9% 8% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="F" style="color:white;position: absolute; left:75%;top:0%; padding:3% 6% 22% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="D" style="color:white;position: absolute; left:85%;top:34%; padding:12% 5% 20% 10%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="G" style="color:white;position: absolute; left:75%;top:75%; padding:15% 6% 21% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="B" style="color:white;position: absolute; left:40%;top:80%; padding:10% 11% 10% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="H" style="color:white;position: absolute; left:0%;top:75%; padding:15% 18% 21% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="E" style="color:white;position: absolute; left:0%;top:34%; padding:12% 12% 20% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))">
 	<div id="editor" style="position: absolute;width:100%; height: 100%"></div></div>
-  <!--<div id="logs" style="position: absolute; left:40%;top:20%; width:50%; height: 15% ;border:2px solid white">
-    <select id="dia" style="position: absolute; left:10%;top:5%;width:20%;">
-      <option >Todos</option>
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-      <option>6</option>
-      <option>7</option>
-      <option>8</option>
-      <option>9</option>
-      <option>10</option>
-      <option>11</option>
-      <option>12</option>
-      <option>13</option>
-      <option>14</option>
-      <option>15</option>      
-      <option>16</option>
-      <option>17</option>
-      <option>18</option>
-      <option>19</option>
-      <option>20</option>
-      <option>21</option>
-      <option>22</option>
-      <option>23</option>
-      <option>24</option>
-      <option>25</option>
-      <option>26</option>
-      <option>27</option>
-      <option>28</option>
-      <option>29</option>
-      <option>30</option>
-      <option>31</option>
-    </select>
-    <select id="mes" style="position: absolute; left:40%;top:5%;width:20%;">
-      <option >Todos</option>
-      <option >Janeiro</option>
-      <option >Fevereiro</option>
-      <option >Marco</option>
-      <option >Abril</option>
-      <option >Maio</option>
-      <option >Junho</option>
-      <option >Julho</option>
-      <option >Agosto</option>
-      <option >Setembro</option>
-      <option >Outubro</option>
-      <option >Novembro</option>
-      <option >Dezembro</option>
-    </select>
-    <select id="ano" style="position: absolute; left:70%;top:5%;width:20%;">
-      <option >Todos</option>
-      <option >2015</option>
-      <option >2016</option>
-      <option >2017</option>
-    </select>
-    <button id="download" style="position: absolute; left:40%;top:40%;width:20%; z-index:50" onclick="downloadCookie()">Download!</button>
-  </div>
-  <button id="logsButton" style="position: absolute; left:35%;top:20%;z-index:50" onclick="logWindow()">LOGS</button>-->
   <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
 
 </body>
