@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.17b
+      v0.17c
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
@@ -122,7 +122,7 @@ function inicio(){
                              height1D:c.height*0.37+size_font_small,height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small,
                              text1A:"D", text1B:'E', text1C:'F',text2A:"1", text2B:'2', text2C:'3', highlightW:c.width/2, highlightH:0
                            };
-  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
+  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.49,width2A:0, width3A:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95, height2A:0, height3A:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { A:vetorDados[0] , E:vetorDados[1] , H:vetorDados[2],F:vetorDados[3],G:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Vetor de cookies
@@ -131,6 +131,12 @@ function inicio(){
 
   // Carregando
   setTimeout(function(){ocioso(2);},3000);
+
+  // Inicializando fontes externas
+  ctx.font = size_font_big+"px sign"
+  ctx.fillText("^",posicao["C"].width1A,posicao["C"].height1A);
+  ctx.font = size_font_big+"px keys"
+  ctx.fillText("^",posicao["C"].width1A,posicao["C"].height1A);
 
   canvasDraw();
 
@@ -154,8 +160,6 @@ function ocioso(controle)
     var topRatio = ((c.width/2)+64*3)*(100/c.width)+'%';
     // Escondendo o editor o log e o botao
     document.getElementById("editor").style.visibility="hidden";
-    //document.getElementById("logsButton").style.visibility="hidden";
-    //document.getElementById("logs").style.visibility="hidden";
     // Recebendo imagem e mostrando na tela
     var img = new Image();
     // Caso a tela tenha sido bloqueada
@@ -427,7 +431,6 @@ function canvasDraw()
   canvasDrawTeclado(0,"D");
   canvasDrawTeclado(0,"C");
   canvasDrawTeclado(0,"B");
-
 }
 
 function keyboardTrans(pos) //Funcao para inverter teclado principal com secundario
@@ -443,33 +446,9 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
         posicao[pos].text1C = posicao[pos].text2C + (posicao[pos].text2C = posicao[pos].text1C,'');
         // Toca o som ao inverter teclado
         document.getElementById('flip').play();
-        /*if(pos == "B")
-        {
-          posicao[pos].width1C = posicao[pos].width1D + (posicao[pos].width1D = posicao[pos].width1C,'');
-          if(posicao[pos].teclado == true)
-          {
-            posicao[pos].width1A = posicao[pos].width2B;
-            posicao[pos].width1B = posicao[pos].width1D;
-          }
-          else
-          {
-            posicao[pos].width1A = posicao[pos].width2A;
-            posicao[pos].width1B = posicao[pos].width1D;
-          }
-        } HABILITAR ESSE IF PARA USAR A TECLA SHIFT*/
       }
       // Chama a funcao highlight
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-}
-function shiftAll()
-{
-  keyboardTrans("A");
-  keyboardTrans("E");
-  keyboardTrans("F");
-  keyboardTrans("D");
-  keyboardTrans("C");
-  keyboardTrans("B");
-  shiftaux = !shiftaux;
 }
 
 // Funcao para dar destaque ou remover do conjunto de letras
@@ -532,6 +511,45 @@ function canvasDrawTeclado(controle,pos)
     ctx.fillText(posicao[pos].text1C,posicao[pos].width3C,posicao[pos].height3C);
   }
 }
+
+function drawChar(comb,pos)
+{
+  if(comb.substring(0,2) == ";")
+  {
+    ctx.font = size_font_big+"px sign"
+    ctx.fillText("^",posicao[pos].width1A,posicao[pos].height1A);
+  }
+  else
+    if(comb.substring(0,1) == "B")
+    {
+      ctx.font = size_font_big+"px betsy2"
+      if(Letra(comb.substring(0,2),0) == " ")
+        letra = "D";
+      if(Letra(comb.substring(0,2),0) == "DEL")
+        letra = "V";
+      if(Letra(comb.substring(0,2),0) == ". ")
+        letra = "A"
+
+      if(letra == "D")
+        ctx.fillText(letra,posicao[pos].width1A-size_font_small,posicao[pos].height1A);
+      else
+        ctx.fillText(letra,posicao[pos].width1A,posicao[pos].height1A);
+    }
+    else
+    {
+      if(comb == "CFDGB")
+      {
+        ctx.font = size_font_big*2+"px keys"
+        ctx.fillText("L",posicao[pos].width1A-size_font_small,posicao[pos].height1A);
+      }
+      else
+      {
+        ctx.font = size_font_big+"px Arial"
+        ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);
+      }
+    }
+}
+
 function mOver(pos)
 {
   if (pos == "centro") //se entrou no centro
@@ -577,7 +595,7 @@ function mOver(pos)
     if (indice == 0 && status != 2) //se é a primeira letra após sair do centro
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-      timerId = setInterval(function(){keyboardTrans(pos);ctx.font = size_font_big+"px "+"Arial";ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);},3000);
+      timerId = setInterval(function(){keyboardTrans(pos);drawChar(comb,pos);},3000);
       // Caso a tela esteja desbloqueada tocar beep
       if(status == 0)
         document.getElementById('beep01').play();
@@ -591,7 +609,7 @@ function mOver(pos)
 	  if(status!=2)
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
       if(indice == 1 && combination[indice-1] == pos)
-        timerId = setInterval(function(){keyboardTrans(pos);ctx.font = size_font_big+"px "+"Arial";ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);},3000);
+        timerId = setInterval(function(){keyboardTrans(pos);drawChar(comb,pos);},3000);
     }
     if (indice > 0 && combination[indice-1]!=pos)
     {
@@ -615,8 +633,7 @@ function mOver(pos)
         aux++;
       }
 
-    ctx.font = size_font_big+"px "+"Arial"
-    ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);
+    drawChar(comb,pos);
 	}
   }
 }
@@ -825,11 +842,27 @@ function cursor()
 	{
 		document.body.style.cursor = 'none';
 		document.getElementById('editor').style.cursor = 'none';
-	}
+    document.getElementById('A').style.background = 'none'
+    document.getElementById('C').style.background = 'none'
+    document.getElementById('F').style.background = 'none'
+    document.getElementById('D').style.background = 'none'
+    document.getElementById('G').style.background = 'none'
+    document.getElementById('B').style.background = 'none'
+    document.getElementById('H').style.background = 'none'
+    document.getElementById('E').style.background = 'none'
+  }
 	else
 	{
 		document.body.style.cursor = 'default';
 		document.getElementById('editor').style.cursor = 'default';
+    document.getElementById('A').style.background = 'gray'
+    document.getElementById('C').style.background = 'yellow'
+    document.getElementById('F').style.background = 'blue'
+    document.getElementById('D').style.background = 'green'
+    document.getElementById('G').style.background = 'red'
+    document.getElementById('B').style.background = 'white'
+    document.getElementById('H').style.background = 'brown'
+    document.getElementById('E').style.background = 'purple'
 	}
 	cursorVisivel = !cursorVisivel;
 }
@@ -849,18 +882,40 @@ html {width:100%; height:100%; overflow:hidden}
     format("truetype");
     /* Not IE */
 }
+@font-face {
+    font-family: "sign";
+     /* IE */
+     src: url('./data/fonts/SIGN.eot');
+     /* IE */
+
+     /* Not IE */
+     src: local("signttf"), url('./data/fonts/SIGN.ttf');
+     format("truetype");
+     /* Not IE */
+}
+@font-face {
+    font-family: "keys";
+     /* IE */
+     src: url('./data/fonts/KEYS.eot');
+     /* IE */
+
+     /* Not IE */
+     src: local("keysttf"), url('./data/fonts/KEYS.ttf');
+     format("truetype");
+     /* Not IE */
+}
 </style>
 </head>
 <body  style="margin:0px" onLoad="inicio()" onclick="cursor()">
   <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid" >
-  <div id="A" style="color:white;position: absolute; left:0%;top:0%; padding:3% 18% 23% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="C" style="color:white;position: absolute; left:40%;top:0%; padding:3% 9% 8% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="F" style="color:white;position: absolute; left:75%;top:0%; padding:3% 6% 22% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="D" style="color:white;position: absolute; left:85%;top:34%; padding:12% 5% 20% 10%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="G" style="color:white;position: absolute; left:75%;top:75%; padding:15% 6% 21% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="B" style="color:white;position: absolute; left:40%;top:80%; padding:10% 11% 10% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="H" style="color:white;position: absolute; left:0%;top:75%; padding:15% 18% 21% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="E" style="color:white;position: absolute; left:0%;top:34%; padding:12% 12% 20% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="A" style="background-color:transparent;position: absolute; left:0%;top:0%; padding:3% 18% 23% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="C" style="background-color:transparent;position: absolute; left:40%;top:0%; padding:3% 9% 8% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="F" style="background-color:transparent;position: absolute; left:75%;top:0%; padding:3% 6% 22% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="D" style="background-color:transparent;position: absolute; left:85%;top:34%; padding:12% 5% 20% 10%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="G" style="background-color:transparent;position: absolute; left:75%;top:75%; padding:15% 6% 21% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="B" style="background-color:transparent;position: absolute; left:40%;top:80%; padding:10% 11% 10% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="H" style="background-color:transparent;position: absolute; left:0%;top:75%; padding:15% 18% 21% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="E" style="background-color:transparent;position: absolute; left:0%;top:34%; padding:12% 12% 20% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))">
 	<div id="editor" style="position: absolute;width:100%; height: 100%"></div></div>
   <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
