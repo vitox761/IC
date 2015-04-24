@@ -76,63 +76,53 @@ function inicio(){
   // Criando vetor com todos os dados usados para desenhar o teclado + o highlight
   vetorDados = [];
   /* A */ vetorDados[0] = { font1:"Arial",font2:"Arial",teclado:false,
-                             width1A:c.width*0.01,width2A:c.width*0.01+size_font_big,width3A:c.width*0.01,
-                             width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big+size_font_small,width3B:c.width*0.01+size_font_big,
+                             width1A:c.width*0.02,width2A:c.width*0.01+size_font_big,width3A:c.width*0.01,
                              width1C:c.width*0.385-size_font_small,width2C:c.width*0.385,width3C:c.width*0.385-size_font_small,
                              width1D:c.width*0.385,width2D:c.width*0.385+size_font_small,width3D:c.width*0.385,
-                             height1A:size_font_big ,height2A:size_font_big ,height3A:size_font_big*2,
-                             height1B:size_font_big*1.7, height2B:size_font_big*1.7,height3B:size_font_big*1.7+size_font_small,
+                             height1A:size_font_big*2 ,height2A:size_font_big ,height3A:size_font_big*2,
                              height1C:c.height*0.37, height2C:c.height*0.37,height3C:c.height*0.37+size_font_small,
                              height1D:c.height*0.37+size_font_small, height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small*2,
                              text1A:"A", text1B:"B", text1C:"C",text2A:"0", text2B:"Z",text2C:"Y",highlightW:0, highlightH:0
                             };
   /*  E */ vetorDados[1] = { font1:"Arial",font2:"Arial",teclado:false,
-                             width1A:c.width*0.01,width2A:c.width*0.01,width3A:c.width*0.01,
-                             width1B:c.width*0.013+size_font_big,width2B:c.width*0.013+size_font_big,width3B:c.width*0.013+size_font_big,
+                             width1A:c.width*0.02,width2A:c.width*0.01,width3A:c.width*0.01,
                              width1C:c.width*0.368,width2C:c.width*0.368,width3C:c.width*0.368,
                              width1D:c.width*0.385,width2D:c.width*0.385,width3D:c.width*0.385,
-                             height1A:c.height*0.475 ,height2A:c.height*0.475+size_font_big ,height3A:c.height*0.475+size_font_big*2,
-                             height1B:c.height*0.475, height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2,
+                             height1A:c.height*0.52 ,height2A:c.height*0.5+size_font_big ,height3A:c.height*0.5+size_font_big*2,
                              height1C:c.height*0.485, height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2 ,
                              height1D:c.height*0.485, height2D:c.height*0.485+size_font_small,height3D:c.height*0.485+size_font_small*2 ,
                              text1A:'T', text1B:'U', text1C:'V',text2A:'K', text2B:'W',text2C:'X',highlightW:0, highlightH:c.height/2
                            };
   /* H */ vetorDados[2] = { teclado:false,width1A:c.width*0.01,width2A:c.width*0.01,width3A:9999, width1B:c.width*0.01+size_font_big,width2B:c.width*0.01+size_font_big,width3B:9999, width1C:c.width*0.387,width2C:c.width*0.387,width3C:9999, height1A:c.height*0.95,height2A:c.height*0.95+size_font_big ,height3A:9999, height1B:c.height*0.95-size_font_small, height2B:c.height*0.95,height3B:9999, height1C:c.height*0.60, height2C:c.height*0.60+size_font_small,height3C:9999 ,text1A:'Q', text1B:'S R', text1C:'',text2A:'', text2B:'',text2C:'',highlightW:0, highlightH:c.height};
   /* F */ vetorDados[3] = { font1:"Arial",font2:"Arial",teclado:false,
-                             width1A:c.width*0.95,width2A:c.width*0.95+size_font_big,width3A:c.width*0.95+size_font_big,
-                             width1B:c.width*0.95,width2B:c.width*0.95+size_font_small,width3B:c.width*0.95+size_font_small,
+                             width1A:c.width*0.965,width2A:c.width*0.95+size_font_big,width3A:c.width*0.95+size_font_big,
                              width1C:c.width*0.59+size_font_small,width2C:c.width*0.59+size_font_small*2,width3C:c.width*0.59+size_font_small*2,
                              width1D:c.width*0.59,width2D:c.width*0.59+size_font_small,width3D:c.width*0.59+size_font_small,
-                             height1A:size_font_big ,height2A:size_font_big ,height3A:size_font_big*2,
-                             height1B:size_font_big*1.7, height2B:size_font_big*1.7,height3B:size_font_big*2.2,
+                             height1A:size_font_big*2 ,height2A:size_font_big ,height3A:size_font_big*2,
                              height1C:c.height*0.37, height2C:c.height*0.37,height3C:c.height*0.37+size_font_small ,
                              height1D:c.height*0.37+size_font_small, height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small*2 ,
                              text1A:' G', text1B:' I', text1C:'H',text2A:'4', text2B:'5',text2C:'6',highlightW:c.width, highlightH:0
                            };
-  /* G */ vetorDados[4] = { font1:"Arial",font2:"Arial",teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
+  /* G */ vetorDados[4] = { font1:"Arial",font2:"Arial",teclado:false,width1A:c.width*0.95+size_font_big ,width2A:c.width*0.95, width3A:0,width1C:c.width*0.59+size_font_small,width2C:c.width*0.59,width3C:0, height1A:c.height*0.95, height2A:c.height*0.95+size_font_big, height3A:0,height1C:c.height*0.60,height2C:c.height*0.60+size_font_small,height3C:c.height*0.60+size_font_small, text1A:"N", text1B:"P O", text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width, highlightH:c.height};
   /*  D */ vetorDados[5] = { font1:"Arial",font2:"Arial",teclado:false,
                              width1A:c.width*0.94+size_font_big ,width2A:c.width*0.94+size_font_big, width3A:c.width*0.94+size_font_big,
-                             width1B:c.width*0.933+size_font_big,width2B:c.width*0.933+size_font_big,width3B:c.width*0.933+size_font_big,
                              width1C:c.width*0.59+size_font_small*2,width2C:c.width*0.59+size_font_small*2,width3C:c.width*0.59+size_font_small*2,
                              width1D:c.width*0.59+size_font_small,width2D:c.width*0.59+size_font_small,width3D:c.width*0.59+size_font_small,
-                             height1A:c.height*0.475,height2A:c.height*0.475+size_font_big,height3A:c.height*0.475+size_font_big*2,
-                             height1B:c.height*0.475,height2B:c.height*0.475+size_font_big,height3B:c.height*0.475+size_font_big*2,
+                             height1A:c.height*0.51,height2A:c.height*0.475+size_font_big,height3A:c.height*0.475+size_font_big*2,
                              height1C:c.height*0.485,height2C:c.height*0.485+size_font_small,height3C:c.height*0.485+size_font_small*2,
                              height1D:c.height*0.485,height2D:c.height*0.485+size_font_small,height3D:c.height*0.485+size_font_small*2,
                              text1A:" J", text1B:" L", text1C:" M",text2A:" 7", text2B:" 8", text2C:" 9", highlightW:c.width, highlightH:c.height/2
                            };
   /*  C */ vetorDados[6] = { font1:"Arial",font2:"Arial",teclado:false,
-                             width1A:c.width*0.50-size_font_big*1.3,width2A:c.width*0.50-size_font_big*0.3, width3A:c.width*0.50+size_font_big*0.7,
-                             width1B:c.width*0.50-size_font_small*1.3,width2B:c.width*0.50-size_font_small*0.3,width3B:c.width*0.50+size_font_small*0.7,
+                             width1A:c.width*0.49,width2A:c.width*0.50-size_font_big*0.3, width3A:c.width*0.50+size_font_big*0.7,
                              width1C:c.width*0.50-size_font_small*1.3,width2C:c.width*0.50-size_font_small*0.3,width3C:c.width*0.50+size_font_small*0.7,
                              width1D:c.width*0.50-size_font_small*1.3,width2D:c.width*0.50-size_font_small*0.3,width3D:c.width*0.50+size_font_small*0.7,
-                             height1A:size_font_big, height2A:size_font_big, height3A:size_font_big,
-                             height1B:size_font_big*1.5,height2B:size_font_big*1.5,height3B:size_font_big*1.5,
+                             height1A:size_font_big*2, height2A:size_font_big, height3A:size_font_big,
                              height1C:c.height*0.37,height2C:c.height*0.37,height3C:c.height*0.37,
                              height1D:c.height*0.37+size_font_small,height2D:c.height*0.37+size_font_small,height3D:c.height*0.37+size_font_small,
                              text1A:"D", text1B:'E', text1C:'F',text2A:"1", text2B:'2', text2C:'3', highlightW:c.width/2, highlightH:0
                            };
-  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1B:0,width2B:0,width3B:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1B:0,height2B:0,height3B:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
+  /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.50-size_font_big*4,width2A:0, width3A:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95+size_font_big, height2A:0, height3A:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { A:vetorDados[0] , E:vetorDados[1] , H:vetorDados[2],F:vetorDados[3],G:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
   // Vetor de cookies
@@ -141,7 +131,7 @@ function inicio(){
 
   // Carregando
   setTimeout(function(){ocioso(2);},3000);
-  
+
   canvasDraw();
 
   // Chama a tela de splash
@@ -295,7 +285,7 @@ function downloadCookie()
           {
             for (var k = 1; k < 32; k++)
             {
-               getAllCookies(k,j,i); 
+               getAllCookies(k,j,i);
             }
           }
           else//dia nao varia
@@ -310,7 +300,7 @@ function downloadCookie()
           {
             for (var k = 1; k < 32; k++)
             {
-               getAllCookies(k,mes,i); 
+               getAllCookies(k,mes,i);
             }
           }
           else//dia nao varia
@@ -330,7 +320,7 @@ function downloadCookie()
           {
             for (var k = 1; k < 32; k++)
             {
-               getAllCookies(k,j,ano); 
+               getAllCookies(k,j,ano);
             }
           }
           else//dia nao varia
@@ -345,7 +335,7 @@ function downloadCookie()
           {
             for (var k = 1; k < 32; k++)
             {
-               getAllCookies(k,mes,ano); 
+               getAllCookies(k,mes,ano);
             }
           }
           else//dia nao varia
@@ -449,7 +439,7 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
         posicao[pos].teclado = !posicao[pos].teclado;
         //Trocando os valores de text da posicao desejada
         posicao[pos].text1A = posicao[pos].text2A + (posicao[pos].text2A = posicao[pos].text1A,'');
-       posicao[pos].text1B = posicao[pos].text2B + (posicao[pos].text2B = posicao[pos].text1B,'');
+        posicao[pos].text1B = posicao[pos].text2B + (posicao[pos].text2B = posicao[pos].text1B,'');
         posicao[pos].text1C = posicao[pos].text2C + (posicao[pos].text2C = posicao[pos].text1C,'');
         // Toca o som ao inverter teclado
         document.getElementById('flip').play();
@@ -466,7 +456,7 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
             posicao[pos].width1A = posicao[pos].width2A;
             posicao[pos].width1B = posicao[pos].width1D;
           }
-        } HABILITAR ESSE IF PARA USAR A TECLA SHIFT*/ 
+        } HABILITAR ESSE IF PARA USAR A TECLA SHIFT*/
       }
       // Chama a funcao highlight
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
@@ -523,17 +513,11 @@ function canvasDrawTeclado(controle,pos)
       ctx.font = size_font_big*2+"px "+posicao[pos].font1;
     else
       ctx.font = size_font_big+"px "+posicao[pos].font1;
-   // ctx.fillText(posicao[pos].text1A,posicao[pos].width1A,posicao[pos].height1A);
-   // ctx.fillText(posicao[pos].text1B,posicao[pos].width2A,posicao[pos].height2A);
-   // ctx.fillText(posicao[pos].text1C,posicao[pos].width3A,posicao[pos].height3A);
     //Teclado Secundario
     if(pos == "B")
       ctx.font = size_font_small*2+"px "+posicao[pos].font2;
     else
       ctx.font = size_font_small+"px "+posicao[pos].font2;
-   // ctx.fillText(posicao[pos].text2A,posicao[pos].width1B,posicao[pos].height1B);
-   // ctx.fillText(posicao[pos].text2B,posicao[pos].width2B,posicao[pos].height2B);
-   // ctx.fillText(posicao[pos].text2C,posicao[pos].width3B,posicao[pos].height3B);
     // MINIATURA Secundario
     ctx.fillStyle = "rgba(100, 100, 100, 100)";
     ctx.fillText(posicao[pos].text2A,posicao[pos].width1D,posicao[pos].height1D);
@@ -593,7 +577,7 @@ function mOver(pos)
     if (indice == 0 && status != 2) //se é a primeira letra após sair do centro
     {
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
-      timerId = setInterval(function(){keyboardTrans(pos);document.getElementById(pos).innerHTML = Letra(comb,0);},3000);
+      timerId = setInterval(function(){keyboardTrans(pos);ctx.font = size_font_big+"px "+"Arial";ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);},3000);
       // Caso a tela esteja desbloqueada tocar beep
       if(status == 0)
         document.getElementById('beep01').play();
@@ -607,7 +591,7 @@ function mOver(pos)
 	  if(status!=2)
       highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
       if(indice == 1 && combination[indice-1] == pos)
-        timerId = setInterval(function(){keyboardTrans(pos);document.getElementById(pos).innerHTML = Letra(comb,0);},3000);
+        timerId = setInterval(function(){keyboardTrans(pos);ctx.font = size_font_big+"px "+"Arial";ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);},3000);
     }
     if (indice > 0 && combination[indice-1]!=pos)
     {
@@ -630,12 +614,9 @@ function mOver(pos)
         comb =  comb + combination[aux];
         aux++;
       }
-	 // document.getElementById(pos).style.
-	  document.getElementById(pos).style.font = size_font_big+"px Arial"
-	  if (Letra(comb,0) == ' ')
-		document.getElementById(pos).innerHTML = "'_'";
-	  else
-		document.getElementById(pos).innerHTML = Letra(comb.substring(0,2),0);
+
+    ctx.font = size_font_big+"px "+"Arial"
+    ctx.fillText(Letra(comb.substring(0,2),0),posicao[pos].width1A,posicao[pos].height1A);
 	}
   }
 }
@@ -769,7 +750,7 @@ function Letra(pos,flag)
     if(pos == "BG")
       if(!posicao["B"].teclado)
         caractere = ". ";
-		
+
    if(caractere!=';' && flag)
     {
        if(status == 0)
@@ -799,7 +780,7 @@ function Letra(pos,flag)
          document.getElementById('beep03').play();
        }
        editor.setSelection(length,length);
-    }   
+    }
     if(pos == "BH")
     {
 	   caractere = 'del';
@@ -822,8 +803,8 @@ function Letra(pos,flag)
             }
           }
     }
-		
-	if(!flag)	
+
+	if(!flag)
 		return caractere.toUpperCase();
 
     // Combinacao para bloquei de tela
