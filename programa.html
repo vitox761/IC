@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.17c
+      v0.18
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
 <html>
 <head>
-  <title>IC v0.17b</title>
+  <title>IC v0.18</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -34,16 +34,37 @@ function inicio(){
   cursorVisivel = 1;
   cursor();
 
+// Vetor de cookies
+  CookiesDeHoje = ""; 
+
   // Cookies
   texto = "";
   indiceCookie = 1;
   var d = new Date();
   var n = new Date();
-  d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias
-  var nomeCookie = n.toString().substring(4,15);
+  var o = new Date(n.getTime()-24*60*60*1000); //ontem
+  d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias de validade de um cookie
+
+  var nomeCookie = o.toString().substring(4,15); //pegando cookies de ontem
   nomeCookie = trim(nomeCookie);
   while (getCookie(nomeCookie+"_"+indiceCookie) != "")
+  {
+     CookiesDeHoje += "*"+getCookie(nomeCookie+"_"+indiceCookie)+"\n";
+     indiceCookie++;
+  }
+
+
+  indiceCookie = 1;
+  var nomeCookie = n.toString().substring(4,15); //pegando cookies de hoje
+  nomeCookie = trim(nomeCookie);
+  while (getCookie(nomeCookie+"_"+indiceCookie) != "")
+  {
+     CookiesDeHoje += "*"+getCookie(nomeCookie+"_"+indiceCookie)+"\n";
 	   indiceCookie++;
+  }
+  
+
+
   timerAutoSave = setInterval(function(){document.cookie = nomeCookie+"_"+indiceCookie+"="+texto+"; expires="+d.toUTCString();}, 5000);
   //timerTesteAutoSave = setInterval(function(){alert(getAllCookies("Feb"));}, 11000);//mostra todas as informações salvas nos 30 dias do mes atual
 
@@ -125,9 +146,7 @@ function inicio(){
   /*  B */ vetorDados[7] = { font1:"betsy2",font2:"betsy2",teclado:false,width1A:c.width*0.49,width2A:0, width3A:0,width1C:c.width*0.50-size_font_small*4,width2C:0,width3C:0, height1A:c.height*0.95, height2A:0, height3A:0,height1C:c.height*0.63+size_font_small,height2C:0,height3C:0, text1A:"V D A", text1B:'', text1C:'',text2A:'', text2B:'', text2C:'', highlightW:c.width/2, highlightH:c.height};
   posicao = { A:vetorDados[0] , E:vetorDados[1] , H:vetorDados[2],F:vetorDados[3],G:vetorDados[4],D:vetorDados[5],C:vetorDados[6],B:vetorDados[7]};
 
-  // Vetor de cookies
-  vCookies = [];
-  cookiesIndice = 0;
+  
 
   // Carregando
   setTimeout(function(){ocioso(2);},3000);
@@ -137,6 +156,9 @@ function inicio(){
   ctx.fillText("^",posicao["C"].width1A,posicao["C"].height1A);
   ctx.font = size_font_big+"px keys"
   ctx.fillText("^",posicao["C"].width1A,posicao["C"].height1A);
+
+  
+  editor.insertText(editor.getLength()-1,CookiesDeHoje,{'color': cores[coresCont],'size':'30px'});
 
   canvasDraw();
 
@@ -265,8 +287,7 @@ function getAllCookies(dia,month,year)
 	}
   if (valor != "")
   {
-    vCookies[cookiesIndice] = {name : dia+"/"+month+"/"+year , value:valor};
-    cookiesIndice++;
+    CookiesDeHoje = valor;
   }
 }
 
@@ -908,14 +929,14 @@ html {width:100%; height:100%; overflow:hidden}
 </head>
 <body  style="margin:0px" onLoad="inicio()" onclick="cursor()">
   <div id="spinnerDiv" style="width:100%;height:100%;border:1px solid" >
-  <div id="A" style="background-color:transparent;position: absolute; left:0%;top:0%; padding:3% 18% 23% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="C" style="background-color:transparent;position: absolute; left:40%;top:0%; padding:3% 9% 8% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="F" style="background-color:transparent;position: absolute; left:75%;top:0%; padding:3% 6% 22% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="D" style="background-color:transparent;position: absolute; left:85%;top:34%; padding:12% 5% 20% 10%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="G" style="background-color:transparent;position: absolute; left:75%;top:75%; padding:15% 6% 21% 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="B" style="background-color:transparent;position: absolute; left:40%;top:80%; padding:10% 11% 10% 9%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="H" style="background-color:transparent;position: absolute; left:0%;top:75%; padding:15% 18% 21% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
-  <div id="E" style="background-color:transparent;position: absolute; left:0%;top:34%; padding:12% 12% 20% 3%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="A" style="background-color:transparent;position: absolute; left:0%;top:0%; width:35%; height:35%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="C" style="background-color:transparent;position: absolute; left:35%;top:0%; width:30%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="F" style="background-color:transparent;position: absolute; left:65%;top:0%; width:35%; height:35%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="D" style="background-color:transparent;position: absolute; left:80%;top:35%; width:20%; height:30%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="G" style="background-color:transparent;position: absolute; left:65%;top:65%; width:35%; height:35%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="B" style="background-color:transparent;position: absolute; left:35%;top:80%; width:30%; height:20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="H" style="background-color:transparent;position: absolute; left:0%;top:65%; width:35%; height:35%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="E" style="background-color:transparent;position: absolute; left:0%;top:35%; width:20%; height:30%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))">
 	<div id="editor" style="position: absolute;width:100%; height: 100%"></div></div>
   <canvas id="myCanvas" style="border:1px; background-color:black"></canvas>
