@@ -27,7 +27,11 @@ function Letra(pos,flag)
 			caractere = 'k';
   if(pos == "E")
 		if (!posicao[pos].teclado)
-			caractere = 'u';
+    {
+      caractere = 'u';
+      if (texto[texto.length-1] == 'U' || texto[texto.length-1] == 'u')
+			   caractere = "\n";
+    }
 		else
 			caractere = 'w';
   if(pos == "EH")
@@ -60,7 +64,9 @@ function Letra(pos,flag)
 			caractere = '6';
   if(pos == "DF")
 		if (!posicao["D"].teclado)
-			caractere = 'j';
+    {
+      caractere = 'j';
+    }
 		else
 			caractere = '7';
   if(pos == "D")
@@ -113,8 +119,24 @@ function Letra(pos,flag)
           // Letra maiuscula
           caractere = caractere.toUpperCase();
        // Insere letra no editor
+       if (caractere == 'j' && ((texto.substring(texto.length-2,texto.length) == "Jj" || texto.substring(texto.length-2,texto.length) == "jj"))) 
+          document.getElementById('loudAlarm').play();
+       else
+          if (caractere == 'j' && (texto[texto.length-1] == 'j' || texto[texto.length-1] == 'J')) 
+            document.getElementById('alarm').play();
+
+       if (caractere == '\n')
+       {
+          texto = texto.substring(0,texto.length-1);
+          editor.deleteText(length-2,length);
+          texto = texto.concat(',');
+       }
+       else
+          texto = texto.concat(caractere);
+       
+       
+
        editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
-       texto = texto.concat(caractere);
        // Manter sempre a caixa de texto atualizada ( auto scroll )
        objeto = document.getElementById('editor');
        objeto.scrollTop = objeto.scrollHeight;
@@ -168,6 +190,16 @@ function Letra(pos,flag)
       ocioso(0);
     else
       // Desbloqueia
-      ocioso(2)
+      ocioso(2);
+  }
+  if(pos == "CAEHB" && flag)
+  {
+    document.getElementById('lock').play();
+    if (status == 0)
+      // Entra na tela de visualização de texto
+      ocioso(3);
+    else
+      // Desbloqueia
+      ocioso(2);
   }
 }

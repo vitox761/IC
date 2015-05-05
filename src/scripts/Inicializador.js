@@ -17,26 +17,22 @@ function inicio(){
   indiceCookie = 1;
   var d = new Date();
   var n = new Date();
-  var o = new Date(n.getTime()-24*60*60*1000); //ontem
+  var o = new Date(n.getTime()-30*24*60*60*1000); //30 dias atras
   d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias de validade de um cookie
 
-  var nomeCookie = o.toString().substring(4,15); //pegando cookies de ontem
-  nomeCookie = trim(nomeCookie);
-  while (getCookie(nomeCookie+"_"+indiceCookie) != "")
+  for (var i = 0; i < 31; i++)
   {
-     CookiesDeHoje += "*"+getCookie(nomeCookie+"_"+indiceCookie)+"\n";
-     indiceCookie++;
+    o.setTime(o.getTime()+24*60*60*1000);
+    nomeCookie = o.toString().substring(4,15);
+    nomeCookie = trim(nomeCookie);
+    while (getCookie(nomeCookie+"_"+indiceCookie) != "")
+    {
+       CookiesDeHoje += getCookie(nomeCookie+"_"+indiceCookie)+ " ";
+       indiceCookie++;
+    }    
   }
-
-  indiceCookie = 1;
-  var nomeCookie = n.toString().substring(4,15); //pegando cookies de hoje
-  nomeCookie = trim(nomeCookie);
-  while (getCookie(nomeCookie+"_"+indiceCookie) != "")
-  {
-     CookiesDeHoje += "*"+getCookie(nomeCookie+"_"+indiceCookie)+"\n";
-	   indiceCookie++;
-  }
-
+  CookiesDeHoje = enter(CookiesDeHoje);
+  
   timerAutoSave = setInterval(function(){document.cookie = nomeCookie+"_"+indiceCookie+"="+texto+"; expires="+d.toUTCString();}, 5000);
   
   // Vetor para salvar combinacao
@@ -156,85 +152,3 @@ function inicio(){
   ocioso(1);
 }
 
-function ocioso(controle)
-{
-    ctx.fillStyle = 'white';
-    // Limpa tela
-    ctx.clearRect ( 0 , 0 , c.width, c.height );
-    // Calculando posicao do spinner
-    var topRatio = ((c.width/2)+64*3)*(100/c.width)+'%';
-    // Escondendo o editor o log e o botao
-    document.getElementById("editor").style.visibility="hidden";
-    // Recebendo imagem e mostrando na tela
-    var img = new Image();
-    // Caso a tela tenha sido bloqueada
-    if(controle == 0)
-    {
-       // Carregando imagens
-       img.src = "./data/img/locked.png";
-       img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
-  	   document.getElementById("editor").style.visibility="visible";
-  	   document.getElementById("editor").style.border="0px";
-       // Declarando aplicao como travado
-       status = 1;
-	     // Timer para apagar texto
-	     apagarEditor = setTimeout(function(){document.getElementById("editor").style.visibility="hidden";},60000);
-    }
-    // Caso o programa esteja sendo inicializado
-    if(controle == 1)
-    {
-      // Carregando imagens
-        img.src = "./data/img/splash.png";
-        img.onload = function(){ctx.drawImage(img,c.width/2-64,c.height/2-64);}
-        // Alinhando e escrevendo texto
-        ctx.textAlign="center";
-        ctx.font = size_font_big+"px Arial";
-        ctx.fillText("Carregando",c.width/2,((c.height/2)-64*2));
-        // Definindo velocidade do spinner
-        spinner_speed = 3;
-        // Definindo status como inicializando
-        status = 2;
-    }
-    // Desbloqueando a tela
-    if(controle == 2)
-    {
-  	  if(status == 1)
-  	     clearTimeout(apagarEditor);
-      
-      // Definindo status como livre
-      status = 0;
-      // Limpando tela
-      highlight(0,0,1);
-      // Gerando borda do editor
-  	  document.getElementById("editor").style.visibility="visible";
-  	  document.getElementById("editor").style.border="2px solid white";
-    }
-    //  Definindo suas propriedades
-    var opts =
-    {
-      lines: 7, // Numero de linhas no spinner
-      length: 5, // Tamanho de cada linha
-      width: 5, // Espessura de cada linha
-      radius: 10, // Raio da circunferencia interior
-      corners: 0, // Formato dos cantos 0 = quadrado 1 = circular  (0..1)
-      rotate: 0, // offset de rotacao
-      direction: 1, // 1: sentido horario, -1: sentido anti-horario
-      color: '#fff', // #rgb ou #rrggbb ou vetor de cores
-      speed: spinner_speed, // Rotacoes por segundo
-      trail: 30, // % de trilha deixada nas posicoes anteriores
-      shadow: true, // Sombra
-      hwaccel: true, // Usar hardware acceleration
-      className: 'spinner', // Classe CSS do spinner , se existir
-      zIndex: 2e9, // O z-index (defaults to 2000000000)
-      top: topRatio, // Posicao y -Relativo ao div pai-
-      left: '50%' // Posicao x -Relativo ao div pai-
-    };
-    if(controle == 1)
-    {
-      // Desenhando spinner no div
-      target = document.getElementById("spinnerDiv");
-      spinner = new Spinner(opts).spin(target);
-    }
-    else
-      spinner.stop(target);
-}

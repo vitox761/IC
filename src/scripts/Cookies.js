@@ -10,11 +10,24 @@ function getCookie(cname)
     return "";
 }
 
-function trim(str){
+function trim(str)
+{
     r = "";
     for(i = 0; i < str.length; i++){
       if(str.charAt(i) != ' ')
         r += str.charAt(i);
+   }
+  return r;
+}
+
+function enter(str)
+{
+  r = "";
+    for(i = 0; i < str.length; i++){
+      if(str.charAt(i) != ',')
+        r += str.charAt(i);
+      else
+        r += '\n'
    }
   return r;
 }

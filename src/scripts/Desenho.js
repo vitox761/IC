@@ -152,7 +152,7 @@ function drawChar(comb,pos)
     }
     else
     {
-      if(comb == "CFDGB")
+      if(comb == "CFDGB" || comb == "CAEHB")
       {
         ctx.font = size_font_big*2+"px keys"
         ctx.fillText("L",posicao[pos].width1A-size_font_small,posicao[pos].height1A);

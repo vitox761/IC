@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--  Fev,2015 UFSCar
-      v0.19
+      v0.2
       Guilherme M. A. Ramos
       Victor Otavio Nogueira Sales
                                     -->
 <html>
 <head>
-  <title>IC v0.19</title>
+  <title>IC v0.2</title>
   <audio id = "beep01">
     <source src="data/sound/beep01.mp3" type="audio/mpeg">
   </audio>
@@ -21,6 +21,12 @@
   </audio>
   <audio id = "lock">
     <source src="data/sound/lock.mp3" type="audio/mpeg">
+  </audio>
+  <audio id = "alarm">
+    <source src="data/sound/alarm.mp3" type="audio/mpeg">
+  </audio>
+  <audio id = "loudAlarm">
+    <source src="data/sound/loudAlarm.mp3" type="audio/mpeg">
   </audio>
   <script type="text/javascript" src="src/quill/quill.js"></script>
   <script type="text/javascript" src="src/spin/spin.js"></script>
@@ -85,6 +91,7 @@ html {width:100%; height:100%; overflow:hidden}
         onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
   <div id="E" style="background-color:transparent;position: absolute; left:0%;top:35%; width:20%; height:30%" 
         onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))"></div>
+  <div id="corte" style="position: absolute; left:20%;top:20%; width:60%; height: 60%"></div> 
   <div id="centro" style="position: absolute; left:40%;top:40%; width:20%; height: 20%" 
         onmouseover="mOver(this.getAttribute('id'))" onmouseout="mOut(this.getAttribute('id'))">
 	<div id="editor" style="position: absolute;width:100%; height: 100%"></div></div>
