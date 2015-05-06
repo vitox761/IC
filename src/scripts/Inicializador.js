@@ -1,4 +1,4 @@
-//tem q pegar dos Cookies.js
+//tem q pegar dos Storages.js
 
 function inicio(){
   // Criando editor rich text e vetor de cores
@@ -9,31 +9,8 @@ function inicio(){
   cursorVisivel = 1;
   cursor();
 
-  // Vetor de cookies
-  CookiesDeHoje = "";
-
-  // Cookies
-  texto = "";
-  indiceCookie = 1;
-  var d = new Date();
-  var n = new Date();
-  var o = new Date(n.getTime()-30*24*60*60*1000); //30 dias atras
-  d.setTime(d.getTime() + (30*24*60*60*1000));//30 dias de validade de um cookie
-
-  for (var i = 0; i < 31; i++)
-  {
-    o.setTime(o.getTime()+24*60*60*1000);
-    nomeCookie = o.toString().substring(4,15);
-    nomeCookie = trim(nomeCookie);
-    while (getCookie(nomeCookie+"_"+indiceCookie) != "")
-    {
-       CookiesDeHoje += getCookie(nomeCookie+"_"+indiceCookie)+ " ";
-       indiceCookie++;
-    }
-  }
-  CookiesDeHoje = enter(CookiesDeHoje);
-
-  timerAutoSave = setInterval(function(){document.cookie = nomeCookie+"_"+indiceCookie+"="+texto+"; expires="+d.toUTCString();}, 5000);
+  // Inicializando Storage
+  inicializarStorage();
 
   // Vetor para salvar combinacao
   combination = ["",""];
@@ -143,8 +120,12 @@ function inicio(){
   ctx.font = size_font_big+"px keys"
   ctx.fillText("^",posicao["C"].width1A,posicao["C"].height1A);
 
+  //nomejaushoauh = getStorage(localStorage.getItem("historico"),1);
+  editor.insertText(editor.getLength()-1,StoragesDeHoje,{'color': cores[coresCont],'size':'30px'});
 
-  editor.insertText(editor.getLength()-1,CookiesDeHoje,{'color': cores[coresCont],'size':'30px'});
+  // scroll
+  Letra("B",1)
+  Letra("BH",1)
 
   canvasDraw();
 

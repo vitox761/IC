@@ -177,6 +177,10 @@ function ocioso(controle)
       document.getElementById("centro").style.width = "20%"; 
       document.getElementById("centro").style.left = "40%"; 
       document.getElementById("centro").style.top = "40%"; 
+
+      // scroll
+      Letra("B",1)
+      Letra("BH",1)
     }
 
     // Acessando o texto expandido

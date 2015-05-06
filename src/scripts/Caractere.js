@@ -30,7 +30,7 @@ function Letra(pos,flag)
     {
       caractere = 'u';
       if (texto[texto.length-1] == 'U' || texto[texto.length-1] == 'u')
-			   caractere = "\n";
+			   caractere = "\n ";
     }
 		else
 			caractere = 'w';
@@ -125,11 +125,11 @@ function Letra(pos,flag)
           if (caractere == 'j' && (texto[texto.length-1] == 'j' || texto[texto.length-1] == 'J')) 
             document.getElementById('alarm').play();
 
-       if (caractere == '\n')
+       if (caractere == '\n ')
        {
           texto = texto.substring(0,texto.length-1);
           editor.deleteText(length-2,length);
-          texto = texto.concat(',');
+          texto = texto.concat(';');
        }
        else
           texto = texto.concat(caractere);
