@@ -5,7 +5,7 @@ function canvasDrawLine()
   ctx.beginPath();
   ctx.strokeStyle = "white";
   ctx.lineWidth = 1;
-  ctx.moveTo(c.width*0.37,c.height*0.37);
+  ctx.moveTo(c.width*0.36,c.height*0.36);
   ctx.lineTo(size_font_big*3,size_font_big*3);
   ctx.stroke();//< /\
 
@@ -110,9 +110,9 @@ function canvasDrawTeclado(pos)
     ctx.fillStyle = 'white';
     //Teclado Miniatura
     if(pos == "B")
-      ctx.font = size_font_small*2+"px "+posicao[pos].font2;
+      ctx.font = size_font_big*1.4+"px "+posicao[pos].font2;
     else
-      ctx.font = size_font_small+"px "+posicao[pos].font2;
+      ctx.font = size_font_big*0.7+"px "+posicao[pos].font2;
     // MINIATURA Secundario
     ctx.fillStyle = "rgba(100, 100, 100, 100)";
     ctx.fillText(posicao[pos].text2A,posicao[pos].width1D,posicao[pos].height1D);
@@ -120,7 +120,7 @@ function canvasDrawTeclado(pos)
     ctx.fillText(posicao[pos].text2C,posicao[pos].width3D,posicao[pos].height3D);
     // MINIATURA Primario
     if(pos != "B")
-      ctx.font = "bold "+size_font_small+"px "+posicao[pos].font2;
+      ctx.font = "bold "+size_font_big*0.7+"px "+posicao[pos].font2;
     ctx.fillStyle = "white";
     ctx.fillText(posicao[pos].text1A,posicao[pos].width1C,posicao[pos].height1C);
     ctx.fillText(posicao[pos].text1B,posicao[pos].width2C,posicao[pos].height2C);
@@ -155,7 +155,7 @@ function drawChar(comb,pos)
       if(comb == "CFDGB" || comb == "CAEHB")
       {
         ctx.font = size_font_big*2+"px keys"
-        ctx.fillText("L",posicao[pos].width1A-size_font_small,posicao[pos].height1A);
+        ctx.fillText("L",posicao[pos].width1A-size_font_big*0.6,posicao[pos].height1A+size_font_small);
       }
       else
       {
