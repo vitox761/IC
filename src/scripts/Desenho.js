@@ -179,19 +179,28 @@ function cursor()
     document.getElementById('B').style.background = 'none'
     document.getElementById('H').style.background = 'none'
     document.getElementById('E').style.background = 'none'
+    document.getElementById('corte1').style.background = 'none'
+    document.getElementById('corte2').style.background = 'none'
+    document.getElementById('corte3').style.background = 'none'
+    document.getElementById('corte4').style.background = 'none'
   }
   else
   {
     document.body.style.cursor = 'default';
     document.getElementById('editor').style.cursor = 'default';
-    document.getElementById('A').style.background = 'gray'
-    document.getElementById('C').style.background = 'yellow'
+    document.getElementById('A').style.background = 'yellow'
+    document.getElementById('C').style.background = 'magenta'
     document.getElementById('F').style.background = 'blue'
-    document.getElementById('D').style.background = 'green'
+    document.getElementById('D').style.background = 'gray'
     document.getElementById('G').style.background = 'red'
-    document.getElementById('B').style.background = 'white'
-    document.getElementById('H').style.background = 'brown'
-    document.getElementById('E').style.background = 'purple'
+    document.getElementById('B').style.background = 'purple'
+    document.getElementById('H').style.background = 'green'
+    document.getElementById('E').style.background = 'white'
+    document.getElementById('corte1').style.background = 'black'
+    document.getElementById('corte2').style.background = 'black'
+    document.getElementById('corte3').style.background = 'black'
+    document.getElementById('corte4').style.background = 'black'
+
   }
   cursorVisivel = !cursorVisivel;
 }
