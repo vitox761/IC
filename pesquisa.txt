@@ -1,0 +1,4 @@
+http://en.wikipedia.org/wiki/Levenshtein_distance
+https://nullwords.wordpress.com/2013/03/13/the-bk-tree-a-data-structure-for-spell-checking/
+http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/en/us/pubs/archive/36180.pdf
+http://igoro.com/archive/efficient-auto-complete-with-a-ternary-search-tree/
