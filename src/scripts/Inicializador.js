@@ -125,10 +125,13 @@ function inicio(){
 
   // scroll
   Letra("B",1)
-  Letra("BH",1)
+  Letra("BH", 1)
+   
+  coletorDados(" ");
 
   canvasDraw();
 
   // Chama a tela de splash
   ocioso(1);
 }
+

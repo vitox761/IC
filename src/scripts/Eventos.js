@@ -13,7 +13,6 @@ function keyboardTrans(pos) //Funcao para inverter teclado principal com secunda
     highlight(posicao[pos].highlightW,posicao[pos].highlightH,0);
 }
 
-
 function mOver(pos)
 {
   if (pos == "centro") //se entrou no centro

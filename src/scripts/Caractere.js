@@ -1,5 +1,6 @@
 // Funcao para encontrar o caracter desejado a partir da combinaçao entrada
-function Letra(pos,flag)
+
+function Letra(pos, flag)
 {
   var caractere = ';';
   var length = editor.getLength();
@@ -125,16 +126,17 @@ function Letra(pos,flag)
           if (caractere == 'j' && (texto[texto.length-1] == 'j' || texto[texto.length-1] == 'J')) 
             document.getElementById('alarm').play();
 
-       if (caractere == '\n ')
-       {
-          texto = texto.substring(0,texto.length-1);
-          editor.deleteText(length-2,length);
-          texto = texto.concat(';');
+       if (caractere == '\n ') {
+           texto = texto.substring(0, texto.length - 1);
+           editor.deleteText(length - 2, length);
+           texto = texto.concat(';');
        }
        else
-          texto = texto.concat(caractere);
-       
-       
+           texto = texto.concat(caractere);
+       //Coleta dados para melhorar o algoritmo
+       coletorDados(caractere);
+
+              
 
        editor.insertText(length-1,caractere,{'color': cores[coresCont],'size':'30px'});
        // Manter sempre a caixa de texto atualizada ( auto scroll )
@@ -165,7 +167,7 @@ function Letra(pos,flag)
           document.getElementById('beep03').play();
           if(length > 0)
           {
-            var lastChar = editor.getText(length-2,length-1);
+            lastChar = editor.getText(length-2,length-1);
             // Verifica se um ponto foi removido e muda a cor no caso positivo
             if(lastChar == '.')
        	      if(coresCont == 0)
@@ -174,10 +176,13 @@ function Letra(pos,flag)
        	   		   coresCont = 0;
             editor.deleteText(length-2,length);
             texto = texto.substring(0,texto.length-1);
-            editor.setSelection(length-1,length-1);
+            editor.setSelection(length - 1, length - 1);
+            //Coleta dados para melhorar o algoritmo
+            coletorDados(caractere);
           }
         }
   }
+
 	if(!flag)
 		return caractere.toUpperCase();
 
@@ -202,4 +207,56 @@ function Letra(pos,flag)
       // Desbloqueia
       ocioso(2);
   }
+}
+  
+function coletorDados(caractere) {
+
+    // Verifica se o localStorage ja foi criado
+    if (!localStorage.getItem("TempoTotal"))
+        localStorage.setItem("TempoTotal", 0);
+    if (!localStorage.getItem("CaracteresTotal"))
+        localStorage.setItem("CaracteresTotal", 0);
+    if (!localStorage.getItem("Erros"))
+        localStorage.setItem("Erros", 0);
+    if (!localStorage.getItem("VetorErros"))
+        localStorage.setItem("VetorErros", ";");
+
+    if (ligado == 1 && caractere != " " && caractere != ". " && caractere != "del") {
+        caracteresTotal++;
+    }
+
+    if (ligado == 1 && caractere == "del") {
+        erros++;
+        localStorage.VetorErros = localStorage.VetorErros + ";" + lastChar;
+    }
+
+
+    if (ligado == 1 && caractere == " " || caractere == ". ") {
+        fim = new Date().getTime();
+        ligado = 0;
+        tempoTotal += (fim - inicio);
+        
+        aux = parseInt(localStorage.TempoTotal);
+        aux += tempoTotal;
+        localStorage.TempoTotal = aux;
+
+        aux = parseInt(localStorage.CaracteresTotal);
+        aux += caracteresTotal;
+        localStorage.CaracteresTotal = aux;
+
+        aux = parseInt(localStorage.Erros);
+        aux += erros;
+        localStorage.Erros = aux;
+
+        tempoTotal = 0;
+        caracteresTotal = 0;
+        erros = 0;
+
+    }
+
+    if (ligado == 0 && caractere != " " && caractere != ". " && caractere != "del") {
+        ligado = 1;
+        inicio = new Date().getTime();
+        caracteresTotal++;
+    }
 }
