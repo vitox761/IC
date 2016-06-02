@@ -3,20 +3,73 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WorkingWithXAML.MainWindow"
         Title="MainWindow" 
-        WindowStartupLocation="CenterScreen" 
-        Width="1280" Height="720" WindowStyle="None"
-        SizeChanged="Window_SizeChanged" Loaded="Window_Loaded">
-    <Grid x:Name="pMain" Width="1280" Height="720">
-        <Grid x:Name="p0" Background="Aquamarine" Margin="0,0,832,468" Height="252" Width="448"/>
-        <Grid x:Name="p1" Background="Black" Margin="448,0,448,576" Height="144" Width="384"/>
-        <Grid x:Name="p2" Background="Aquamarine" Margin="832,0,0,468" Height="252" Width="448"/>
-        <Grid x:Name="p3" Background="Black" Margin="1024,252,0,252" Height="216" Width="256"/>
-        <Grid x:Name="p4" Background="Aquamarine" Margin="832,468,0,0" Height="252" Width="448"/>
-        <Grid x:Name="p5" Background="Black" Margin="448,576,448,0" Height="144" Width="384"/>
-        <Grid x:Name="p6" Background="Aquamarine" Margin="0,468,832,0" Height="252" Width="448"/>
-        <Grid x:Name="p7" Background="Black" Margin="0,252,1024,252" Height="216" Width="256"/>
-        <Grid x:Name="p8" Background="Red" Margin="256,144,256,144" Height ="432" Width="848" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox Name="txtInput" Height="60" Width="300" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True"/>
+        WindowStartupLocation="CenterScreen" Width="1280" Height="720" WindowStyle="None" 
+        WindowState="Maximized" Loaded="Window_Loaded">
+    <Grid x:Name="pMain" Width="1280" Height="720" Background="Black">
+        <Label Name="min0" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="89,48,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min1" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="622,48,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min2" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="1176,48,-18,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min3" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="1176,336,-18,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min4" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="1176,620,-18,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min5" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="622,620,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min6" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="89,600,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+        <Label Name="min7" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="89,336,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+
+
+
+
+        <TextBox Name="txtInput"  Foreground="#FFE0E0E0" Background="Transparent" Height="150" Width="300" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        <Grid x:Name="p0" Background="Transparent" Margin="0,-24,832,468" Height="276" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave" VerticalAlignment="Bottom">
+
         </Grid>
+        <Grid x:Name="p1" Background="Transparent" Margin="448,-24,448,576" Width="384" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
+        <Grid x:Name="p2" Background="Transparent" Margin="832,-24,0,468" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
+        <Grid x:Name="p3" Background="Transparent" Margin="1024,252,0,252" Height="216" Width="256" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave">
+        </Grid>
+
+        <Grid x:Name="p4" Background="Transparent" Margin="832,468,0,0" Height="252" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave">
+        </Grid>
+        <Grid x:Name="p5" Background="Transparent" Margin="448,576,448,0" Height="144" Width="384" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave">
+
+        </Grid>
+        <Grid x:Name="p6" Background="Transparent" Margin="0,468,832,0" Height="252" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave">
+        </Grid>
+        <Grid x:Name="p7" Margin="0,252,1024,252" Height="216" Width="256" Background="Transparent" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave">
+        </Grid>
+        <Grid x:Name="p8" Background="Transparent" Margin="256,144,256,144" Height ="432" Width="848" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <Label Name="min00" Content="A B" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="63" Width="73" Margin="233,96,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min01" Content="C" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="43" Width="52" Margin="233,116,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min02" Content="0 Z" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="63" Width="73" Margin="254,116,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min03" Content="Y" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="43" Width="52" Margin="254,136,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min10" Content="D E F" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="68" Width="178" Margin="396,96,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min11" Content="1 2 3" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="68" Width="178" Margin="396,116,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min20" Content="G I" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="63" Width="90" Margin="579,96,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min21" Content="H" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="589,115,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min22" Content="4 5" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="63" Width="90" Margin="555,116,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min23" Content="6" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="574,136,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min30" Content="T" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="232,173,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min31" Content="U" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="232,193,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min32" Content="V" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="232,213,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min33" Content="K" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="250,173,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min34" Content="W" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="250,193,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min35" Content="X" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="250,213,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min40" Content="J" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="589,173,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min41" Content="L" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="589,193,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min42" Content="M" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="589,213,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min43" Content="7" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="574,173,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min44" Content="8" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="574,193,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
+            <Label Name="min45" Content="9" HorizontalAlignment="Left" Foreground="Gray" VerticalAlignment="Top" Height="78" Width="56" Margin="574,213,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min50" Content="Q" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="236,270,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min51" Content="S R" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="236,291,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min70" Content="N" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="579,271,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min71" Content="P O" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="562,291,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label Name="min60" Content="V D A" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="153" Margin="365,293,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436" FontFamily="/WorkingWithXAML;component/Fonts/#Betsy Flanagan 2"/>
+
+
+        </Grid>
+        <Grid Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,252,490,267"/>
+
     </Grid>
 </Window>
