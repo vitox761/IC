@@ -8,16 +8,16 @@ namespace WorkingWithXAML
 {
     public static class CharacterDecoder
     {
-        public static string generateCharacter(string print, int blockType, bool firstKeyboard)
+        public static string generateCharacter(string print, int blockType, bool primaryKeyboard)
         {
             if (blockType != 0)
                 return "ɮ";
-            if (firstKeyboard) //teclado primario
+            if (primaryKeyboard) //main keyboard
             {
                 switch (print)
                 {
                     case "ii":
-                        return "Ø"; //letra cancelada
+                        return "Ø"; //cancelled character
                     case "0":
                         return "A";
                     case "01":
@@ -75,7 +75,7 @@ namespace WorkingWithXAML
                 switch (print)
                 {
                     case "ii":
-                        return "Ø"; //letra cancelada
+                        return "Ø"; //cancelled character
                     case "0":
                         return "0";
                     case "01":

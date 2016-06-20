@@ -66,10 +66,15 @@
             <Label Name="min70" Content="N" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="579,271,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
             <Label Name="min71" Content="P O" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="56" Margin="562,291,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
             <Label Name="min60" Content="V D A" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="153" Margin="365,293,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436" FontFamily="/WorkingWithXAML;component/Fonts/#Betsy Flanagan 2"/>
+            
+            <Label Name="sug1" Content="palavra" HorizontalAlignment="Left" Foreground="Gray" Margin="70,20,0,0" VerticalAlignment="Top" Height="60" Width="215" FontSize="30"  RenderTransformOrigin="0.5,0.5"/>
+            <Label Name="sug2" Content="palavra" HorizontalAlignment="Left" Foreground="Gray" Margin="630,20,0,0" VerticalAlignment="Top" Height="60" Width="215" FontSize="30" />
+            <Label Name="sug3" Content="palavra" HorizontalAlignment="Left" Foreground="Gray" Margin="70,340,0,0" VerticalAlignment="Top" Height="60" Width="215" FontSize="30" />
+            <Label Name="sug4" Content="palavra" HorizontalAlignment="Left" Foreground="Gray" Margin="630,340,0,0" VerticalAlignment="Top" Height="60" Width="215" FontSize="30" />
 
 
         </Grid>
-        <Grid Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,252,490,267"/>
+        <Grid Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,285"/>
 
     </Grid>
 </Window>
