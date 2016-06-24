@@ -358,10 +358,10 @@ namespace AutoComplete.Classes
             return query;
         }
 
-        public  IEnumerable<DataType> Search(string input, string fieldName = "") //adjusts the query and returns only the word
+        public IEnumerable<DataType> Search(string input, string fieldName = "") //adjusts the query and returns only the word
         {
             if (string.IsNullOrEmpty(input)) return new List<DataType>();
-            var terms = input.Trim().Replace("-", " ").Split(' ')
+            var terms = input.Trim().ToLower().Replace("-", " ").Split(' ')
                 .Where(x => !string.IsNullOrEmpty(x)).Select(x => x.Trim() + "*");
             input = string.Join(" ", terms);
             return _search(input);

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Text.RegularExpressions;
 namespace AutoComplete.Classes
 {
-    public static class AutoComplete
+    public static class Suggester
     {
         private static bool _isNormalizing;
         private static int typedLetterCount;
@@ -19,7 +16,7 @@ namespace AutoComplete.Classes
         private static volatile bool _stopNow;
 
 
-        public static void initializeSuggestor()
+        public static void initializeSuggester()
         {
             luceneSearch = new LuceneSearch("lucene_index");
         }
@@ -30,6 +27,7 @@ namespace AutoComplete.Classes
         /// <param name="word">Word to be indexed</param>
         public static void indexWord(string word)
         {
+
             string[] wordsToBeIndexed = Regex.Split(word, @"\W+");
             Thread indexingThread = new Thread(() => indexInThread(wordsToBeIndexed, true));
             indexingThread.Priority = ThreadPriority.Highest;
@@ -53,7 +51,7 @@ namespace AutoComplete.Classes
         /// </summary>
         /// <param name="prefix">Prefix or similar word to be processed</param>
         /// <returns></returns>
-        public static IEnumerable<string> getSuggestions(string prefix)
+        public static List<string> getSuggestions(string prefix)
         {
             List<string> suggestions = new List<string>();
             IEnumerable<DataType> searchResults = new List<DataType>();
@@ -63,15 +61,11 @@ namespace AutoComplete.Classes
             }
             catch
             {
-                return new List<string>();
+                searchResults = new List<DataType>();
             }
-            int count = 0;
             foreach (DataType word in searchResults.Reverse<DataType>())
             {
-                count++;
                 suggestions.Add(word.Word);
-                if (count == 4)
-                    break;
             }
             return suggestions;
         }

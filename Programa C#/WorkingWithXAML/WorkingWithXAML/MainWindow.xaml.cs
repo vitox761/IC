@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
+using AutoComplete.Classes;
 
 namespace WorkingWithXAML
 {
@@ -42,6 +43,9 @@ namespace WorkingWithXAML
         string[] panelNames;
         string[] labelNames;
         string[] suggestionNames;
+        Label[] suggestionLabel;
+        string currentWord;
+        List<string> suggestionsList;
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
         bool isBetsy;
         Label lbl_aux;
@@ -58,8 +62,17 @@ namespace WorkingWithXAML
             primaryKeyboard = true;
             blockType = 0;
             isBlocked = false;
+            suggestionLabel = new Label[4];
+            for (int i = 1; i < 5; i++) //References the suggestion labels with an array and clear their "Content" property
+            {
+                suggestionLabel[i - 1] = (Label)(FindName("sug" + i));
+                suggestionLabel[i - 1].Content = "";
+            }
             changeObjectsSize();
-
+            //initialize the Suggester
+            Suggester.initializeSuggester();
+            suggestionsList = new List<string>();
+            currentWord = "";
             //every 2 seconds after the keyboardTimer has started, the changeKeyboard function will be called 
             keyboardTimer.Interval = 2000; 
             keyboardTimer.Elapsed += new ElapsedEventHandler(changeKeyboard); 
@@ -111,7 +124,7 @@ namespace WorkingWithXAML
 
         private void centreMouseEnter(object sender, MouseEventArgs e)
         {
-            centreProcessing();
+            centreProcessing();            
         }
 
         #endregion
@@ -144,14 +157,23 @@ namespace WorkingWithXAML
                 obj.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
                 obj.Margin = new Thickness(obj.Margin.Left * wProportion, obj.Margin.Top * hProportion, obj.Margin.Right * wProportion, obj.Margin.Bottom * hProportion);
             }
-            foreach (string name in suggestionNames) //Suggestions adaptation
+            for (int i = 0; i < 4; i++) //Suggestions adaptation
             {
-                var obj = (Label)FindName(name);
-                obj.Height *= hProportion;
-                obj.Width *= wProportion;
-                obj.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-                obj.Margin = new Thickness(obj.Margin.Left * wProportion, obj.Margin.Top * hProportion, obj.Margin.Right * wProportion, obj.Margin.Bottom * hProportion);
+                //var obj = (Label)FindName(name);
+                suggestionLabel[i].Height *= hProportion;
+                suggestionLabel[i].Width *= wProportion;
+                suggestionLabel[i].FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+                suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
             }
+            /*
+            for (int i = 0; i < 4; i++)
+            {                
+                suggestionLabel[i].Height *= hProportion;
+                suggestionLabel[i].Width *= wProportion;
+                suggestionLabel[i].FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+                suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
+            }
+            */
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
             //Fonts adaptation
@@ -242,6 +264,7 @@ namespace WorkingWithXAML
         private void centreProcessing()
         {            
             keyboardTimer.Stop();
+            
             if (isBetsy) //changing back to the original font
             {
                 for (int i = 0; i <= 7; i++)
@@ -255,7 +278,12 @@ namespace WorkingWithXAML
             lastPanel = "";
             if (centreProcessed) //if the centre was already processed (no movement to the borders so far), no operation needed
                 return;
-            switch(blockType)
+
+            for (int i = 0; i < 4; i++) //Clear all the suggestion labels
+            {
+                suggestionLabel[i].Content = "";
+            }
+            switch (blockType)
             {
                 case 1: //Blocked to rest
                     isBlocked = false;
@@ -315,6 +343,8 @@ namespace WorkingWithXAML
                             case "ESPAÇO": 
                                 finalChar = " ";
                                 txtInput.AppendText(finalChar); //append a space
+                                Suggester.indexWord(currentWord);
+                                currentWord = "";
                                 break;
                             case ".":
                                 nextIsUpper = true;
@@ -331,6 +361,13 @@ namespace WorkingWithXAML
                                             nextIsUpper = true;
                                     }
                                     string aux = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
+
+                                    if (currentWord.Length > 0) 
+                                        currentWord = currentWord.Substring(0, currentWord.Length - 1);
+                                    //TODO: take last word entered if the entire currentWord has been deleted
+
+                                    addSuggestionsToLabels();
+
                                     txtInput.Text = "";
                                     txtInput.AppendText(aux);
                                 }
@@ -342,6 +379,9 @@ namespace WorkingWithXAML
                                     txtInput.AppendText(finalChar.ToLower());
                                 else
                                     txtInput.AppendText(finalChar);
+                                currentWord += finalChar; //currentWord receives the last char
+
+                                addSuggestionsToLabels();
 
                                 nextIsUpper = false; //after the upper case letter has been already entered, the next one will be lower for sure
                                 break;
@@ -357,6 +397,22 @@ hasJustBeenBlocked:
             primaryKeyboard = true;
             composition = "-";
             centreProcessed = true;
+        }
+
+        public void addSuggestionsToLabels()
+        {
+            suggestionsList = Suggester.getSuggestions(currentWord);
+            for (int i = 0; i < 4; i++)
+            {
+                try
+                {
+                    suggestionLabel[i].Content = suggestionsList[i];
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
 
         #endregion

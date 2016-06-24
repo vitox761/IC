@@ -74,7 +74,6 @@
     <Compile Include="AutoComplete Feature\BrAnalyzer\BrazilianStemFilter.cs" />
     <Compile Include="AutoComplete Feature\BrAnalyzer\BrazilianStemmer.cs" />
     <Compile Include="AutoComplete Feature\DataTypeDefinition.cs" />
-    <Compile Include="AutoComplete Feature\EdgeNGramTokenFilter.cs" />
     <Compile Include="AutoComplete Feature\LuceneSearch.cs" />
     <Compile Include="Classes\CharacterDecoder.cs" />
     <Compile Include="MainWindow.xaml.cs">
