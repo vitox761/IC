@@ -14,6 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Timers;
 using AutoComplete.Classes;
+using System.IO;
+using System.Text;
+using System.Diagnostics;
+
+
 
 namespace WorkingWithXAML
 {
@@ -49,6 +54,12 @@ namespace WorkingWithXAML
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
         bool isBetsy;
         Label lbl_aux;
+        string path = @"data.txt";
+        bool colectorOn = false;
+        int erros = 0;
+        int caracteresTotal = 0;
+        string[] arquivo = new string[4];
+        Stopwatch timer = new Stopwatch();
         #endregion
 
         #region Event Handlers
@@ -290,7 +301,14 @@ namespace WorkingWithXAML
                     if (composition == "-12345" || composition == "-10765")
                     {
                         blockType = 0; 
-                        //TODO: Restore common user interface                                           
+                        //Restoring default UI
+                        locklogo.Visibility = System.Windows.Visibility.Hidden;
+                        txtInput.Visibility = System.Windows.Visibility.Visible;
+                        for (int i = 8; i < 35; i++)
+                        {
+                            var obj = (Label)FindName(labelNames[i]);
+                            obj.Visibility = System.Windows.Visibility.Visible;
+                        }                
                     }
                     break;                        
 
@@ -299,7 +317,14 @@ namespace WorkingWithXAML
                     if (composition == "-12345" || composition == "-10765")
                     {
                         blockType = 0;
-                        //TODO: Restore common user interface                                           
+                        // Restoring default UI
+                        txtInput.Width = txtInput.Width / 3;
+                        txtInput.Height = txtInput.Height / 3;
+                        for (int i = 8; i < 35; i++)
+                        {
+                            var obj = (Label)FindName(labelNames[i]);
+                            obj.Visibility = System.Windows.Visibility.Visible;
+                        }                                        
                     }
                     break;
 
@@ -314,14 +339,28 @@ namespace WorkingWithXAML
                         {
                             isBlocked = true;
                             blockType = 1;
-                            //TODO: Block to rest implementation 
+                            // Blocking Screen to rest mode
+                            locklogo.Visibility = System.Windows.Visibility.Visible;
+                            txtInput.Visibility = System.Windows.Visibility.Hidden;
+                            for (int i = 8; i < 35; i++)
+                            {
+                                var obj = (Label)FindName(labelNames[i]);
+                                obj.Visibility = System.Windows.Visibility.Hidden;
+                            }
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
                         if (composition == "-10765")
-                        {
+                    {
                             isBlocked = true;
                             blockType = 2;
-                            //TODO: Block to see full text implementation
+                            // Block Screen to read mode
+                            txtInput.Width = txtInput.Width * 3;
+                            txtInput.Height = txtInput.Height * 3;
+                            for (int i = 8; i < 35; i++)
+                            {
+                                var obj = (Label)FindName(labelNames[i]);
+                                obj.Visibility = System.Windows.Visibility.Hidden;
+                            }
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
 
@@ -337,6 +376,77 @@ namespace WorkingWithXAML
 
                         //Process the "character to be concatenated" / "operation to be done" in the TextBox
                         finalChar = CharacterDecoder.generateCharacter(charToPrint, blockType, primaryKeyboard);
+                     
+                        
+                        //Data colector implementation below
+                        if (!File.Exists(path))
+                        {
+                            using (StreamWriter writer = new StreamWriter(path))
+                            {
+                                writer.WriteLine("0"); // Tempo Total
+                                writer.WriteLine("0"); // Caracteres Total
+                                writer.WriteLine("0"); // Erros Total
+                                writer.WriteLine(" "); // Vetor de erros
+                            }
+                        }
+                        using(StreamReader readtext = new StreamReader(path))
+                        {
+                           arquivo[0] = readtext.ReadLine();
+                           arquivo[1] = readtext.ReadLine();
+                           arquivo[2] = readtext.ReadLine();
+                           arquivo[3] = readtext.ReadLine();
+                        }
+
+                        if (colectorOn == true && finalChar != "ESPAÇO" && finalChar != "." && finalChar != "DEL")
+                        {
+                            caracteresTotal++;
+                        }
+
+                        if (colectorOn == true && finalChar == "DEL")
+                        {
+                            erros++;
+                            arquivo[3] = arquivo[3] + ";" + txtInput.Text.Substring(txtInput.Text.Length - 1);
+                        }
+
+                        if (colectorOn == true && finalChar == "ESPAÇO" || finalChar == ".")
+                        {
+                            timer.Stop();
+                            colectorOn = false;
+
+                            int aux;
+                            long aux2;
+                            aux2 = Int32.Parse(arquivo[0]);
+                            aux2 += timer.ElapsedMilliseconds;
+                            arquivo[0] = aux2.ToString();
+
+                            aux = Int32.Parse(arquivo[1]);
+                            aux += caracteresTotal;
+                            arquivo[1] = aux.ToString();
+
+                            aux = Int32.Parse(arquivo[2]);
+                            aux += erros;
+                            arquivo[2] = aux.ToString();
+
+                            caracteresTotal = 0;
+                            erros = 0;
+
+                        }
+
+                        if (colectorOn == false && finalChar != "ESPAÇO" && finalChar != "." && finalChar != "DEL")
+                        {
+                            colectorOn = true;
+                            timer.Start();
+                            caracteresTotal++;
+                        }
+
+                        using (StreamWriter writer = new StreamWriter(path))
+                        {
+                            writer.WriteLine(arquivo[0]); // Tempo Total
+                            writer.WriteLine(arquivo[1]); // Caracteres Total
+                            writer.WriteLine(arquivo[2]); // Erros Total
+                            writer.WriteLine(arquivo[3]); // Vetor de erros
+                        }
+
 
                         switch (finalChar)
                         {

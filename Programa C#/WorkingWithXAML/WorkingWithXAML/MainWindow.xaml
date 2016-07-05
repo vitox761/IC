@@ -19,7 +19,8 @@
 
 
         <TextBox Name="txtInput"  Foreground="#FFE0E0E0" Background="Transparent" Height="150" Width="300" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True"/>
-
+        <Image Source="images\locked.png" Name="locklogo" Visibility ="Hidden" Height="150" Width="300"/>
+        
         <Grid x:Name="p0" Background="Transparent" Margin="0,-24,832,468" Height="276" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave" VerticalAlignment="Bottom">
 
         </Grid>
