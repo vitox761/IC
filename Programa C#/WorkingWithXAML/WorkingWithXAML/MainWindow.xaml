@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WorkingWithXAML.MainWindow"
         Title="MainWindow" 
         WindowStartupLocation="CenterScreen" Width="1280" Height="720" WindowStyle="None" 
-        WindowState="Maximized" Loaded="Window_Loaded">
+        WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid x:Name="pMain" Width="1280" Height="720" Background="Black">
         <Label Name="min0" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="89,48,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
         <Label Name="min1" Content="" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="122" Margin="622,48,0,0" FontSize="30" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
@@ -18,9 +18,9 @@
 
 
 
-        <TextBox Name="txtInput"  Foreground="#FFE0E0E0" Background="Transparent" Height="150" Width="300" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True"/>
+        <TextBox Name="txtInput"  Foreground="#FFE0E0E0" Background="Transparent" Width="300" FontSize="18" TextWrapping="Wrap" AcceptsReturn="True" Margin="490,323,490,338"/>
         <Image Source="images\locked.png" Name="locklogo" Visibility ="Hidden" Height="150" Width="300"/>
-        
+
         <Grid x:Name="p0" Background="Transparent" Margin="0,-24,832,468" Height="276" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave" VerticalAlignment="Bottom">
 
         </Grid>

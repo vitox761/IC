@@ -187,6 +187,7 @@ namespace WorkingWithXAML
             */
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
+            txtInput.Margin = new Thickness(txtInput.Margin.Left * wProportion, txtInput.Margin.Top * hProportion, txtInput.Margin.Right * wProportion, txtInput.Margin.Bottom * hProportion);
             //Fonts adaptation
             txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2)); 
         }
@@ -289,11 +290,7 @@ namespace WorkingWithXAML
             lastPanel = "";
             if (centreProcessed) //if the centre was already processed (no movement to the borders so far), no operation needed
                 return;
-
-            for (int i = 0; i < 4; i++) //Clear all the suggestion labels
-            {
-                suggestionLabel[i].Content = "";
-            }
+            
             switch (blockType)
             {
                 case 1: //Blocked to rest
@@ -350,7 +347,7 @@ namespace WorkingWithXAML
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
                         if (composition == "-10765")
-                    {
+                        {
                             isBlocked = true;
                             blockType = 2;
                             // Block Screen to read mode
@@ -364,7 +361,31 @@ namespace WorkingWithXAML
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
 
-
+                        //suggestions' acceptance
+                        if (composition == "-701" || composition == "-107")
+                        {
+                            acceptSuggestion(0);
+                            goto acceptedSuggestion;
+                        }
+                        if (composition == "-123" || composition == "-321")
+                        {
+                            acceptSuggestion(1);
+                            goto acceptedSuggestion;
+                        }
+                        if (composition == "-345" || composition == "-543")
+                        {
+                            acceptSuggestion(2);
+                            goto acceptedSuggestion;
+                        }
+                        if (composition == "-567" || composition == "-765")
+                        {
+                            acceptSuggestion(3);
+                            goto acceptedSuggestion;
+                        }
+                        for (int i = 0; i < 4; i++) //Clear all the suggestion labels
+                        {
+                            suggestionLabel[i].Content = "";
+                        }
                         try
                         {   //Prepare to print a character composed of 2 movements
                             charToPrint = composition.Substring(1, 2);
@@ -501,12 +522,28 @@ namespace WorkingWithXAML
                         isCancelled = !isCancelled; //the letter that was cancelled wasn't processed and the next may not be cancelled
                     break; //breaking the default case
             }
-
+acceptedSuggestion:
 didntLeaveCentre:
-hasJustBeenBlocked: 
+hasJustBeenBlocked:
+            currentWord = "";            
             primaryKeyboard = true;
             composition = "-";
             centreProcessed = true;
+        }
+
+        //accepts one of the suggestions
+        public void acceptSuggestion(int which)
+        {
+            if (suggestionLabel[which].Content != "")
+            {
+                txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - currentWord.Length - 1);
+                txtInput.Text += suggestionLabel[which].Content + " ";
+                for (int i = 0; i < 4; i++) //Clear all the suggestion labels
+                {
+                    suggestionLabel[i].Content = "";
+                }
+            }
+            
         }
 
         public void addSuggestionsToLabels()
@@ -527,5 +564,9 @@ hasJustBeenBlocked:
 
         #endregion
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Suggester.saveInDisk();
+        }
     }
 }
