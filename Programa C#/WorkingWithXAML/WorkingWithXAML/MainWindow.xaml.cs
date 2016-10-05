@@ -19,7 +19,6 @@ using System.Text;
 using System.Diagnostics;
 
 
-
 namespace WorkingWithXAML
 {
     /// <summary>
@@ -33,6 +32,7 @@ namespace WorkingWithXAML
         }
 
         #region Global Variables
+
         bool nextIsUpper = true; //the first character is upper 
         string composition; 
         bool isCancelled; 
@@ -48,7 +48,11 @@ namespace WorkingWithXAML
         string[] panelNames;
         string[] labelNames;
         string[] suggestionNames;
-        Label[] suggestionLabel;
+        TextBlock[] suggestionLabel;
+        StackPanel[] suggestionStackPanel;
+        double suggestionFontCoefficient = 155;
+        bool[] naturalSugFontSize = new bool[4] { true, true, true, true };
+        double[] naturalSugWidth;
         string currentWord;
         List<string> suggestionsList;
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
@@ -73,11 +77,19 @@ namespace WorkingWithXAML
             primaryKeyboard = true;
             blockType = 0;
             isBlocked = false;
-            suggestionLabel = new Label[4];
+            //suggestionLabel = new Label[4];
+            suggestionLabel = new TextBlock[4];
             for (int i = 1; i < 5; i++) //References the suggestion labels with an array and clear their "Content" property
             {
-                suggestionLabel[i - 1] = (Label)(FindName("sug" + i));
-                suggestionLabel[i - 1].Content = "";
+                    suggestionLabel[i - 1] = (TextBlock)(FindName("sug" + i));
+                    suggestionLabel[i - 1].Text = "";
+               
+            }
+            suggestionStackPanel = new StackPanel[4];
+            for (int i = 1; i < 5; i++) //References the suggestion labels with an array and clear their "Content" property
+            {                
+                suggestionStackPanel[i - 1] = (StackPanel)(FindName("view" + i));
+
             }
             changeObjectsSize();
             //initialize the Suggester
@@ -138,9 +150,57 @@ namespace WorkingWithXAML
             centreProcessing();            
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Suggester.saveInDisk();
+        }
+
         #endregion
 
-        #region Processing
+        #region Procedures and Functions
+
+        /// <summary>
+        /// Adjust the textblock and stackpanel size and orientation according to the suggestion's size
+        /// </summary>
+        /// <param name="which">which suggestion needs adaptation</param>
+        /// <param name="rollback">true = the suggestion is short so the size and orientation must 
+        /// rollback to the default; false otherwise</param>
+        private void adjustSuggestionSize(int which, bool rollback)
+        {
+            //The margin can only be modified through a Thickness object
+            Thickness newMargin = suggestionStackPanel[which].Margin;
+            if (which%2==0)
+            {                
+                if (rollback)
+                {
+                    suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Left;
+                    newMargin.Left += suggestionFontCoefficient*1.1;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which];
+                }
+                else
+                {
+                    suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Right;
+                    newMargin.Left -= suggestionFontCoefficient*1.1;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which]+suggestionFontCoefficient;
+                }
+                suggestionStackPanel[which].Margin = newMargin;               
+            }
+            else
+            {         
+                if (rollback)
+                {
+                    suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Right;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which];
+                }
+                else
+                {
+                    suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Left;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which]+suggestionFontCoefficient;
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Adapts all the controls to the resolution of the user's screen
@@ -153,6 +213,7 @@ namespace WorkingWithXAML
             panelNames = new string[11] {"txtGrid", "pMain", "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8" };
             labelNames = new string [35] { "min0","min1", "min2", "min3", "min4", "min5", "min6", "min7", "min00", "min01", "min02", "min03", "min10", "min11", "min20", "min21", "min22", "min23", "min30", "min31", "min32", "min33", "min34", "min35", "min40", "min41", "min42", "min43", "min44", "min45", "min50", "min51", "min60", "min70", "min71" };
             suggestionNames = new string[4] { "sug1", "sug2", "sug3", "sug4" };
+            naturalSugWidth = new double[4];
             foreach (string name in panelNames) //Grids adaptation
             {
                 var obj = (Grid)FindName(name);
@@ -170,26 +231,28 @@ namespace WorkingWithXAML
             }
             for (int i = 0; i < 4; i++) //Suggestions adaptation
             {
-                //var obj = (Label)FindName(name);
-                suggestionLabel[i].Height *= hProportion;
-                suggestionLabel[i].Width *= wProportion;
+                suggestionStackPanel[i].Height *= hProportion;
+                suggestionStackPanel[i].Width *= wProportion;
+                naturalSugWidth[i] = suggestionStackPanel[i].Width; //finds the width after the proportion applied
+                suggestionStackPanel[i].Margin = new Thickness(suggestionStackPanel[i].Margin.Left * wProportion, 
+                    suggestionStackPanel[i].Margin.Top * hProportion, suggestionStackPanel[i].Margin.Right * wProportion, 
+                    suggestionStackPanel[i].Margin.Bottom * hProportion);
+                suggestionLabel[i].MaxHeight *= hProportion;
+                suggestionLabel[i].MaxWidth *= wProportion;
                 suggestionLabel[i].FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
                 suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
             }
-            /*
-            for (int i = 0; i < 4; i++)
-            {                
-                suggestionLabel[i].Height *= hProportion;
-                suggestionLabel[i].Width *= wProportion;
-                suggestionLabel[i].FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-                suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
-            }
-            */
+
+            //textbox adaptation
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
             txtInput.Margin = new Thickness(txtInput.Margin.Left * wProportion, txtInput.Margin.Top * hProportion, txtInput.Margin.Right * wProportion, txtInput.Margin.Bottom * hProportion);
             //Fonts adaptation
-            txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2)); 
+            txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+
+            //suggestion label coefficient
+            suggestionFontCoefficient = 155 * suggestionStackPanel[0].Margin.Left / 275;
+            //155 is the coefficient a margin which left value is 275 (changes with resolution)
         }
                     
         /// <summary>
@@ -382,9 +445,12 @@ namespace WorkingWithXAML
                             acceptSuggestion(3);
                             goto acceptedSuggestion;
                         }
+
+                        //No suggestion accepted, so go on...
                         for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                         {
-                            suggestionLabel[i].Content = "";
+                            //suggestionLabel[i].Content = "";
+                            suggestionLabel[i].Text = "";
                         }
                         try
                         {   //Prepare to print a character composed of 2 movements
@@ -423,11 +489,13 @@ namespace WorkingWithXAML
                             caracteresTotal++;
                         }
 
-                        if (colectorOn == true && finalChar == "DEL")
-                        {
-                            erros++;
-                            arquivo[3] = arquivo[3] + ";" + txtInput.Text.Substring(txtInput.Text.Length - 1);
-                        }
+                        //Erro no coletor aqui!
+
+                        //if (colectorOn == true && finalChar == "DEL")
+                        //{
+                        //    erros++;
+                        //    arquivo[3] = arquivo[3] + ";" + txtInput.Text.Substring(txtInput.Text.Length - 1);
+                        //}
 
                         if (colectorOn == true && finalChar == "ESPAÇO" || finalChar == ".")
                         {
@@ -487,9 +555,10 @@ namespace WorkingWithXAML
                                     if (txtInput.Text.Substring(txtInput.Text.Length - 1) == ".")
                                         nextIsUpper = false;
                                     else
-                                    {
-                                        if (txtInput.Text.Substring(txtInput.Text.Length - 1) == txtInput.Text.Substring(txtInput.Text.Length - 1).ToUpper())
-                                            nextIsUpper = true;
+                                    {   //if the last erased character was a space, do not uppercase the next letter to be inserted
+                                        if (txtInput.Text.LastIndexOf(" ") != txtInput.Text.Length - 1)
+                                            if (txtInput.Text.Substring(txtInput.Text.Length - 1) == txtInput.Text.Substring(txtInput.Text.Length - 1).ToUpper())
+                                                nextIsUpper = true;
                                     }
                                     string aux = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
 
@@ -524,8 +593,8 @@ namespace WorkingWithXAML
             }
 acceptedSuggestion:
 didntLeaveCentre:
-hasJustBeenBlocked:
-            currentWord = "";            
+        hasJustBeenBlocked:
+            txtInput.ScrollToEnd(); //always focus the end of the txtBox
             primaryKeyboard = true;
             composition = "-";
             centreProcessed = true;
@@ -534,14 +603,17 @@ hasJustBeenBlocked:
         //accepts one of the suggestions
         public void acceptSuggestion(int which)
         {
-            if (suggestionLabel[which].Content != "")
+            if (suggestionLabel[which].Text != "")
             {
-                txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - currentWord.Length - 1);
-                txtInput.Text += suggestionLabel[which].Content + " ";
+                string chosenWord = suggestionLabel[which].Text;
+                txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - currentWord.Length);
+                txtInput.Text +=  chosenWord + " ";
+                Suggester.indexWord(chosenWord);
                 for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                 {
-                    suggestionLabel[i].Content = "";
+                    suggestionLabel[i].Text = "";
                 }
+                currentWord = "";
             }
             
         }
@@ -553,20 +625,31 @@ hasJustBeenBlocked:
             {
                 try
                 {
-                    suggestionLabel[i].Content = suggestionsList[i];
+                    if (suggestionsList[i].Length < 9 && !naturalSugFontSize[i])
+                    {
+                        naturalSugFontSize[i] = true;
+                        adjustSuggestionSize(i, true);
+                    }
+                    if (suggestionsList[i].Length > 9 && naturalSugFontSize[i])
+                    {
+                        naturalSugFontSize[i] = false;
+                        adjustSuggestionSize(i, false);
+                    }
+                    suggestionLabel[i].Text = suggestionsList[i];
                 }
                 catch
                 {
-                    break;
+                    if (!naturalSugFontSize[i])
+                    {
+                        naturalSugFontSize[i] = true;
+                        adjustSuggestionSize(i, true);
+                    }
+                    suggestionLabel[i].Text = "";
                 }
             }
         }
 
         #endregion
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            Suggester.saveInDisk();
-        }
+               
     }
 }
