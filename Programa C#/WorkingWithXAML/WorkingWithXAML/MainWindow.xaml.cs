@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Timers;
 using AutoComplete.Classes;
 using System.IO;
-using System.Text;
 using System.Diagnostics;
 
 
@@ -51,6 +42,9 @@ namespace WorkingWithXAML
         TextBlock[] suggestionLabel;
         StackPanel[] suggestionStackPanel;
         double suggestionFontCoefficient = 155;
+        //required adjustments for the second blocking mode (reading mode)
+        double textBoxMarginCoefH = 0.308;
+        double textBoxMarginCoefW = 0.367;
         bool[] naturalSugFontSize = new bool[4] { true, true, true, true };
         double[] naturalSugWidth;
         string currentWord;
@@ -181,7 +175,7 @@ namespace WorkingWithXAML
                 {
                     suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Right;
                     newMargin.Left -= suggestionFontCoefficient*1.1;
-                    suggestionStackPanel[which].Width = naturalSugWidth[which]+suggestionFontCoefficient;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which] + suggestionFontCoefficient;
                 }
                 suggestionStackPanel[which].Margin = newMargin;               
             }
@@ -195,7 +189,7 @@ namespace WorkingWithXAML
                 else
                 {
                     suggestionLabel[which].HorizontalAlignment = HorizontalAlignment.Left;
-                    suggestionStackPanel[which].Width = naturalSugWidth[which]+suggestionFontCoefficient;
+                    suggestionStackPanel[which].Width = naturalSugWidth[which] + suggestionFontCoefficient;
                 }
             }
         }
@@ -251,8 +245,10 @@ namespace WorkingWithXAML
             txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
 
             //suggestion label coefficient
-            suggestionFontCoefficient = 155 * suggestionStackPanel[0].Margin.Left / 275;
-            //155 is the coefficient a margin which left value is 275 (changes with resolution)
+            //155 is the coefficient a margin which left value is 275 (155/275=0.563)(changes with resolution)
+            suggestionFontCoefficient = suggestionStackPanel[0].Margin.Left * 0.563;
+
+              
         }
                     
         /// <summary>
@@ -368,7 +364,11 @@ namespace WorkingWithXAML
                         {
                             var obj = (Label)FindName(labelNames[i]);
                             obj.Visibility = System.Windows.Visibility.Visible;
-                        }                
+                        }
+                        for (int i = 0; i < 4; i++)
+                        {
+                            suggestionStackPanel[i].Visibility = Visibility.Visible;
+                        }
                     }
                     break;                        
 
@@ -378,13 +378,18 @@ namespace WorkingWithXAML
                     {
                         blockType = 0;
                         // Restoring default UI
-                        txtInput.Width = txtInput.Width / 3;
-                        txtInput.Height = txtInput.Height / 3;
+                        txtInput.Margin = new Thickness(txtInput.Margin.Left / textBoxMarginCoefW, 
+                            txtInput.Margin.Top / textBoxMarginCoefH, txtInput.Margin.Right / textBoxMarginCoefW,
+                            txtInput.Margin.Bottom / textBoxMarginCoefH);
                         for (int i = 8; i < 35; i++)
                         {
                             var obj = (Label)FindName(labelNames[i]);
                             obj.Visibility = System.Windows.Visibility.Visible;
-                        }                                        
+                        }
+                        for (int i = 0; i < 4; i++)
+                        {
+                            suggestionStackPanel[i].Visibility = Visibility.Visible;
+                        }
                     }
                     break;
 
@@ -407,6 +412,11 @@ namespace WorkingWithXAML
                                 var obj = (Label)FindName(labelNames[i]);
                                 obj.Visibility = System.Windows.Visibility.Hidden;
                             }
+
+                            for (int i = 0; i < 4; i++)
+                            {
+                                suggestionStackPanel[i].Visibility = Visibility.Hidden;
+                            }
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
                         if (composition == "-10765")
@@ -414,12 +424,18 @@ namespace WorkingWithXAML
                             isBlocked = true;
                             blockType = 2;
                             // Block Screen to read mode
-                            txtInput.Width = txtInput.Width * 3;
-                            txtInput.Height = txtInput.Height * 3;
+                            txtInput.Margin = new Thickness(txtInput.Margin.Left * textBoxMarginCoefW,
+                            txtInput.Margin.Top * textBoxMarginCoefH, txtInput.Margin.Right * textBoxMarginCoefW,
+                            txtInput.Margin.Bottom * textBoxMarginCoefH);
+
                             for (int i = 8; i < 35; i++)
                             {
                                 var obj = (Label)FindName(labelNames[i]);
                                 obj.Visibility = System.Windows.Visibility.Hidden;
+                            }
+                            for (int i = 0; i < 4; i++)
+                            {
+                                suggestionStackPanel[i].Visibility = Visibility.Hidden;
                             }
                             goto hasJustBeenBlocked; //jumps all the character processing
                         }
@@ -435,16 +451,17 @@ namespace WorkingWithXAML
                             acceptSuggestion(1);
                             goto acceptedSuggestion;
                         }
-                        if (composition == "-345" || composition == "-543")
+                        if (composition == "-567" || composition == "-765")
                         {
                             acceptSuggestion(2);
                             goto acceptedSuggestion;
                         }
-                        if (composition == "-567" || composition == "-765")
+                        if (composition == "-345" || composition == "-543")
                         {
                             acceptSuggestion(3);
                             goto acceptedSuggestion;
                         }
+                       
 
                         //No suggestion accepted, so go on...
                         for (int i = 0; i < 4; i++) //Clear all the suggestion labels

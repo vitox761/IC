@@ -34,7 +34,6 @@ namespace AutoComplete.Classes
         private  IEnumerable<DataType> commonQueryResults;
         private  IEnumerable<DataType> results;
         private RAMDirectory _ramDirectory;
-        private Lucene.Net.Store.Directory _currentDir;
 
         public Lucene.Net.Store.Directory CurrentDirectory
         {

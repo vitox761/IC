@@ -7,10 +7,6 @@ namespace AutoComplete.Classes
     public static class Suggester
     {
         private static bool _isNormalizing;
-        private static int typedLetterCount;
-        private static int totalLetterCount;
-        private static string textToBeAnalysed;
-        private static string textToBeIndexed;
         private static LuceneSearch luceneSearch;
         private static int overWeight;
         private static volatile bool _stopNow;
