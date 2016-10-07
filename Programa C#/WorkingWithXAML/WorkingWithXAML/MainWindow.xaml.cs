@@ -8,6 +8,7 @@ using System.Timers;
 using AutoComplete.Classes;
 using System.IO;
 using System.Diagnostics;
+using System.Media;
 
 
 namespace WorkingWithXAML
@@ -58,12 +59,24 @@ namespace WorkingWithXAML
         int caracteresTotal = 0;
         string[] arquivo = new string[4];
         Stopwatch timer = new Stopwatch();
+        SoundPlayer alarm, loudAlarm, stateTransition;
+
         #endregion
 
         #region Event Handlers
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            alarm = new SoundPlayer(@"..\..\Alarms\alarm.wav");
+            //alarm.Play();
+            loudAlarm = new SoundPlayer(@"..\..\Alarms\loudAlarm.wav");
+            //loudAlarm.Play();
+            stateTransition = new SoundPlayer(@"..\..\Alarms\stateTransition.wav");
+            //stateTransition.Play();
+            //stateTransition.PlayLooping();
+            
+            
+
             //initial system values
             composition = "-";
             isCancelled = false;
@@ -141,7 +154,8 @@ namespace WorkingWithXAML
 
         private void centreMouseEnter(object sender, MouseEventArgs e)
         {
-            centreProcessing();            
+            centreProcessing(); 
+                       
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -193,7 +207,6 @@ namespace WorkingWithXAML
                 }
             }
         }
-
 
 
         /// <summary>
@@ -259,67 +272,63 @@ namespace WorkingWithXAML
         {
             if (composition[composition.Length - 1] != index[0])
                 composition += index;
-            if (isBetsy) //if it's DEL, SPACE or . and the font is already changed
-            {
-                if (composition.Length == 3)
+            if (!isBlocked) //if the environment is currently not blocked, the character for the current composition is generated
+            {                
+                if (isBetsy) //if it's DEL, SPACE or . and the font is already changed
                 {
-                    if (index == "6") //if it's a Delete Op
+                    if (composition.Length == 3)
                     {
-                        charToPrint = "V";
-                        lbl_aux = (Label)FindName("min" + index);
-                        lbl_aux.Content = charToPrint;
+                        if (index == "6") //if it's a Delete Op
+                        {
+                            charToPrint = "V";
+                            lbl_aux = (Label)FindName("min" + index);
+                            lbl_aux.Content = charToPrint;
+                        }
+                        else //if it's a '.' Op
+                        {
+                            charToPrint = "A";
+                            lbl_aux = (Label)FindName("min" + index);
+                            lbl_aux.Content = charToPrint;
+                        }
+                        return;
                     }
-                    else //if it's a '.' Op
+                    else //mantain proper charToPrint for each element DEL SPACE . (V D A in Betsy)
                     {
-                        charToPrint = "A";
                         lbl_aux = (Label)FindName("min" + index);
                         lbl_aux.Content = charToPrint;
                     }
                     return;
                 }
-                else //mantain proper charToPrint for each element DEL SPACE . (V D A in Betsy)
+                if (composition.Length == 2 && index == "5") //if the first movement is \/ so the font has to change to Betsy
                 {
-                    lbl_aux = (Label)FindName("min" + index);
-                    lbl_aux.Content = charToPrint;
+                    for (int i = 0; i <= 7; i++)
+                    {
+                        var obj = (Label)FindName("min" + i.ToString());
+                        obj.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Betsy Flanagan 2");
+                    }
+                    isBetsy = true;
+                    charToPrint = "D"; //space is set as character to be printed (D in betsy format)
+                    Label lbl = (Label)FindName("min" + index);
+                    lbl.Content = charToPrint;
+                    return;
                 }
-                return;
-            }
-            if (composition.Length == 2 && index == "5") //if the first movement is \/ so the font has to change to Betsy
-            {
-                for (int i = 0; i <= 7; i++)
-                {
-                    var obj = (Label)FindName("min" + i.ToString());
-                    obj.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Betsy Flanagan 2"); 
-                }
-                isBetsy = true;
-                charToPrint = "D"; //space is set as character to be printed (D in betsy format)
-                Label lbl = (Label)FindName("min" + index);
-                lbl.Content = charToPrint;
-                return;
-            }
-            try
-            {               
                 if (composition.Length > 2 && index == composition.Substring(1, 1))
                 {
                     blockType = 0;
                     isCancelled = true;
                     composition = "ii"; //character won't be written
                 }
-            }
-            catch
-            {  }      
-               
-            try
-            {   //Prepare to print a character composed of 2 movements
-                charToPrint = composition.Substring(1, 2); 
-            }
-            catch
-            {   //Prepare to print a character composed of a single movement
-                charToPrint = composition.Substring(1, 1);
-            }
-            
-            if (!isBlocked) //if the environment is currently not blocked, the character for the current composition is generated
+                try
+                {   //Prepare to print a character composed of 2 movements
+                    charToPrint = composition.Substring(1, 2);
+                }
+                catch
+                {   //Prepare to print a character composed of a single movement
+                    charToPrint = composition.Substring(1, 1);
+                }
+
                 charToPrint = CharacterDecoder.generateCharacter(charToPrint, blockType, primaryKeyboard);
+            }
             else
                 charToPrint = "-";  //if it's blocked, the character - is print           
             
@@ -353,9 +362,10 @@ namespace WorkingWithXAML
             switch (blockType)
             {
                 case 1: //Blocked to rest
-                    isBlocked = false;
                     if (composition == "-12345" || composition == "-10765")
                     {
+                        stateTransition.Play();
+                        isBlocked = false;
                         blockType = 0; 
                         //Restoring default UI
                         locklogo.Visibility = System.Windows.Visibility.Hidden;
@@ -373,9 +383,10 @@ namespace WorkingWithXAML
                     break;                        
 
                 case 2: //Blocked to read full text
-                    isBlocked = false;
                     if (composition == "-12345" || composition == "-10765")
                     {
+                        stateTransition.Play();
+                        isBlocked = false;
                         blockType = 0;
                         // Restoring default UI
                         txtInput.Margin = new Thickness(txtInput.Margin.Left / textBoxMarginCoefW, 
@@ -402,6 +413,7 @@ namespace WorkingWithXAML
                         }
                         if (composition == "-12345")
                         {
+                            stateTransition.Play();
                             isBlocked = true;
                             blockType = 1;
                             // Blocking Screen to rest mode
@@ -421,6 +433,7 @@ namespace WorkingWithXAML
                         }
                         if (composition == "-10765")
                         {
+                            stateTransition.Play();
                             isBlocked = true;
                             blockType = 2;
                             // Block Screen to read mode
@@ -480,8 +493,8 @@ namespace WorkingWithXAML
 
                         //Process the "character to be concatenated" / "operation to be done" in the TextBox
                         finalChar = CharacterDecoder.generateCharacter(charToPrint, blockType, primaryKeyboard);
-                     
-                        
+
+                        #region codigoDoColetor
                         //Data colector implementation below
                         if (!File.Exists(path))
                         {
@@ -552,7 +565,7 @@ namespace WorkingWithXAML
                             writer.WriteLine(arquivo[2]); // Erros Total
                             writer.WriteLine(arquivo[3]); // Vetor de erros
                         }
-
+                        #endregion
 
                         switch (finalChar)
                         {
@@ -564,39 +577,74 @@ namespace WorkingWithXAML
                                 break;
                             case ".":
                                 nextIsUpper = true;
+                                if (txtInput.Text.Substring(txtInput.Text.Length - 1) == " ")
+                                    txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
                                 txtInput.AppendText(finalChar + " ");
+                                Suggester.indexWord(currentWord);
+                                currentWord = "";
                                 break; //append a point and a space
                             case "DEL":
+                                string inputContent = txtInput.Text;
+                                string aux;
                                 try
-                                {   //delete a character. If it was in upper case, the next character to be written must be written in upper case too
-                                    if (txtInput.Text.Substring(txtInput.Text.Length - 1) == ".")
+                                {
+                                    aux = inputContent.Substring(0, inputContent.Length - 1);
+                                    //delete a character. If it was in upper case, the next character to be written must be written in upper case too
+                                    if (inputContent.Substring(inputContent.Length - 1) == ".")
                                         nextIsUpper = false;
                                     else
-                                    {   //if the last erased character was a space, do not uppercase the next letter to be inserted
-                                        if (txtInput.Text.LastIndexOf(" ") != txtInput.Text.Length - 1)
-                                            if (txtInput.Text.Substring(txtInput.Text.Length - 1) == txtInput.Text.Substring(txtInput.Text.Length - 1).ToUpper())
+                                    {   //if the last erased character was a space, do not uppercase the next letter to be inserted                            
+
+                                        if (inputContent.LastIndexOf(" ") != inputContent.Length - 1)
+                                        {
+                                            if (inputContent.Substring(inputContent.Length - 1) == inputContent.Substring(inputContent.Length - 1).ToUpper())
                                                 nextIsUpper = true;
+
+                                            if (currentWord.Length > 0)
+                                                currentWord = currentWord.Substring(0, currentWord.Length - 1);
+                                        }
+                                        else //if it was a space, so the current word is the whole last word
+                                        {
+                                            //aux is the current text written without the last character (space in this case)
+                                            
+                                            try
+                                            {
+                                                //takes the last written word as current word
+                                                currentWord = aux.Substring(aux.LastIndexOf(" ") + 1, aux.Length - aux.LastIndexOf(" ") - 1);
+                                            }
+                                            catch
+                                            {
+                                                currentWord = aux.Substring(0, aux.Length);
+                                            }
+
+                                            //if '.' is the last character, it must be removed too.
+                                            if (aux[aux.Length - 1] == '.')
+                                            {
+                                                currentWord = currentWord.Substring(0, currentWord.Length - 1);
+                                                aux = aux.Substring(0, aux.Length - 1);
+                                                nextIsUpper = false;
+                                            }
+                                        }
                                     }
-                                    string aux = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
-
-                                    if (currentWord.Length > 0) 
-                                        currentWord = currentWord.Substring(0, currentWord.Length - 1);
-                                    //TODO: take last word entered if the entire currentWord has been deleted
-
                                     addSuggestionsToLabels();
 
                                     txtInput.Text = "";
                                     txtInput.AppendText(aux);
                                 }
-                                catch { }
+                                catch
+                                {
+                                    Console.WriteLine("txtInput is empty!");
+                                }
                                 break;
                             default: //if it's not space, '.' or delete operations, so the character must be simply added to the TextBox
 
                                 if (!nextIsUpper)
-                                    txtInput.AppendText(finalChar.ToLower());
-                                else
-                                    txtInput.AppendText(finalChar);
+                                    finalChar = finalChar.ToLower();
+
+                                txtInput.AppendText(finalChar);
                                 currentWord += finalChar; //currentWord receives the last char
+
+                                //TODO: fazer sons tocarem quando digitar jj e jjj em loop e parar quando digitar outro simbolo que não j.
 
                                 addSuggestionsToLabels();
 
@@ -610,7 +658,7 @@ namespace WorkingWithXAML
             }
 acceptedSuggestion:
 didntLeaveCentre:
-        hasJustBeenBlocked:
+hasJustBeenBlocked:
             txtInput.ScrollToEnd(); //always focus the end of the txtBox
             primaryKeyboard = true;
             composition = "-";
@@ -624,7 +672,12 @@ didntLeaveCentre:
             {
                 string chosenWord = suggestionLabel[which].Text;
                 txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - currentWord.Length);
+                if (currentWord[0].ToString().ToUpper() == currentWord[0].ToString())
+                {
+                    chosenWord = chosenWord.Substring(0, 1).ToUpper() + chosenWord.Substring(1, chosenWord.Length - 1);
+                }
                 txtInput.Text +=  chosenWord + " ";
+                chosenWord.ToLower();
                 Suggester.indexWord(chosenWord);
                 for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                 {
