@@ -68,7 +68,7 @@
             <!--<Label Name="sug2" Content="palavra" HorizontalAlignment="Left" Foreground="DarkGray" Margin="410,126,0,0" VerticalAlignment="Top" Height="58" Width="165" FontSize="25" HorizontalContentAlignment="Right"/> -->
 
             <StackPanel x:Name="view2" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="425,140,0,0"  Height="35" Width="145">
-                <TextBlock x:Name="sug2" TextWrapping="NoWrap" Foreground="SteelBlue" FontStyle="Normal" MaxWidth="300" MaxHeight="35" TextAlignment="Right" HorizontalAlignment="Right" FontSize="20"><Run Text="palavar"/></TextBlock>
+                <TextBlock x:Name="sug2" TextWrapping="NoWrap" Foreground="SteelBlue" FontStyle="Normal" MaxWidth="300" MaxHeight="35" TextAlignment="Right" HorizontalAlignment="Right" FontSize="20"><Run Text="palavra"/></TextBlock>
             </StackPanel>
 
             <StackPanel x:Name="view3" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="275,251,0,0" Height="35" Width="145">

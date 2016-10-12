@@ -1,5 +1,5 @@
 ﻿
-namespace WorkingWithXAML
+namespace WorkingWithXAML.Classes
 {
     public static class CharacterDecoder
     {
