@@ -55,13 +55,19 @@ namespace WorkingWithXAML
         List<string> suggestionsList;
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
         bool isBetsy;
-        Label lbl_aux;
-        string path = @"data.txt";
+        Label lbl_aux;       
         bool colectorOn = false;
         int erros = 0;
         int caracteresTotal = 0;
         string[] arquivo = new string[4];
-        Stopwatch timer = new Stopwatch();
+        //Stopwatch timer = new Stopwatch();
+
+        //for user tests!
+        string path = @"data"+"-"+DateTime.Now.ToShortDateString().Replace("/","_")+"-"+DateTime.Now.ToShortTimeString().Replace(":", ".") + ".txt";
+        Stopwatch dataTimer = new Stopwatch(); //gets the time elapsed since the program was open
+        string characterTimestampRecord;
+        // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
+         
         SoundPlayer alarm, loudAlarm, stateTransition;
         GazePoint gp;
 
@@ -80,7 +86,7 @@ namespace WorkingWithXAML
             //stateTransition.Play();
             //stateTransition.PlayLooping();
 
-            Mouse.OverrideCursor = Cursors.None; //remove mouse            
+            //Mouse.OverrideCursor = Cursors.None; //remove mouse            
 
             //initial system values
             composition = "-";
@@ -112,8 +118,16 @@ namespace WorkingWithXAML
             keyboardTimer.Interval = 2000; 
             keyboardTimer.Elapsed += new ElapsedEventHandler(changeKeyboard);
 
+            dataTimer.Start();
             //EyeTracker data retrieval
-            gp = new GazePoint();            
+            try
+            {
+                //gp = new GazePoint();
+            }
+            catch
+            {
+                Console.WriteLine("No camera found! Mouse mode! :)");
+            }
             
         }
 
@@ -169,7 +183,21 @@ namespace WorkingWithXAML
         private void Window_Closed(object sender, EventArgs e)
         {
             Suggester.saveInDisk();
-            gp.OnExit();
+            try
+            {
+                gp.OnExit();
+            }
+            catch
+            {
+                Console.WriteLine("Didn't close camera (probably in mouse mode, if not, something's wrong!");
+            }
+            if (!File.Exists(path))
+            {
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    writer.WriteLine(characterTimestampRecord);
+                }
+            }
         }
 
         #endregion
@@ -453,7 +481,7 @@ namespace WorkingWithXAML
                             for (int i = 8; i < 35; i++)
                             {
                                 var obj = (Label)FindName(labelNames[i]);
-                                obj.Visibility = System.Windows.Visibility.Hidden;
+                                obj.Visibility = Visibility.Hidden;
                             }
                             for (int i = 0; i < 4; i++)
                             {
@@ -504,6 +532,7 @@ namespace WorkingWithXAML
                         finalChar = CharacterDecoder.generateCharacter(charToPrint, blockType, primaryKeyboard);
 
                         #region codigoDoColetor
+                        /*
                         //Data colector implementation below
                         if (!File.Exists(path))
                         {
@@ -574,7 +603,13 @@ namespace WorkingWithXAML
                             writer.WriteLine(arquivo[2]); // Erros Total
                             writer.WriteLine(arquivo[3]); // Vetor de erros
                         }
+                        */
                         #endregion
+
+                        
+                        // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
+                        characterTimestampRecord += finalChar + "|" + dataTimer.ElapsedMilliseconds.ToString() + "-";
+
 
                         switch (finalChar)
                         {
@@ -690,6 +725,7 @@ cancelledCharacter:
                 }
                 txtInput.Text +=  chosenWord + " ";
                 chosenWord.ToLower();
+                characterTimestampRecord += chosenWord + "|" + dataTimer.ElapsedMilliseconds.ToString() + "-";
                 Suggester.indexWord(chosenWord);
                 for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                 {
