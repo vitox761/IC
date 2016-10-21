@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KeyboardAndSuggester.Properties
+namespace AutoComplete.Properties
 {
 
 

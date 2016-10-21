@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8B4A48C-55BE-473B-95E1-505F77063D5B}</ProjectGuid>
+    <ProjectGuid>{C0E599C4-76F4-4B06-9135-A93861847DE4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KeyboardAndSuggester</RootNamespace>
-    <AssemblyName>KeyboardAndSuggester</AssemblyName>
+    <RootNamespace>AutoComplete</RootNamespace>
+    <AssemblyName>AutoComplete</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,21 +50,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\CharacterDecoder.cs" />
-    <Compile Include="Classes\CharacterGuide.cs" />
-    <Compile Include="Classes\MyLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="frmApplication.cs">
+    <Compile Include="Classes\BrAnalyzer\BrazilianAnalyzer.cs" />
+    <Compile Include="Classes\BrAnalyzer\BrazilianStemFilter.cs" />
+    <Compile Include="Classes\BrAnalyzer\BrazilianStemmer.cs" />
+    <Compile Include="Classes\LuceneSearch.cs" />
+    <Compile Include="Classes\DataTypeDefinition.cs" />
+    <Compile Include="frmAutoComplete.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmApplication.Designer.cs">
-      <DependentUpon>frmApplication.cs</DependentUpon>
+    <Compile Include="frmAutoComplete.Designer.cs">
+      <DependentUpon>frmAutoComplete.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmApplication.resx">
-      <DependentUpon>frmApplication.cs</DependentUpon>
+    <EmbeddedResource Include="frmAutoComplete.resx">
+      <DependentUpon>frmAutoComplete.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -69,9 +75,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Resource Include="Fonts\BETSY2.ttf" />
-    <None Include="Fonts\KEYS.ttf" />
-    <None Include="Fonts\SIGN.ttf" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

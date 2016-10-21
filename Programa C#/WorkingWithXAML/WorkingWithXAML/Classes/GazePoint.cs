@@ -28,27 +28,32 @@ namespace WorkingWithXAML.Classes
 
         public void OnGazeUpdate(GazeData gazeData)
         {
-            //count++;
-            //if (count <= 5)
-            //{
-            //    sumgX += gazeData.RawCoordinates.X;
-            //    sumgY += gazeData.RawCoordinates.Y;
-            //}
-            //else
-            //{
-            //    if (count > 5)
-            //    {
-            //        count = 0;
-            //        gX = sumgX / 5;
-            //        gY = sumgY / 5;
-            //        sumgX = 0;
-            //        sumgY = 0;
-            //    }
-            //}
+            //movement filtering (mean of 5 gazes)
+            count++;
+            if (count <= 5)
+            {
+                sumgX += gazeData.RawCoordinates.X;
+                sumgY += gazeData.RawCoordinates.Y;
+            }
+            else
+            {
+                if (count > 5)
+                {
+                    count = 0;
+                    gX = sumgX / 5;
+                    gY = sumgY / 5;
+                    sumgX = 0;
+                    sumgY = 0;
+                }
+            }
             gX = gazeData.SmoothedCoordinates.X;
             gY = gazeData.SmoothedCoordinates.Y;
             System.Console.WriteLine(gX.ToString() + " - " + gY.ToString());
-            SetCursorPos((int)gX, (int)gY);
+            //When connection is lost, the tracker sets its position to 0,0
+            if (gX != 0 || gY != 0) 
+                //Prevents unexpected behaviour when blinking or closing 
+                //the eyes (Very effective!)
+                SetCursorPos((int)gX, (int)gY);
 
             // Move point, do hit-testing, log coordinates etc.
         }

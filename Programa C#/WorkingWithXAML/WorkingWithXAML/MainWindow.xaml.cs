@@ -77,16 +77,16 @@ namespace WorkingWithXAML
         #region Event Handlers
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            alarm = new SoundPlayer(@"..\..\Alarms\alarm.wav");
+        {            
+            alarm = new SoundPlayer(Properties.Resources.beep01);
             //alarm.Play();
-            loudAlarm = new SoundPlayer(@"..\..\Alarms\loudAlarm.wav");
+            loudAlarm = new SoundPlayer(Properties.Resources.loudAlarm);
             //loudAlarm.Play();
-            stateTransition = new SoundPlayer(@"..\..\Alarms\stateTransition.wav");
+            stateTransition = new SoundPlayer(Properties.Resources.flip);
             //stateTransition.Play();
             //stateTransition.PlayLooping();
 
-            //Mouse.OverrideCursor = Cursors.None; //remove mouse            
+            Mouse.OverrideCursor = Cursors.None; //remove mouse            
 
             //initial system values
             composition = "-";
@@ -122,7 +122,7 @@ namespace WorkingWithXAML
             //EyeTracker data retrieval
             try
             {
-                //gp = new GazePoint();
+                gp = new GazePoint();
             }
             catch
             {
@@ -193,7 +193,7 @@ namespace WorkingWithXAML
             }
             if (!File.Exists(path))
             {
-                using (StreamWriter writer = new StreamWriter(path))
+                using (StreamWriter writer = new StreamWriter(path,true,System.Text.Encoding.UTF8))
                 {
                     writer.WriteLine(characterTimestampRecord);
                 }
@@ -608,7 +608,7 @@ namespace WorkingWithXAML
 
                         
                         // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
-                        characterTimestampRecord += finalChar + "|" + dataTimer.ElapsedMilliseconds.ToString() + "-";
+                        characterTimestampRecord += "char|" + finalChar + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
 
 
                         switch (finalChar)
@@ -622,6 +622,8 @@ namespace WorkingWithXAML
                                 currentWord = "";
                                 break;
                             case ".":
+                                if (txtInput.Text.Length == 0)
+                                    goto didntLeaveCentre;
                                 nextIsUpper = true;
                                 if (txtInput.Text.Substring(txtInput.Text.Length - 1) == " ")
                                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
@@ -724,8 +726,9 @@ cancelledCharacter:
                     chosenWord = chosenWord.Substring(0, 1).ToUpper() + chosenWord.Substring(1, chosenWord.Length - 1);
                 }
                 txtInput.Text +=  chosenWord + " ";
+                characterTimestampRecord += "sug|" + chosenWord + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
                 chosenWord.ToLower();
-                characterTimestampRecord += chosenWord + "|" + dataTimer.ElapsedMilliseconds.ToString() + "-";
+                
                 Suggester.indexWord(chosenWord);
                 for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                 {

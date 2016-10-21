@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KeyboardAndSuggester
+namespace AutoComplete
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace KeyboardAndSuggester
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmApplication());
+            Application.Run(new frm_autoComplete());
         }
     }
 }

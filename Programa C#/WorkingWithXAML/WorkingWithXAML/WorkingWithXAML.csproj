@@ -127,9 +127,9 @@
     <Resource Include="Images\locked.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Alarms\alarm.wav" />
-    <Content Include="Alarms\loudAlarm.wav" />
-    <Content Include="Alarms\stateTransition.wav" />
+    <None Include="Resources\loudAlarm.wav" />
+    <None Include="Resources\flip.wav" />
+    <None Include="Resources\beep01.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

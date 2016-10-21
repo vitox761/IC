@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WorkingWithXAML.MainWindow"
         Title="MainWindow" 
-        WindowStartupLocation="CenterScreen" Width="1280" Height="720" WindowStyle="None" 
-        WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
+        WindowStartupLocation="CenterScreen" Width="1280" Height="720" Topmost="True"
+        WindowStyle="None" WindowState="Maximized"  Loaded="Window_Loaded" 
+        Closed="Window_Closed">
     <Grid x:Name="pMain" Width="1280" Height="720" Background="Black">
         <TextBox x:Name="txtInput"  Foreground="#FFE0E0E0" Background="Transparent" 
                  FontSize="18" TextWrapping="Wrap" AcceptsReturn="True" Margin="490,325,490,325"/>
