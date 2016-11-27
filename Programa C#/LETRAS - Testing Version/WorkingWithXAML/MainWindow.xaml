@@ -22,7 +22,7 @@
         <Image Source="images\locked.png" x:Name="locklogo" Visibility ="Hidden" Height="150" Width="300"/>
 
         <Grid x:Name="p0" Background="Transparent" Margin="0,-24,832,468" Height="276" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave" VerticalAlignment="Bottom"/>
-        <Grid x:Name="p1" Background="Transparent" Margin="448,-24,448,576" Width="384" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave" d:IsHidden="True"/>
+        <Grid x:Name="p1" Background="Transparent" Margin="448,-24,448,576" Width="384" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
         <Grid x:Name="p2" Background="Transparent" Margin="832,-24,0,468" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
         <Grid x:Name="p3" Background="Transparent" Margin="1024,252,0,252" Height="216" Width="256" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
 
@@ -69,7 +69,7 @@
             <!--<Label Name="sug2" Content="palavra" HorizontalAlignment="Left" Foreground="DarkGray" Margin="410,126,0,0" VerticalAlignment="Top" Height="58" Width="165" FontSize="25" HorizontalContentAlignment="Right"/> -->
 
             <StackPanel x:Name="view2" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="425,140,0,0"  Height="35" Width="145">
-                <TextBlock x:Name="sug2" TextWrapping="NoWrap" Foreground="SteelBlue" FontStyle="Normal" MaxWidth="300" MaxHeight="35" TextAlignment="Right" HorizontalAlignment="Right" FontSize="20"><Run Text=""/></TextBlock> 
+                <TextBlock x:Name="sug2" TextWrapping="NoWrap" Foreground="SteelBlue" FontStyle="Normal" MaxWidth="300" MaxHeight="35" TextAlignment="Right" HorizontalAlignment="Right" FontSize="20"><Run Text=""/></TextBlock>
             </StackPanel>
 
             <StackPanel x:Name="view3" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="275,251,0,0" Height="35" Width="145">
@@ -89,6 +89,17 @@
         </Grid>
         <Grid x:Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,268,490,285">
             <Label x:Name="lbl_escrever" Content="ESTE É UM EXEMPLO DE FRASE MUITO GRANDE" FontSize="9" Foreground="Gray" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top" />
+        </Grid>
+
+        <Grid x:Name="block3grid" Visibility="Hidden">
+            <Label x:Name="block3_l0" Content="====== NÃO" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="153" Margin="261,325,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label x:Name="block3_l1" Content="RESULTADOS" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="45" Width="140" Margin="569,235,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label x:Name="block3_l2" Content="SIM =======" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="152" Margin="867,325,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <ListBox x:Name="block3_list" Background="Black" Foreground="White" FontSize="16" HorizontalAlignment="Left" Height="94" Margin="409,298,0,0" VerticalAlignment="Top" Width="453">
+                <ListBoxItem Content="Frase Escrita: Exemplo de uma frase exageradamente grande!"/>
+                <ListBoxItem Content="Número de deleções: 89"/>
+                <ListBoxItem Content="Velocidade de escrita (palavras por minuto): 10.92"/>
+            </ListBox>
         </Grid>
 
     </Grid>
