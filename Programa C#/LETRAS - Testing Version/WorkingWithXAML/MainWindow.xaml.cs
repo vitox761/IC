@@ -299,7 +299,11 @@ namespace WorkingWithXAML
                 suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
             }
 
-            
+            lbl_escrever.MaxHeight *= hProportion;
+            lbl_escrever.MaxWidth *= wProportion;
+            lbl_escrever.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+            lbl_escrever.Margin = new Thickness(lbl_escrever.Margin.Left * wProportion, lbl_escrever.Margin.Top * hProportion, lbl_escrever.Margin.Right * wProportion, lbl_escrever.Margin.Bottom * hProportion);
+
             //textbox adaptation
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
@@ -636,7 +640,8 @@ namespace WorkingWithXAML
                                 break;
                             case ".":
                                 if (txtInput.Text.Length == 0)
-                                    goto didntLeaveCentre;                                
+                                    goto didntLeaveCentre;
+                                MessageBox.Show("pontofinal!");
                                 nextIsUpper = true;
                                 if (txtInput.Text.Substring(txtInput.Text.Length - 1) == " ")
                                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
