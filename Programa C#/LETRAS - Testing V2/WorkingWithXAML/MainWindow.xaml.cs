@@ -10,8 +10,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Media;
 using WorkingWithXAML.Classes;
-//using System.Net.Sockets;
-//using Newtonsoft.Json.Linq;
 
 
 namespace WorkingWithXAML
@@ -26,8 +24,9 @@ namespace WorkingWithXAML
             InitializeComponent();
         }
 
+
         #region Global Variables
-        
+
         bool nextIsUpper = true; //the first character is upper 
         string composition; 
         bool isCancelled; 
@@ -56,10 +55,16 @@ namespace WorkingWithXAML
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
         bool isBetsy;
         Label lbl_aux;       
-        int numberOfDeletions = 0;
-        int nWords = 0;
         string[] arquivo = new string[4];
+
+        int sentenceIndex = 0;
+        List<string> sentencesList; //list of sentences to be written
+        string currentSentence = "";
+        int currentWordIndex = 0;
         //Stopwatch timer = new Stopwatch();
+
+        string nextWord; //word to be inserted
+        string nextToTheNextWord; //word to be written after that (both this and the one above are going to be shown)
 
         //the text currently written by the user
         string path = @"written_text" + "-" + DateTime.Now.ToShortDateString().Replace("/", "_") + "-" + DateTime.Now.ToShortTimeString().Replace(":", ".") + ".txt";
@@ -88,7 +93,38 @@ namespace WorkingWithXAML
             stateTransition = new SoundPlayer(Properties.Resources.flip);
             //stateTransition.Play();
             //stateTransition.PlayLooping();
-            
+
+            sentencesList = new List<string>();
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader sr = new StreamReader("sentencas_de_teste.txt"))
+                {
+                    string line;
+                    do
+                    {
+                        line = sr.ReadLine();
+                        sentencesList.Add(line);
+                    } while (line != null);
+
+                    //sentencesList has all the test sentences inside of it
+                    sentencesList.RemoveAt(sentencesList.Count - 1);
+
+                    sentencesList.Shuffle();
+                    //foreach(string x in sentencesList)
+                    //{
+                    //    Console.WriteLine(x);
+                    //}
+
+                    
+
+                    // Read the stream to a string, and write the string to the console.
+                }
+            }
+            catch 
+            {
+                Console.WriteLine("The file could not be read:");
+            }
+
             //initial system values
             composition = "-";
             isCancelled = false;
@@ -97,15 +133,15 @@ namespace WorkingWithXAML
             blockType = 0;
             isBlocked = false;
             //suggestionLabel = new Label[4];
-            suggestionLabel = new TextBlock[4];
-            for (int i = 1; i < 5; i++) //References the suggestion labels with an array and clear their "Content" property
+            suggestionLabel = new TextBlock[5];
+            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
             {
                     suggestionLabel[i - 1] = (TextBlock)(FindName("sug" + i));
                     suggestionLabel[i - 1].Text = "";
                
             }
-            suggestionStackPanel = new StackPanel[4];
-            for (int i = 1; i < 5; i++) //References the suggestion labels with an array and clear their "Content" property
+            suggestionStackPanel = new StackPanel[5];
+            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
             {                
                 suggestionStackPanel[i - 1] = (StackPanel)(FindName("view" + i));
 
@@ -120,6 +156,10 @@ namespace WorkingWithXAML
             keyboardTimer.Elapsed += new ElapsedEventHandler(changeKeyboard);
 
             dataTimer.Start();
+
+            suggestionLabel[4].Text = "nitidamente contrasta";
+
+            startNewSentence();
 
             //Mouse.OverrideCursor = Cursors.None; //remove mouse            
             //EyeTracker data retrieval
@@ -151,7 +191,7 @@ namespace WorkingWithXAML
             Dispatcher.Invoke(new Action(() =>
             {
                 //Reprints the character inside the current grid
-                //Invoke a new action because the Timer thread cannot access directly the MainWindow thread
+                //Invoke a new action because the Timer thread canndot access directly the MainWindow thread
                 panelMouseEnterF((Grid)FindName(currentGrid));
             }));
         }
@@ -267,8 +307,8 @@ namespace WorkingWithXAML
             double wProportion = this.ActualWidth / initialWidth;
             panelNames = new string[11] {"txtGrid", "pMain", "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8" };
             labelNames = new string [35] { "min0","min1", "min2", "min3", "min4", "min5", "min6", "min7", "min00", "min01", "min02", "min03", "min10", "min11", "min20", "min21", "min22", "min23", "min30", "min31", "min32", "min33", "min34", "min35", "min40", "min41", "min42", "min43", "min44", "min45", "min50", "min51", "min60", "min70", "min71" };
-            suggestionNames = new string[4] { "sug1", "sug2", "sug3", "sug4" };
-            naturalSugWidth = new double[4];
+            suggestionNames = new string[5] { "sug1", "sug2", "sug3", "sug4", "sug5" };
+            naturalSugWidth = new double[5];
             foreach (string name in panelNames) //Grids adaptation
             {
                 var obj = (Grid)FindName(name);
@@ -284,7 +324,7 @@ namespace WorkingWithXAML
                 obj.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
                 obj.Margin = new Thickness(obj.Margin.Left * wProportion, obj.Margin.Top * hProportion, obj.Margin.Right * wProportion, obj.Margin.Bottom * hProportion);
             }
-            for (int i = 0; i < 4; i++) //Suggestions adaptation
+            for (int i = 0; i < 5; i++) //Suggestions adaptation
             {
                 suggestionStackPanel[i].Height *= hProportion;
                 suggestionStackPanel[i].Width *= wProportion;
@@ -294,33 +334,22 @@ namespace WorkingWithXAML
                     suggestionStackPanel[i].Margin.Bottom * hProportion);
                 suggestionLabel[i].MaxHeight *= hProportion;
                 suggestionLabel[i].MaxWidth *= wProportion;
+                suggestionLabel[i].Height *= hProportion;
+                suggestionLabel[i].Width *= wProportion;
                 suggestionLabel[i].FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
                 suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
             }
+
             
-            lbl_sentenceToWrite.MaxHeight *= hProportion;
-            lbl_sentenceToWrite.MaxWidth *= wProportion;
-            lbl_sentenceToWrite.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-            lbl_sentenceToWrite.Margin = new Thickness(lbl_sentenceToWrite.Margin.Left * wProportion, lbl_sentenceToWrite.Margin.Top * hProportion, lbl_sentenceToWrite.Margin.Right * wProportion, lbl_sentenceToWrite.Margin.Bottom * hProportion);
-
-            block3_l1.MaxHeight *= hProportion;
-            block3_l1.MaxWidth *= wProportion;
-            block3_l1.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-            block3_l1.Margin = new Thickness(lbl_sentenceToWrite.Margin.Left * wProportion, lbl_sentenceToWrite.Margin.Top * hProportion, lbl_sentenceToWrite.Margin.Right * wProportion, lbl_sentenceToWrite.Margin.Bottom * hProportion);
-
-            block3_l2.MaxHeight *= hProportion;
-            block3_l2.MaxWidth *= wProportion;
-            block3_l2.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-            block3_l2.Margin = new Thickness(lbl_sentenceToWrite.Margin.Left * wProportion, lbl_sentenceToWrite.Margin.Top * hProportion, lbl_sentenceToWrite.Margin.Right * wProportion, lbl_sentenceToWrite.Margin.Bottom * hProportion);
-            
-
             //textbox adaptation
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
             txtInput.Margin = new Thickness(txtInput.Margin.Left * wProportion, txtInput.Margin.Top * hProportion, txtInput.Margin.Right * wProportion, txtInput.Margin.Bottom * hProportion);
             //Fonts adaptation
             txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-            block3_list.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+
+
+            
 
             //suggestion label coefficient
             //155 is the coefficient a margin which left value is 275 (155/275=0.563)(changes with resolution)
@@ -468,16 +497,6 @@ namespace WorkingWithXAML
                         }
                     }
                     break;
-
-                case 3:
-                    if (composition == "-3")
-                    {
-                        stateTransition.Play();
-                        isBlocked = false;
-                        blockType = 0;
-                        unblockingEvent();
-                    }
-                    break; 
 
                 default: //No Block
                     if (!isCancelled)
@@ -657,6 +676,7 @@ namespace WorkingWithXAML
                                 finalChar = " ";
                                 txtInput.AppendText(finalChar); //append a space
                                 Suggester.indexWord(currentWord);
+                                nextWordInSentence();
                                 currentWord = "";
                                 break;
                             case ".":
@@ -667,16 +687,12 @@ namespace WorkingWithXAML
                                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
                                 txtInput.AppendText(finalChar + " ");
                                 Suggester.indexWord(currentWord);
+                                nextWordInSentence();
                                 currentWord = "";
-                                MessageBox.Show("pontofinal!");
-                                isBlocked = true;
-                                blockType = 3;
-                                blockingEvent(txtInput.Text, dataTimer.ElapsedMilliseconds, numberOfDeletions);
-                                goto sentenceIsOver;                                
+                                break; //append a point and a space
                             case "DEL":
                                 string inputContent = txtInput.Text;
                                 string aux;
-                                numberOfDeletions++;
                                 try
                                 {
                                     aux = inputContent.Substring(0, inputContent.Length - 1);
@@ -697,7 +713,7 @@ namespace WorkingWithXAML
                                         else //if it was a space, so the current word is the whole last word
                                         {
                                             //aux is the current text written without the last character (space in this case)
-                                            
+                                            previousWordInSentence();
                                             try
                                             {
                                                 //takes the last written word as current word
@@ -751,7 +767,6 @@ acceptedSuggestion:
 didntLeaveCentre:
 hasJustBeenBlocked:
 cancelledCharacter:
-sentenceIsOver:
             txtInput.ScrollToEnd(); //always focus the end of the txtBox
             primaryKeyboard = true;
             composition = "-";
@@ -778,13 +793,14 @@ sentenceIsOver:
                 {
                     suggestionLabel[i].Text = "";
                 }
+                nextWordInSentence();
                 currentWord = "";
             }
             
         }
 
         public void addSuggestionsToLabels()
-        {
+        {            
             suggestionsList = Suggester.getSuggestions(currentWord);
             for (int i = 0; i < 4; i++)
             {
@@ -812,36 +828,6 @@ sentenceIsOver:
                     suggestionLabel[i].Text = "";
                 }
             }
-        }
-        /// <summary>
-        /// Block screen and show statistics to the user
-        /// </summary>
-        /// <param name="writtenSentence"></param>
-        /// <param name="elapsedTime"></param>
-        /// <param name="numberOfDeletions"></param>
-        public void blockingEvent(string writtenSentence, long elapsedTime, int numberOfDeletions)
-        {
-            p8.Visibility = Visibility.Hidden;
-            txtGrid.Visibility = Visibility.Hidden;
-            txtInput.Visibility = Visibility.Hidden;
-            block3grid.Visibility = Visibility.Visible;
-            block3_list.Items.Add("Sentença escrita: " + writtenSentence);
-            block3_list.Items.Add("Número de deleções: " + numberOfDeletions.ToString());
-            // number of words of the current sentence
-            block3_list.Items.Add("Velocidade de escrita (palavras por minuto): " + nWords / elapsedTime); 
-
-        }
-
-        public void unblockingEvent()
-        {
-            p8.Visibility = Visibility.Visible;
-            txtGrid.Visibility = Visibility.Visible;
-            txtInput.Visibility = Visibility.Visible;
-            block3grid.Visibility = Visibility.Hidden;
-            //select a new sentence to be written (from the source)
-            //update nWords (number of words in the current sentence)
-            //reset dataTimer variable
-            //show new sentence in lbl_sentenceToWrite            
         }
 
 
@@ -954,9 +940,51 @@ sentenceIsOver:
 
         #endregion
 
+        #region TestFunctions
+        public void startNewSentence()
+        {
+            sentenceIndex++;
+            currentWordIndex = 0;
+            currentSentence = sentencesList[sentenceIndex];
+            nextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex];
+            nextToTheNextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex + 1];
+            suggestionLabel[4].Text = nextWord + " " + nextToTheNextWord;
+        }
 
+        public void nextWordInSentence()
+        {
+            try
+            {
+                currentWordIndex++;
+                nextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex];
+                try
+                {
+                    nextToTheNextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex + 1];
+                }
+                catch
+                {
+                    nextToTheNextWord = "";
+                }
+                suggestionLabel[4].Text = nextWord + " " + nextToTheNextWord;
+            }
+            catch
+            {
+                startNewSentence();
+            }
+        }
 
+        public void previousWordInSentence()
+        {
+            if (currentWordIndex >= 1)
+            {
+                currentWordIndex--;
+                nextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex];
+                nextToTheNextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex + 1];
+                suggestionLabel[4].Text = nextWord + " " + nextToTheNextWord;
+            }
+        }
 
+        #endregion
 
     }
 }
