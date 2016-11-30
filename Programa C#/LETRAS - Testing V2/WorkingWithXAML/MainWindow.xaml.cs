@@ -157,7 +157,7 @@ namespace WorkingWithXAML
 
             dataTimer.Start();
 
-            suggestionLabel[4].Text = "nitidamente contrasta";
+            //suggestionLabel[4].Text = "nitidamente contrasta";
 
             startNewSentence();
 
@@ -674,9 +674,10 @@ namespace WorkingWithXAML
                                 goto cancelledCharacter;
                             case "ESPAÇO": 
                                 finalChar = " ";
+                                if (txtInput.Text[txtInput.Text.Length - 1] != ' ')
+                                    nextWordInSentence();
                                 txtInput.AppendText(finalChar); //append a space
                                 Suggester.indexWord(currentWord);
-                                nextWordInSentence();
                                 currentWord = "";
                                 break;
                             case ".":
@@ -713,7 +714,8 @@ namespace WorkingWithXAML
                                         else //if it was a space, so the current word is the whole last word
                                         {
                                             //aux is the current text written without the last character (space in this case)
-                                            previousWordInSentence();
+                                            if (inputContent[inputContent.Length - 2] != ' ')
+                                                previousWordInSentence();
                                             try
                                             {
                                                 //takes the last written word as current word
@@ -942,10 +944,11 @@ cancelledCharacter:
 
         #region TestFunctions
         public void startNewSentence()
-        {
+        {            
             sentenceIndex++;
             currentWordIndex = 0;
             currentSentence = sentencesList[sentenceIndex];
+            characterTimestampRecord += "stc|" + currentSentence + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
             nextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex];
             nextToTheNextWord = System.Text.RegularExpressions.Regex.Split(currentSentence, @"\W+")[currentWordIndex + 1];
             suggestionLabel[4].Text = nextWord + " " + nextToTheNextWord;
@@ -969,6 +972,10 @@ cancelledCharacter:
             }
             catch
             {
+                //the sentence is over, generate the next one!
+                nextIsUpper = true;                
+                characterTimestampRecord += "txt|" + txtInput.Text + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
+                txtInput.Text = "";
                 startNewSentence();
             }
         }

@@ -30,7 +30,7 @@
         <Grid x:Name="p5" Background="Transparent" Margin="448,576,448,0" Height="144" Width="384" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
         <Grid x:Name="p6" Background="Transparent" Margin="0,468,832,0" Height="252" Width="448" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
         <Grid x:Name="p7" Margin="0,252,1024,252" Height="216" Width="256" Background="Transparent" MouseEnter="panelMouseEnter" MouseLeave="borderMouseLeave"/>
-        <Grid x:Name="p8" Background="Transparent" Margin="256,144,256,144" Height ="432" Width="848" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid x:Name="p8" Background="Transparent" Margin="256,144,256,144" Height ="432" Width="848" VerticalAlignment="Center" HorizontalAlignment="Center" d:IsHidden="True">
 
             <Label x:Name="min00" Content="A B" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="63" Width="73" Margin="233,85,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
             <Label x:Name="min01" Content="C" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" RenderTransformOrigin="5.708,6.39" Height="43" Width="52" Margin="233,105,0,0" FontSize="14" BorderBrush="Black" FontWeight="Bold"/>
@@ -87,14 +87,14 @@
 
 
         </Grid>
-        <Grid x:Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,268,490,285">
+        <Grid x:Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,268,490,285" d:IsHidden="True">
             <Label x:Name="lbl_sentenceToWrite" Content="ESTE É UM EXEMPLO DE FRASE MUITO GRANDE" FontSize="9" Foreground="Gray" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top" />
         </Grid>
 
-        <Grid x:Name="block3grid" Visibility="Hidden">
+        <Grid x:Name="block3grid">
             <Label x:Name="block3_l1" Content="RESULTADOS" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="45" Width="140" Margin="569,235,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
             <Label x:Name="block3_l2" Content="CONTINUAR==" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="152" Margin="867,325,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
-            <ListBox x:Name="block3_list" Background="Black" Foreground="White" FontSize="16" HorizontalAlignment="Left" Height="94" Margin="409,298,0,0" VerticalAlignment="Top" Width="453">
+            <ListBox x:Name="block3_list" Background="Black" Foreground="White" FontSize="16" HorizontalAlignment="Left" Height="126" Margin="409,298,0,0" VerticalAlignment="Top" Width="453">
    
             </ListBox>
         </Grid>
