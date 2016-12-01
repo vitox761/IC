@@ -9,7 +9,6 @@ namespace AutoComplete.Classes
         private static bool _isNormalizing;
         private static LuceneSearch luceneSearch;
         private static int overWeight;
-        private static volatile bool _stopNow;
 
 
         public static void initializeSuggester()
@@ -132,8 +131,6 @@ namespace AutoComplete.Classes
             string InsertedWord = "";
             foreach (string word in text)
             {
-                if (_stopNow)
-                    break;
                 numberOfWordsIndexed++;
 
                 if (word.Length > 3)

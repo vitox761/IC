@@ -11,7 +11,6 @@ using System.Diagnostics;
 using System.Media;
 using WorkingWithXAML.Classes;
 
-
 namespace WorkingWithXAML
 {
     /// <summary>
@@ -24,8 +23,10 @@ namespace WorkingWithXAML
             InitializeComponent();
         }
 
+        const bool IS_USING_CAMERA = false;
 
         #region Global Variables
+
 
         bool nextIsUpper = true; //the first character is upper 
         string composition; 
@@ -61,7 +62,10 @@ namespace WorkingWithXAML
         List<string> sentencesList; //list of sentences to be written
         string currentSentence = "";
         int currentWordIndex = 0;
-        //Stopwatch timer = new Stopwatch();
+        string sentencesWrittenSoFar = "";
+        bool justAcceptedSuggestion = false;
+        bool justAddedSpace = false;
+        string textBeforeAcceptance = "";
 
         string nextWord; //word to be inserted
         string nextToTheNextWord; //word to be written after that (both this and the one above are going to be shown)
@@ -94,7 +98,7 @@ namespace WorkingWithXAML
             //stateTransition.Play();
             //stateTransition.PlayLooping();
 
-            sentencesList = new List<string>();
+            sentencesList = new List<string>(); //list of sentences to be written during the test
             try
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader("sentencas_de_teste.txt"))
@@ -114,10 +118,6 @@ namespace WorkingWithXAML
                     //{
                     //    Console.WriteLine(x);
                     //}
-
-                    
-
-                    // Read the stream to a string, and write the string to the console.
                 }
             }
             catch 
@@ -133,19 +133,7 @@ namespace WorkingWithXAML
             blockType = 0;
             isBlocked = false;
             //suggestionLabel = new Label[4];
-            suggestionLabel = new TextBlock[5];
-            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
-            {
-                    suggestionLabel[i - 1] = (TextBlock)(FindName("sug" + i));
-                    suggestionLabel[i - 1].Text = "";
-               
-            }
-            suggestionStackPanel = new StackPanel[5];
-            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
-            {                
-                suggestionStackPanel[i - 1] = (StackPanel)(FindName("view" + i));
-
-            }
+            
             changeObjectsSize();
             //initialize the Suggester
             Suggester.initializeSuggester();
@@ -156,22 +144,23 @@ namespace WorkingWithXAML
             keyboardTimer.Elapsed += new ElapsedEventHandler(changeKeyboard);
 
             dataTimer.Start();
+           
+            startNewSentence(); //first sentence to be written during tests is shown to the user
 
-            //suggestionLabel[4].Text = "nitidamente contrasta";
 
-            startNewSentence();
-
-            //Mouse.OverrideCursor = Cursors.None; //remove mouse            
-            //EyeTracker data retrieval
-            try
+            if (IS_USING_CAMERA)
             {
-                //gp = new GazePoint();
+                Mouse.OverrideCursor = Cursors.None; //remove mouse            
+                                                     //EyeTracker data retrieval
+                try
+                {
+                    //gp = new GazePoint();
+                }
+                catch
+                {
+                    Console.WriteLine("No camera found! Mouse mode! :)");
+                }
             }
-            catch
-            {
-                Console.WriteLine("No camera found! Mouse mode! :)");
-            }
-            
         }
 
         private void borderMouseLeave(object sender, EventArgs e)
@@ -238,7 +227,7 @@ namespace WorkingWithXAML
             {
                 using (StreamWriter writer = new StreamWriter(path, true, System.Text.Encoding.UTF8))
                 {
-                    writer.WriteLine(txtInput.Text);
+                    writer.WriteLine(sentencesWrittenSoFar);
                 }
             }
             if (!File.Exists(path2))
@@ -309,6 +298,19 @@ namespace WorkingWithXAML
             labelNames = new string [35] { "min0","min1", "min2", "min3", "min4", "min5", "min6", "min7", "min00", "min01", "min02", "min03", "min10", "min11", "min20", "min21", "min22", "min23", "min30", "min31", "min32", "min33", "min34", "min35", "min40", "min41", "min42", "min43", "min44", "min45", "min50", "min51", "min60", "min70", "min71" };
             suggestionNames = new string[5] { "sug1", "sug2", "sug3", "sug4", "sug5" };
             naturalSugWidth = new double[5];
+            suggestionLabel = new TextBlock[5];
+            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
+            {
+                suggestionLabel[i - 1] = (TextBlock)(FindName("sug" + i));
+                suggestionLabel[i - 1].Text = "";
+
+            }
+            suggestionStackPanel = new StackPanel[5];
+            for (int i = 1; i < 6; i++) //References the suggestion labels with an array and clear their "Content" property
+            {
+                suggestionStackPanel[i - 1] = (StackPanel)(FindName("view" + i));
+
+            }
             foreach (string name in panelNames) //Grids adaptation
             {
                 var obj = (Grid)FindName(name);
@@ -367,7 +369,13 @@ namespace WorkingWithXAML
             if (composition[composition.Length - 1] != index[0])
                 composition += index;
             if (!isBlocked) //if the environment is currently not blocked, the character for the current composition is generated
-            {                
+            {
+                if (composition.Length > 2 && index == composition.Substring(1, 1))
+                {
+                    blockType = 0;
+                    isCancelled = true;
+                    composition = "ii"; //character won't be written
+                }
                 if (isBetsy) //if it's DEL, SPACE or . and the font is already changed
                 {
                     if (composition.Length == 3)
@@ -405,13 +413,7 @@ namespace WorkingWithXAML
                     Label lbl = (Label)FindName("min" + index);
                     lbl.Content = charToPrint;
                     return;
-                }
-                if (composition.Length > 2 && index == composition.Substring(1, 1))
-                {
-                    blockType = 0;
-                    isCancelled = true;
-                    composition = "ii"; //character won't be written
-                }
+                }               
                 try
                 {   //Prepare to print a character composed of 2 movements
                     charToPrint = composition.Substring(1, 2);
@@ -568,8 +570,8 @@ namespace WorkingWithXAML
                             acceptSuggestion(3);
                             goto acceptedSuggestion;
                         }
-                       
 
+                        
                         //No suggestion accepted, so go on...
                         for (int i = 0; i < 4; i++) //Clear all the suggestion labels
                         {
@@ -588,82 +590,7 @@ namespace WorkingWithXAML
                         //Process the "character to be concatenated" / "operation to be done" in the TextBox
                         finalChar = CharacterDecoder.generateCharacter(charToPrint, blockType, primaryKeyboard);
 
-                        #region codigoDoColetor
-                        /*
-                        //Data colector implementation below
-                        if (!File.Exists(path))
-                        {
-                            using (StreamWriter writer = new StreamWriter(path))
-                            {
-                                writer.WriteLine("0"); // Tempo Total
-                                writer.WriteLine("0"); // Caracteres Total
-                                writer.WriteLine("0"); // Erros Total
-                                writer.WriteLine(" "); // Vetor de erros
-                            }
-                        }
-                        using(StreamReader readtext = new StreamReader(path))
-                        {
-                           arquivo[0] = readtext.ReadLine();
-                           arquivo[1] = readtext.ReadLine();
-                           arquivo[2] = readtext.ReadLine();
-                           arquivo[3] = readtext.ReadLine();
-                        }
-
-                        if (colectorOn == true && finalChar != "ESPAÇO" && finalChar != "." && finalChar != "DEL")
-                        {
-                            caracteresTotal++;
-                        }
-
-                        //Erro no coletor aqui!
-
-                        //if (colectorOn == true && finalChar == "DEL")
-                        //{
-                        //    erros++;
-                        //    arquivo[3] = arquivo[3] + ";" + txtInput.Text.Substring(txtInput.Text.Length - 1);
-                        //}
-
-                        if (colectorOn == true && finalChar == "ESPAÇO" || finalChar == ".")
-                        {
-                            timer.Stop();
-                            colectorOn = false;
-
-                            int aux;
-                            long aux2;
-                            aux2 = Int32.Parse(arquivo[0]);
-                            aux2 += timer.ElapsedMilliseconds;
-                            arquivo[0] = aux2.ToString();
-
-                            aux = Int32.Parse(arquivo[1]);
-                            aux += caracteresTotal;
-                            arquivo[1] = aux.ToString();
-
-                            aux = Int32.Parse(arquivo[2]);
-                            aux += erros;
-                            arquivo[2] = aux.ToString();
-
-                            caracteresTotal = 0;
-                            erros = 0;
-
-                        }
-
-                        if (colectorOn == false && finalChar != "ESPAÇO" && finalChar != "." && finalChar != "DEL")
-                        {
-                            colectorOn = true;
-                            timer.Start();
-                            caracteresTotal++;
-                        }
-
-                        using (StreamWriter writer = new StreamWriter(path))
-                        {
-                            writer.WriteLine(arquivo[0]); // Tempo Total
-                            writer.WriteLine(arquivo[1]); // Caracteres Total
-                            writer.WriteLine(arquivo[2]); // Erros Total
-                            writer.WriteLine(arquivo[3]); // Vetor de erros
-                        }
-                        */
-                        #endregion
-
-                        
+                                             
                         // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
                         characterTimestampRecord += "char|" + finalChar + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
 
@@ -674,9 +601,22 @@ namespace WorkingWithXAML
                                 goto cancelledCharacter;
                             case "ESPAÇO": 
                                 finalChar = " ";
+                                //if (justAcceptedSuggestion) //if the last word was an accepted suggestion
+                                //{
+                                //    justAcceptedSuggestion = false; 
+                                //    nextWordInSentence(); //calls next word or sentence
+                                //}
+                                //else
+                                //{
+                                justAddedSpace = true;
                                 if (txtInput.Text[txtInput.Text.Length - 1] != ' ')
+                                {                                   
+                                    //if there is no repeated space, calls next word or sentence
                                     nextWordInSentence();
-                                txtInput.AppendText(finalChar); //append a space
+                                }  
+                                //}
+
+                                txtInput.AppendText(finalChar); //append a space                              
                                 Suggester.indexWord(currentWord);
                                 currentWord = "";
                                 break;
@@ -688,6 +628,8 @@ namespace WorkingWithXAML
                                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
                                 txtInput.AppendText(finalChar + " ");
                                 Suggester.indexWord(currentWord);
+                                justAcceptedSuggestion = false;
+                                justAddedSpace = false;
                                 nextWordInSentence();
                                 currentWord = "";
                                 break; //append a point and a space
@@ -696,6 +638,12 @@ namespace WorkingWithXAML
                                 string aux;
                                 try
                                 {
+                                    if (justAcceptedSuggestion)
+                                    {
+                                        justAcceptedSuggestion = false;
+                                        justAddedSpace = false;
+                                        inputContent = textBeforeAcceptance+ " " ;
+                                    }
                                     aux = inputContent.Substring(0, inputContent.Length - 1);
                                     //delete a character. If it was in upper case, the next character to be written must be written in upper case too
                                     if (inputContent.Substring(inputContent.Length - 1) == ".")
@@ -746,7 +694,8 @@ namespace WorkingWithXAML
                                 }
                                 break;
                             default: //if it's not space, '.' or delete operations, so the character must be simply added to the TextBox
-                                
+                                justAcceptedSuggestion = false;
+                                justAddedSpace = false;
                                 if (!nextIsUpper)
                                     finalChar = finalChar.ToLower();
 
@@ -781,6 +730,12 @@ cancelledCharacter:
             if (suggestionLabel[which].Text != "")
             {
                 string chosenWord = suggestionLabel[which].Text;
+                // guarantees that if the suggestion was a mistake, the next deletion will make it rollback
+                textBeforeAcceptance = txtInput.Text;
+                justAcceptedSuggestion = true;
+                justAddedSpace = false;
+
+
                 txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - currentWord.Length);
                 if (currentWord[0].ToString().ToUpper() == currentWord[0].ToString())
                 {
@@ -955,7 +910,7 @@ cancelledCharacter:
         }
 
         public void nextWordInSentence()
-        {
+        { 
             try
             {
                 currentWordIndex++;
@@ -973,10 +928,14 @@ cancelledCharacter:
             catch
             {
                 //the sentence is over, generate the next one!
-                nextIsUpper = true;                
-                characterTimestampRecord += "txt|" + txtInput.Text + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
-                txtInput.Text = "";
-                startNewSentence();
+                if (!justAcceptedSuggestion && !justAddedSpace)
+                {
+                    nextIsUpper = true;
+                    characterTimestampRecord += ("txt|" + txtInput.Text + "|" + dataTimer.ElapsedMilliseconds.ToString()).Trim() + "\n";
+                    sentencesWrittenSoFar += txtInput.Text.Trim() + "\n";
+                    txtInput.Text = "";
+                    startNewSentence();
+                }
             }
         }
 
