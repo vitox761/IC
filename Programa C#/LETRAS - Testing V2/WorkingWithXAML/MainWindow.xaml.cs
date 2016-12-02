@@ -28,7 +28,7 @@ namespace WorkingWithXAML
         #region Global Variables
 
 
-        bool nextIsUpper = true; //the first character is upper 
+        bool nextIsUpper = false; //the first character is upper 
         string composition; 
         bool isCancelled; 
         bool centreProcessed = false; //centre has not yet been processed at the beginning
@@ -55,9 +55,9 @@ namespace WorkingWithXAML
         List<string> suggestionsList;
         Timer keyboardTimer = new Timer(); //timer reference for secondary keyboard
         bool isBetsy;
-        Label lbl_aux;       
-        string[] arquivo = new string[4];
+        Label lbl_aux;
 
+        string chosenWord = ""; //last suggestion accepted
         int sentenceIndex = 0;
         List<string> sentencesList; //list of sentences to be written
         string currentSentence = "";
@@ -78,7 +78,6 @@ namespace WorkingWithXAML
         
         Stopwatch dataTimer = new Stopwatch(); //gets the time elapsed since the program was open
         string characterTimestampRecord;
-        // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
          
         SoundPlayer alarm, loudAlarm, stateTransition;
         GazePoint gp;
@@ -154,7 +153,7 @@ namespace WorkingWithXAML
                                                      //EyeTracker data retrieval
                 try
                 {
-                    //gp = new GazePoint();
+                    gp = new GazePoint();
                 }
                 catch
                 {
@@ -242,7 +241,7 @@ namespace WorkingWithXAML
 
         #endregion
 
-        #region Procedures and Functions
+        #region Main Procedures and Functions 
 
         /// <summary>
         /// Adjust the textblock and stackpanel size and orientation according to the suggestion's size
@@ -593,7 +592,7 @@ namespace WorkingWithXAML
                                              
                         // enteredCharacter1|number1(milliseconds)-enteredCharacter2|number2(milliseconds)
                         characterTimestampRecord += "char|" + finalChar + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
-
+                        
 
                         switch (finalChar)
                         {
@@ -623,7 +622,7 @@ namespace WorkingWithXAML
                             case ".":
                                 if (txtInput.Text.Length == 0)
                                     goto didntLeaveCentre;                                
-                                nextIsUpper = true;
+                                nextIsUpper = false;
                                 if (txtInput.Text.Substring(txtInput.Text.Length - 1) == " ")
                                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
                                 txtInput.AppendText(finalChar + " ");
@@ -643,6 +642,7 @@ namespace WorkingWithXAML
                                         justAcceptedSuggestion = false;
                                         justAddedSpace = false;
                                         inputContent = textBeforeAcceptance+ " " ;
+                                        //DIMINUIR O PESO DA CHOSENWORD
                                     }
                                     aux = inputContent.Substring(0, inputContent.Length - 1);
                                     //delete a character. If it was in upper case, the next character to be written must be written in upper case too
@@ -654,7 +654,7 @@ namespace WorkingWithXAML
                                         if (inputContent.LastIndexOf(" ") != inputContent.Length - 1)
                                         {
                                             if (inputContent.Substring(inputContent.Length - 1) == inputContent.Substring(inputContent.Length - 1).ToUpper())
-                                                nextIsUpper = true;
+                                                nextIsUpper = false;
 
                                             if (currentWord.Length > 0)
                                                 currentWord = currentWord.Substring(0, currentWord.Length - 1);
@@ -729,7 +729,7 @@ cancelledCharacter:
         {
             if (suggestionLabel[which].Text != "")
             {
-                string chosenWord = suggestionLabel[which].Text;
+                chosenWord = suggestionLabel[which].Text;
                 // guarantees that if the suggestion was a mistake, the next deletion will make it rollback
                 textBeforeAcceptance = txtInput.Text;
                 justAcceptedSuggestion = true;
@@ -742,7 +742,7 @@ cancelledCharacter:
                     chosenWord = chosenWord.Substring(0, 1).ToUpper() + chosenWord.Substring(1, chosenWord.Length - 1);
                 }
                 txtInput.Text +=  chosenWord + " ";
-                characterTimestampRecord += "sug|" + chosenWord + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
+                characterTimestampRecord += "sug|" + which.ToString() + "|" + dataTimer.ElapsedMilliseconds.ToString() + "\n";
                 chosenWord.ToLower();
                 
                 Suggester.indexWord(chosenWord);
@@ -757,7 +757,8 @@ cancelledCharacter:
         }
 
         public void addSuggestionsToLabels()
-        {            
+        {
+            string auxiliar = "4sugs";         
             suggestionsList = Suggester.getSuggestions(currentWord);
             for (int i = 0; i < 4; i++)
             {
@@ -784,14 +785,14 @@ cancelledCharacter:
                     }
                     suggestionLabel[i].Text = "";
                 }
+                auxiliar += "|" + suggestionLabel[i].Text;
             }
+            characterTimestampRecord += auxiliar + "\n";
         }
-
 
         #endregion
 
-        //Not using
-        #region EyeTrackerManagement
+        #region EyeTrackerManagement (NOT IN USE - DEPRECATED)
 
         ////For the Eye Tribe Tracker
         //private TcpClient socket;
@@ -897,7 +898,7 @@ cancelledCharacter:
 
         #endregion
 
-        #region TestFunctions
+        #region Test Procedures
         public void startNewSentence()
         {            
             sentenceIndex++;
@@ -930,7 +931,7 @@ cancelledCharacter:
                 //the sentence is over, generate the next one!
                 if (!justAcceptedSuggestion && !justAddedSpace)
                 {
-                    nextIsUpper = true;
+                    nextIsUpper = false;
                     characterTimestampRecord += ("txt|" + txtInput.Text + "|" + dataTimer.ElapsedMilliseconds.ToString()).Trim() + "\n";
                     sentencesWrittenSoFar += txtInput.Text.Trim() + "\n";
                     txtInput.Text = "";

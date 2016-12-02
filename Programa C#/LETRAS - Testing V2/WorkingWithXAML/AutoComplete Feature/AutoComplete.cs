@@ -13,6 +13,7 @@ namespace AutoComplete.Classes
 
         public static void initializeSuggester()
         {
+            
             luceneSearch = new LuceneSearch("lucene_index");
         }
 
