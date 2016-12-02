@@ -66,6 +66,7 @@ namespace WorkingWithXAML
         bool justAcceptedSuggestion = false;
         bool justAddedSpace = false;
         string textBeforeAcceptance = "";
+        int nDeletions = 0;
 
         string nextWord; //word to be inserted
         string nextToTheNextWord; //word to be written after that (both this and the one above are going to be shown)
@@ -77,6 +78,7 @@ namespace WorkingWithXAML
         string path2 = @"test"+"-"+DateTime.Now.ToShortDateString().Replace("/","_")+"-"+DateTime.Now.ToShortTimeString().Replace(":", ".") + ".txt";
         
         Stopwatch dataTimer = new Stopwatch(); //gets the time elapsed since the program was open
+        Stopwatch dataTimer2 = new Stopwatch(); //gets the time elapsed since the last sentence started to be written
         string characterTimestampRecord;
          
         SoundPlayer alarm, loudAlarm, stateTransition;
@@ -143,6 +145,7 @@ namespace WorkingWithXAML
             keyboardTimer.Elapsed += new ElapsedEventHandler(changeKeyboard);
 
             dataTimer.Start();
+            dataTimer2.Start();
            
             startNewSentence(); //first sentence to be written during tests is shown to the user
 
@@ -341,16 +344,36 @@ namespace WorkingWithXAML
                 suggestionLabel[i].Margin = new Thickness(suggestionLabel[i].Margin.Left * wProportion, suggestionLabel[i].Margin.Top * hProportion, suggestionLabel[i].Margin.Right * wProportion, suggestionLabel[i].Margin.Bottom * hProportion);
             }
 
-            
+            block3grid.Height *= hProportion;
+            block3grid.Width *= wProportion;
+            block3grid.Margin = new Thickness(block3grid.Margin.Left * wProportion, block3grid.Margin.Top * hProportion, block3grid.Margin.Right * wProportion, block3grid.Margin.Bottom * hProportion);
+
+            block3_l1.Height *= hProportion;
+            block3_l1.Width *= wProportion;
+            block3_l1.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+            block3_l1.Margin = new Thickness(block3_l1.Margin.Left * wProportion, block3_l1.Margin.Top * hProportion, block3_l1.Margin.Right * wProportion, block3_l1.Margin.Bottom * hProportion);
+
+            block3_l2.Height *= hProportion;
+            block3_l2.Width *= wProportion;
+            block3_l2.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+            block3_l2.Margin = new Thickness(block3_l2.Margin.Left * wProportion, block3_l2.Margin.Top * hProportion, block3_l2.Margin.Right * wProportion, block3_l2.Margin.Bottom * hProportion);
+
+            block3_list.Height *= hProportion;
+            block3_list.Width *= wProportion;
+            block3_list.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
+            block3_list.Margin = new Thickness(block3_list.Margin.Left * wProportion, block3_list.Margin.Top * hProportion, block3_list.Margin.Right * wProportion, block3_list.Margin.Bottom * hProportion);
+
+
             //textbox adaptation
             txtInput.Height *= hProportion;
             txtInput.Width *= wProportion;
             txtInput.Margin = new Thickness(txtInput.Margin.Left * wProportion, txtInput.Margin.Top * hProportion, txtInput.Margin.Right * wProportion, txtInput.Margin.Bottom * hProportion);
             //Fonts adaptation
             txtInput.FontSize *= Math.Sqrt(Math.Pow(hProportion, 2) + Math.Pow(wProportion, 2));
-
-
             
+
+
+
 
             //suggestion label coefficient
             //155 is the coefficient a margin which left value is 275 (155/275=0.563)(changes with resolution)
@@ -499,6 +522,16 @@ namespace WorkingWithXAML
                     }
                     break;
 
+                case 3:
+                    if (composition == "-3")
+                    {
+                        stateTransition.Play();
+                        isBlocked = false;
+                        blockType = 0;
+                        unblockingEvent();
+                    }
+                    break;
+
                 default: //No Block
                     if (!isCancelled)
                     {
@@ -633,6 +666,7 @@ namespace WorkingWithXAML
                                 currentWord = "";
                                 break; //append a point and a space
                             case "DEL":
+                                nDeletions++;
                                 string inputContent = txtInput.Text;
                                 string aux;
                                 try
@@ -900,7 +934,9 @@ cancelledCharacter:
 
         #region Test Procedures
         public void startNewSentence()
-        {            
+        {
+            dataTimer2.Restart(); //reset timer for the next sentence
+            nDeletions = 0; //set number of deletions for this sentence to 0 
             sentenceIndex++;
             currentWordIndex = 0;
             currentSentence = sentencesList[sentenceIndex];
@@ -934,8 +970,11 @@ cancelledCharacter:
                     nextIsUpper = false;
                     characterTimestampRecord += ("txt|" + txtInput.Text + "|" + dataTimer.ElapsedMilliseconds.ToString()).Trim() + "\n";
                     sentencesWrittenSoFar += txtInput.Text.Trim() + "\n";
-                    txtInput.Text = "";
-                    startNewSentence();
+                    isBlocked = true;
+                    blockType = 3;
+                    blockingEvent(txtInput.Text.Trim(), dataTimer2.ElapsedMilliseconds, nDeletions, currentWordIndex - 1);
+                    txtInput.Text = "";                    
+                    //startNewSentence();
                 }
             }
         }
@@ -950,6 +989,36 @@ cancelledCharacter:
                 suggestionLabel[4].Text = nextWord + " " + nextToTheNextWord;
             }
         }
+
+        /// <summary>
+        /// Block screen and show statistics to the user
+        /// </summary>
+        /// <param name="writtenSentence"></param>
+        /// <param name="elapsedTime"></param>
+        /// <param name="numberOfDeletions"></param>
+        public void blockingEvent(string writtenSentence, long elapsedTime, int numberOfDeletions, int nWords)
+        {
+            p8.Visibility = Visibility.Hidden;
+            
+            txtInput.Visibility = Visibility.Hidden;
+            block3grid.Visibility = Visibility.Visible;
+            block3_list.Items.Clear();
+            block3_list.Items.Add(writtenSentence);
+            block3_list.Items.Add("Número de deleções: " + numberOfDeletions.ToString());
+            // number of words in the current sentence
+            block3_list.Items.Add("Velocidade de escrita (palavras por minuto): " + (nWords / ((float)elapsedTime/(1000*60))).ToString());
+            //STATS: NUMBER OF WORDS | DELETIONS | WORDS/SEC | ELAPSED TIME
+            characterTimestampRecord += "stats|" + nWords + "|" + numberOfDeletions.ToString() + "|" + (nWords/((float)elapsedTime / (1000 * 60))).ToString() + "|" + elapsedTime.ToString() +"\n";
+        }
+
+        public void unblockingEvent()
+        {
+            p8.Visibility = Visibility.Visible;            
+            txtInput.Visibility = Visibility.Visible;
+            block3grid.Visibility = Visibility.Hidden;
+            startNewSentence();
+        }
+
 
         #endregion
 

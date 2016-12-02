@@ -91,17 +91,17 @@
 
 
         </Grid>
-        <Grid x:Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,268,490,285"/>
-       
+
         <Grid x:Name="block3grid" Visibility="Hidden">
-            <Label x:Name="block3_l1" Content="RESULTADOS" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="45" Width="140" Margin="569,235,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
-            <Label x:Name="block3_l2" Content="PROXIMA===" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="152" Margin="867,325,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
-            <ListBox x:Name="block3_list" Background="Black" Foreground="White" FontSize="16" HorizontalAlignment="Left" Height="94" Margin="409,298,0,0" VerticalAlignment="Top" Width="453">
+            <Label x:Name="block3_l1" Content="RESULTADOS" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="63" Width="238" Margin="557,225,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <Label x:Name="block3_l2" Content="PROXIMA===" HorizontalAlignment="Left" Foreground="#FFE0E0E0" VerticalAlignment="Top" Height="78" Width="252" Margin="942,334,0,0" FontSize="20" BorderBrush="Black" FontWeight="Bold" RenderTransformOrigin="-0.769,0.436"/>
+            <ListBox x:Name="block3_list" Background="Black" Foreground="White" FontSize="16" HorizontalAlignment="Left" Height="119" Margin="335,293,0,0" VerticalAlignment="Top" Width="607">
                 <ListBoxItem Content="Frase Escrita: Exemplo de uma frase exageradamente grande!"/>
                 <ListBoxItem Content="Número de deleções: 89"/>
                 <ListBoxItem Content="Velocidade de escrita (palavras por minuto): 10.92"/>
             </ListBox>
         </Grid>
+        <Grid x:Name="txtGrid"  Background="Transparent" Width="300" MouseEnter="centreMouseEnter" Margin="490,268,490,285"/>
 
     </Grid>
 </Window>
